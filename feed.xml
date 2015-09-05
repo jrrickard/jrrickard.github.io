@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Sep 2015 20:48:01 -0600</pubDate>
-    <lastBuildDate>Fri, 04 Sep 2015 20:48:01 -0600</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2015 21:01:55 -0600</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2015 21:01:55 -0600</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -314,6 +314,38 @@ http://lattice-app.192.168.136.133.xip.io
         <link>http://jrrickard.github.io/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</link>
         <guid isPermaLink="true">http://jrrickard.github.io/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</guid>
         
+        
+      </item>
+    
+      <item>
+        <title>Standing Desk</title>
+        <description>&lt;p&gt;While I was still at Lockheed, I  made the switch from a chair to a stability ball at work. I prefer it to the chair now and siat on it almost exclusively. I had seen a few people that have made standing desks out of books / etc and they all prefer them, so I did some reading and decided I wanted to convert my desk.&lt;/p&gt;
+
+&lt;p&gt;We made a quick trip to IKEA today to pick up some supplies to build a standing desk based on &lt;a href=&quot;http://theimaginaryzebra.blogspot.com/2012/10/my-diy-standing-deskthe-2231-ikea-hack.html&quot;&gt;this&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;a-couple-of-differences&quot;&gt;A couple of differences:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;LACK tables are high gloss white, so they will work like a whiteboard&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I covered the shelf with a piece of &lt;a href=&quot;http://www.homedepot.com/p/Thrifty-White-32-sq-ft-Hardboard-Panel-Board-709106/202090193#.UTlkj3wjrMA&quot;&gt;panel board&lt;/a&gt; from home depot…which will also work like a whiteboard.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Everything fit pretty well and day one went well. When I decided to do this, I wasn’t thinking about the fact that I’d be able to easily just glance over at Pikes Peak, but that was a pretty nice bonus. My feet were a little sore by the time I left, but I expected that (minimal shoes). I also felt really productive, although I’m not sure the desk is why. The whiteboard tables proved to be a fantastic idea as well. It’s now been over a year since I changed over to standing all the time. I’ve also obviously changed companies (and desks). The height I drilled everything for was my desk at LM. My VMware desk is slightly shorter, so I ended up using a couple packs of post-it notes and a couple CDs to prop up my keyboard tray. Other than that, it works just the same. The whiteboard aspect of the desk is my absolute favorite part.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 31 Dec 2014 21:01:00 -0700</pubDate>
+        <link>http://jrrickard.github.io/work/office/cubicle/2014/12/31/standing-desk.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/work/office/cubicle/2014/12/31/standing-desk.html</guid>
+        
+        
+        <category>work</category>
+        
+        <category>office</category>
+        
+        <category>cubicle</category>
         
       </item>
     
