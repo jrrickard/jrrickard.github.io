@@ -78,46 +78,44 @@
 
 <p>The default subnet for AppCatalyst is 192.168.136.0, per Library/Preferences/VMware AppCatalyst/networking:</p>
 
-<p><code>
-answer VNET_8_HOSTONLY_NETMASK 255.255.255.0
+<pre><code>answer VNET_8_HOSTONLY_NETMASK 255.255.255.0
 answer VNET_8_HOSTONLY_SUBNET 192.168.136.0
-</code></p>
+</code></pre>
 
 <p>However, the Vagrantfile looks for an environment variable that contains the Lattice IP or it defaults to 192.168.11.11. The IP seems to increment by 1 for each new virtual machine in AppCatalyst, so my next IP would have been 192.168.136.133.</p>
 
 <p>So finally, I launched the vagrant box with:</p>
 
-<p><code>
-LATTICE_SYSTEM_IP=192.168.136.133 vagrant up --provider=vmware_appcatalyst
-</code>
-<img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/e831083aef54bcfcb9a38de1878a158cd8ff11ae/vagrant-up.png" alt="vagrant up" /></p>
+<pre><code>LATTICE_SYSTEM_IP=192.168.136.133 vagrant up --provider=vmware_appcatalyst
+</code></pre>
+<p><img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/e831083aef54bcfcb9a38de1878a158cd8ff11ae/vagrant-up.png" alt="vagrant up" /></p>
 
 <p>Once that was up, run the ltc target:
-<code>
+~~~~
 jrickard-mbpro:lattice jrickard$ ltc target 192.168.136.133.xip.io
 Api Location Set
-</code></p>
+~~~~</p>
 
 <p>Finally, I launched the sample lattice-app. 
-<code>
+~~~~
 jrickard-mbpro:lattice jrickard$ ltc create lattice-app cloudfoundry/lattice-app
 No port specified, image metadata did not contain exposed ports. Defaulting to 8080.
-No working directory specified, using working directory from the image metadata...
-Monitoring the app on port 8080...
-No start command specified, using start command from the image metadata...
+No working directory specified, using working directory from the image metadata…
+Monitoring the app on port 8080…
+No start command specified, using start command from the image metadata…
 Start command is:
 /lattice-app
-Creating App: lattice-app...................
+Creating App: lattice-app……………….
 06/22 19:54:01.92 [APP|0] Successfully created container
-06/22 19:54:02.22 [APP|0] {"timestamp":"1435024442.223613262","source":"lattice-app","message":"lattice-app.lattice-app.starting","log_leve
-l":1,"data":{"port":"8080"}}
-06/22 19:54:02.22 [APP|0] {"timestamp":"1435024442.223858833","source":"lattice-app","message":"lattice-app.lattice-app.up","log_level":1,"data":{"port":"8080"}}
+06/22 19:54:02.22 [APP|0] {“timestamp”:”1435024442.223613262”,”source”:”lattice-app”,”message”:”lattice-app.lattice-app.starting”,”log_leve
+l”:1,”data”:{“port”:”8080”}}
+06/22 19:54:02.22 [APP|0] {“timestamp”:”1435024442.223858833”,”source”:”lattice-app”,”message”:”lattice-app.lattice-app.up”,”log_level”:1,”data”:{“port”:”8080”}}
 06/22 19:54:02.75 [HEALTH|0] healthcheck passed
 06/22 19:54:02.75 [HEALTH|0] Exit status 0
 lattice-app is now running.
 App is reachable at:
 http://lattice-app.192.168.136.133.xip.io
-</code>
+~~~~
 <img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/77b99e563818b87bc279a4b32052182de100ebff/ltc-target_and_ltc-create.png" alt="targeted" /></p>
 
 <p>Now, let’s fire up a browser and hit http://lattice-app.192.168.136.133.xip.io</p>

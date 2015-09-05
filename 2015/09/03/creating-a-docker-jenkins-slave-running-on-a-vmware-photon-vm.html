@@ -84,30 +84,26 @@
 <p>First, let’s enable sudo access by using visudo to edit the sudoers file. 
 Find this block in the sudoers file:</p>
 
-<p><code>
-## Uncomment to allow members of group wheel to execute any command
+<pre><code>## Uncomment to allow members of group wheel to execute any command
 #%wheel ALL=(ALL) ALL
-</code></p>
+</code></pre>
 
 <p>And uncomment the second line (#%wheel ALL=(ALL) ALL.</p>
 
 <p>Next, let’s add a user with useradd:</p>
 
-<p><code>
-root [ / ]$ useradd --create-home --shell=/bin/bash jeremy
-</code></p>
+<pre><code>root [ / ]$ useradd --create-home --shell=/bin/bash jeremy
+</code></pre>
 
 <p>Next, add it to the wheel group:</p>
 
-<p><code>
-root [ / ]$  usermod -aG wheel jeremy
-</code></p>
+<pre><code>root [ / ]$  usermod -aG wheel jeremy
+</code></pre>
 
 <p>Now set it’s password:</p>
 
-<p><code>
-root [ / ]$ passwd jeremy
-</code></p>
+<pre><code>root [ / ]$ passwd jeremy
+</code></pre>
 
 <h2 id="docker-config">Docker Config</h2>
 
@@ -116,58 +112,53 @@ root [ / ]$ passwd jeremy
 <p>Note that by default, a user created above has very limited privileges. So most of the following commands are done via sudo.</p>
 
 <p>First, let’s enable docker.  :
-<code>
+~~~~
 jeremy@euclid [ ~ ]$ sudo systemctl start docker
 jeremy@euclid [ ~ ]$ sudo systemctl enable docker
-</code></p>
+~~~~</p>
 
 <p>Now let’s enable remote management of Docker so Jenkins can connect. To do this, we need to modify  /etc/systemd/system/multi-user.target.wants/docker.service and enable remote access to the Docker api. This is normally turned off. Really, this is the most Photon specific part of this entire gist. You’ll see the location of that file when you execute the systemctl enable docker command above. Find the ExecStart line and edit it like so:</p>
 
-<p><code>
-ExecStart=/bin/docker -d -s overlay -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375
-</code></p>
+<pre><code>ExecStart=/bin/docker -d -s overlay -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375
+</code></pre>
 
 <p>Now, reload the systemctl daemon and restat the Docker daemon:</p>
 
-<p><code>
-jeremy@euclid [ ~ ]$ sudo systemctl daemon-reload
+<pre><code>jeremy@euclid [ ~ ]$ sudo systemctl daemon-reload
 jeremy@euclid [ ~ ]$ sudo systemctl restart docker
-</code></p>
+</code></pre>
 
 <h2 id="configure-jenkins-and-docker-slave">Configure Jenkins and Docker Slave</h2>
 
 <p>Now, let’s grab the ready made Jenkins slave image:</p>
 
-<p><code>
-jeremy@euclid [ ~ ]$ sudo docker pull evarga/jenkins-slave
-</code></p>
+<pre><code>jeremy@euclid [ ~ ]$ sudo docker pull evarga/jenkins-slave
+</code></pre>
 
 <p>Now you should have the slave image:
-<code>
+~~~~
 jeremy@euclid [ ~ ]$ sudo docker images
 REPOSITORY             TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
 evarga/jenkins-slave   latest              8880612971b0        8 months ago        610.7 MB
-</code></p>
+~~~~</p>
 
 <p>I’m going to use this to deploy our application which is currently packaged as an OVA, so I will use the jenkins-slave image as the base for my new image. Then I will install ovftool along with python because we already have some deploy automation with it. Here is my new Dockerfile:</p>
 
-<p>```
-FROM evarga/jenkins-slave:latest</p>
+<pre><code>FROM evarga/jenkins-slave:latest
 
-<p>RUN mkdir -p /opt/vmware
+RUN mkdir -p /opt/vmware
 COPY pycaaso.py /opt/vmware/
 COPY scale-weekly.conf /opt/vmware/
 RUN apt-get install python -y
 RUN mkdir -p /opt/ovftool
 ADD VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle /opt/ovftool/
-RUN yes | /bin/bash /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle –required –console \
+RUN yes | /bin/bash /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle --required --console \
     &amp;&amp; rm -f /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle
-```
-Now, rebuild it and tag it so we can use it from Jenkins:</p>
+</code></pre>
+<p>Now, rebuild it and tag it so we can use it from Jenkins:</p>
 
-<p><code>
-jeremy@euclid [ ~ ]$ sudo docker build -t jenkins-slave2 .
-</code></p>
+<pre><code>jeremy@euclid [ ~ ]$ sudo docker build -t jenkins-slave2 .
+</code></pre>
 
 <p>Now we can go configure Jenkins. The Docker plugin makes your docker slaves available as a remote cloud, not as remote nodes. So when you configure, you don’t actually use the normal add remote node workflow that you’d do if you were adding a traditional Windows or Linux remote slave. To configure the Docker connectivity, first login to Jenkins and click Manage Jenkins:</p>
 

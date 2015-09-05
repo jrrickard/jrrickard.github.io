@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Sep 2015 20:44:10 -0600</pubDate>
-    <lastBuildDate>Fri, 04 Sep 2015 20:44:10 -0600</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2015 20:45:35 -0600</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2015 20:45:35 -0600</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -115,30 +115,26 @@ _deploy.yml
 &lt;p&gt;First, let’s enable sudo access by using visudo to edit the sudoers file. 
 Find this block in the sudoers file:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-## Uncomment to allow members of group wheel to execute any command
+&lt;pre&gt;&lt;code&gt;## Uncomment to allow members of group wheel to execute any command
 #%wheel ALL=(ALL) ALL
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;And uncomment the second line (#%wheel ALL=(ALL) ALL.&lt;/p&gt;
 
 &lt;p&gt;Next, let’s add a user with useradd:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-root [ / ]$ useradd --create-home --shell=/bin/bash jeremy
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;root [ / ]$ useradd --create-home --shell=/bin/bash jeremy
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Next, add it to the wheel group:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-root [ / ]$  usermod -aG wheel jeremy
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;root [ / ]$  usermod -aG wheel jeremy
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now set it’s password:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-root [ / ]$ passwd jeremy
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;root [ / ]$ passwd jeremy
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;docker-config&quot;&gt;Docker Config&lt;/h2&gt;
 
@@ -147,58 +143,53 @@ root [ / ]$ passwd jeremy
 &lt;p&gt;Note that by default, a user created above has very limited privileges. So most of the following commands are done via sudo.&lt;/p&gt;
 
 &lt;p&gt;First, let’s enable docker.  :
-&lt;code&gt;
+~~~~
 jeremy@euclid [ ~ ]$ sudo systemctl start docker
 jeremy@euclid [ ~ ]$ sudo systemctl enable docker
-&lt;/code&gt;&lt;/p&gt;
+~~~~&lt;/p&gt;
 
 &lt;p&gt;Now let’s enable remote management of Docker so Jenkins can connect. To do this, we need to modify  /etc/systemd/system/multi-user.target.wants/docker.service and enable remote access to the Docker api. This is normally turned off. Really, this is the most Photon specific part of this entire gist. You’ll see the location of that file when you execute the systemctl enable docker command above. Find the ExecStart line and edit it like so:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-ExecStart=/bin/docker -d -s overlay -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ExecStart=/bin/docker -d -s overlay -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now, reload the systemctl daemon and restat the Docker daemon:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-jeremy@euclid [ ~ ]$ sudo systemctl daemon-reload
+&lt;pre&gt;&lt;code&gt;jeremy@euclid [ ~ ]$ sudo systemctl daemon-reload
 jeremy@euclid [ ~ ]$ sudo systemctl restart docker
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;configure-jenkins-and-docker-slave&quot;&gt;Configure Jenkins and Docker Slave&lt;/h2&gt;
 
 &lt;p&gt;Now, let’s grab the ready made Jenkins slave image:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-jeremy@euclid [ ~ ]$ sudo docker pull evarga/jenkins-slave
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;jeremy@euclid [ ~ ]$ sudo docker pull evarga/jenkins-slave
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now you should have the slave image:
-&lt;code&gt;
+~~~~
 jeremy@euclid [ ~ ]$ sudo docker images
 REPOSITORY             TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
 evarga/jenkins-slave   latest              8880612971b0        8 months ago        610.7 MB
-&lt;/code&gt;&lt;/p&gt;
+~~~~&lt;/p&gt;
 
 &lt;p&gt;I’m going to use this to deploy our application which is currently packaged as an OVA, so I will use the jenkins-slave image as the base for my new image. Then I will install ovftool along with python because we already have some deploy automation with it. Here is my new Dockerfile:&lt;/p&gt;
 
-&lt;p&gt;```
-FROM evarga/jenkins-slave:latest&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FROM evarga/jenkins-slave:latest
 
-&lt;p&gt;RUN mkdir -p /opt/vmware
+RUN mkdir -p /opt/vmware
 COPY pycaaso.py /opt/vmware/
 COPY scale-weekly.conf /opt/vmware/
 RUN apt-get install python -y
 RUN mkdir -p /opt/ovftool
 ADD VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle /opt/ovftool/
-RUN yes | /bin/bash /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle –required –console \
+RUN yes | /bin/bash /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle --required --console \
     &amp;amp;&amp;amp; rm -f /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle
-```
-Now, rebuild it and tag it so we can use it from Jenkins:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, rebuild it and tag it so we can use it from Jenkins:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-jeremy@euclid [ ~ ]$ sudo docker build -t jenkins-slave2 .
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;jeremy@euclid [ ~ ]$ sudo docker build -t jenkins-slave2 .
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now we can go configure Jenkins. The Docker plugin makes your docker slaves available as a remote cloud, not as remote nodes. So when you configure, you don’t actually use the normal add remote node workflow that you’d do if you were adding a traditional Windows or Linux remote slave. To configure the Docker connectivity, first login to Jenkins and click Manage Jenkins:&lt;/p&gt;
 
@@ -272,46 +263,44 @@ jeremy@euclid [ ~ ]$ sudo docker build -t jenkins-slave2 .
 
 &lt;p&gt;The default subnet for AppCatalyst is 192.168.136.0, per Library/Preferences/VMware AppCatalyst/networking:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-answer VNET_8_HOSTONLY_NETMASK 255.255.255.0
+&lt;pre&gt;&lt;code&gt;answer VNET_8_HOSTONLY_NETMASK 255.255.255.0
 answer VNET_8_HOSTONLY_SUBNET 192.168.136.0
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;However, the Vagrantfile looks for an environment variable that contains the Lattice IP or it defaults to 192.168.11.11. The IP seems to increment by 1 for each new virtual machine in AppCatalyst, so my next IP would have been 192.168.136.133.&lt;/p&gt;
 
 &lt;p&gt;So finally, I launched the vagrant box with:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-LATTICE_SYSTEM_IP=192.168.136.133 vagrant up --provider=vmware_appcatalyst
-&lt;/code&gt;
-&lt;img src=&quot;https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/e831083aef54bcfcb9a38de1878a158cd8ff11ae/vagrant-up.png&quot; alt=&quot;vagrant up&quot; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;LATTICE_SYSTEM_IP=192.168.136.133 vagrant up --provider=vmware_appcatalyst
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/e831083aef54bcfcb9a38de1878a158cd8ff11ae/vagrant-up.png&quot; alt=&quot;vagrant up&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Once that was up, run the ltc target:
-&lt;code&gt;
+~~~~
 jrickard-mbpro:lattice jrickard$ ltc target 192.168.136.133.xip.io
 Api Location Set
-&lt;/code&gt;&lt;/p&gt;
+~~~~&lt;/p&gt;
 
 &lt;p&gt;Finally, I launched the sample lattice-app. 
-&lt;code&gt;
+~~~~
 jrickard-mbpro:lattice jrickard$ ltc create lattice-app cloudfoundry/lattice-app
 No port specified, image metadata did not contain exposed ports. Defaulting to 8080.
-No working directory specified, using working directory from the image metadata...
-Monitoring the app on port 8080...
-No start command specified, using start command from the image metadata...
+No working directory specified, using working directory from the image metadata…
+Monitoring the app on port 8080…
+No start command specified, using start command from the image metadata…
 Start command is:
 /lattice-app
-Creating App: lattice-app...................
+Creating App: lattice-app……………….
 06/22 19:54:01.92 [APP|0] Successfully created container
-06/22 19:54:02.22 [APP|0] {&quot;timestamp&quot;:&quot;1435024442.223613262&quot;,&quot;source&quot;:&quot;lattice-app&quot;,&quot;message&quot;:&quot;lattice-app.lattice-app.starting&quot;,&quot;log_leve
-l&quot;:1,&quot;data&quot;:{&quot;port&quot;:&quot;8080&quot;}}
-06/22 19:54:02.22 [APP|0] {&quot;timestamp&quot;:&quot;1435024442.223858833&quot;,&quot;source&quot;:&quot;lattice-app&quot;,&quot;message&quot;:&quot;lattice-app.lattice-app.up&quot;,&quot;log_level&quot;:1,&quot;data&quot;:{&quot;port&quot;:&quot;8080&quot;}}
+06/22 19:54:02.22 [APP|0] {“timestamp”:”1435024442.223613262”,”source”:”lattice-app”,”message”:”lattice-app.lattice-app.starting”,”log_leve
+l”:1,”data”:{“port”:”8080”}}
+06/22 19:54:02.22 [APP|0] {“timestamp”:”1435024442.223858833”,”source”:”lattice-app”,”message”:”lattice-app.lattice-app.up”,”log_level”:1,”data”:{“port”:”8080”}}
 06/22 19:54:02.75 [HEALTH|0] healthcheck passed
 06/22 19:54:02.75 [HEALTH|0] Exit status 0
 lattice-app is now running.
 App is reachable at:
 http://lattice-app.192.168.136.133.xip.io
-&lt;/code&gt;
+~~~~
 &lt;img src=&quot;https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/77b99e563818b87bc279a4b32052182de100ebff/ltc-target_and_ltc-create.png&quot; alt=&quot;targeted&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Now, let’s fire up a browser and hit http://lattice-app.192.168.136.133.xip.io&lt;/p&gt;
