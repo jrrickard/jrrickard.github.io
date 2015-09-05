@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Your awesome title</title>
+    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</description>
+    <link>http://yourdomain.com/</link>
+    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 04 Sep 2015 19:14:34 -0600</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2015 19:14:34 -0600</lastBuildDate>
+    <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Running lattice.cf on VMware AppCatalyst</title>
+        <description>&lt;p&gt;I’ll preface this by saying I don’t think any of this is supported and AppCatalyst is a Tech Preview. But it’s a great developer tool!&lt;/p&gt;
+
+&lt;p&gt;First, install &lt;a href=&quot;https://communities.vmware.com/community/vmtn/devops/vmware-appcatalyst&quot;&gt;AppCatalyst&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Next, install the &lt;a href=&quot;https://github.com/vmware/vagrant-vmware-appcatalyst&quot;&gt;AppCatalyst Vagrant Provider&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The Vagrant Provider needs the AppCatalyst REST API, so once installed, you need to start the AppCatalyst daemon: appcatalyst-daemon&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/f63b7706bef41312eb9ad7a947e2f72e4dde94c1/start_deamon.png&quot; alt=&quot;start daemon&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally, follow the &lt;a href=&quot;http://lattice.cf/docs/getting-started/&quot;&gt;Lattice.cf getting started guide&lt;/a&gt;, including installing ltc.&lt;/p&gt;
+
+&lt;p&gt;Once you get everything installed, the only real issue I had was networking.&lt;/p&gt;
+
+&lt;p&gt;The default subnet for AppCatalyst is 192.168.136.0, per Library/Preferences/VMware AppCatalyst/networking:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+answer VNET_8_HOSTONLY_NETMASK 255.255.255.0
+answer VNET_8_HOSTONLY_SUBNET 192.168.136.0
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;However, the Vagrantfile looks for an environment variable that contains the Lattice IP or it defaults to 192.168.11.11. The IP seems to increment by 1 for each new virtual machine in AppCatalyst, so my next IP would have been 192.168.136.133.&lt;/p&gt;
+
+&lt;p&gt;So finally, I launched the vagrant box with:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+LATTICE_SYSTEM_IP=192.168.136.133 vagrant up --provider=vmware_appcatalyst
+&lt;/code&gt;
+&lt;img src=&quot;https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/e831083aef54bcfcb9a38de1878a158cd8ff11ae/vagrant-up.png&quot; alt=&quot;vagrant up&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once that was up, run the ltc target:
+&lt;code&gt;
+jrickard-mbpro:lattice jrickard$ ltc target 192.168.136.133.xip.io
+Api Location Set
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally, I launched the sample lattice-app. 
+&lt;code&gt;
+jrickard-mbpro:lattice jrickard$ ltc create lattice-app cloudfoundry/lattice-app
+No port specified, image metadata did not contain exposed ports. Defaulting to 8080.
+No working directory specified, using working directory from the image metadata...
+Monitoring the app on port 8080...
+No start command specified, using start command from the image metadata...
+Start command is:
+/lattice-app
+Creating App: lattice-app...................
+06/22 19:54:01.92 [APP|0] Successfully created container
+06/22 19:54:02.22 [APP|0] {&quot;timestamp&quot;:&quot;1435024442.223613262&quot;,&quot;source&quot;:&quot;lattice-app&quot;,&quot;message&quot;:&quot;lattice-app.lattice-app.starting&quot;,&quot;log_leve
+l&quot;:1,&quot;data&quot;:{&quot;port&quot;:&quot;8080&quot;}}
+06/22 19:54:02.22 [APP|0] {&quot;timestamp&quot;:&quot;1435024442.223858833&quot;,&quot;source&quot;:&quot;lattice-app&quot;,&quot;message&quot;:&quot;lattice-app.lattice-app.up&quot;,&quot;log_level&quot;:1,&quot;data&quot;:{&quot;port&quot;:&quot;8080&quot;}}
+06/22 19:54:02.75 [HEALTH|0] healthcheck passed
+06/22 19:54:02.75 [HEALTH|0] Exit status 0
+lattice-app is now running.
+App is reachable at:
+http://lattice-app.192.168.136.133.xip.io
+&lt;/code&gt;
+&lt;img src=&quot;https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/77b99e563818b87bc279a4b32052182de100ebff/ltc-target_and_ltc-create.png&quot; alt=&quot;targeted&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, let’s fire up a browser and hit http://lattice-app.192.168.136.133.xip.io&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/c6289cc2872f9ba7014bb76cb54d3ce0ef5348be/lattice_app.png&quot; alt=&quot;we have app&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 04 Sep 2015 19:12:53 -0600</pubDate>
+        <link>http://yourdomain.com/2015/09/04/running-lattice-cf-on-vmware-appcatalyst.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/2015/09/04/running-lattice-cf-on-vmware-appcatalyst.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Welcome to Jekyll!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 04 Sep 2015 13:11:05 -0600</pubDate>
+        <link>http://yourdomain.com/jekyll/update/2015/09/04/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2015/09/04/welcome-to-jekyll.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+  </channel>
+</rss>
