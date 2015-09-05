@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Your awesome title</title>
-    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    <title>code to run, run to live</title>
+    <description>A blog about running, software and beverages. Opinions expressed are my own
 </description>
-    <link>http://yourdomain.com/</link>
-    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Sep 2015 19:57:31 -0600</pubDate>
-    <lastBuildDate>Fri, 04 Sep 2015 19:57:31 -0600</lastBuildDate>
+    <link>http://jrrickard.github.io/</link>
+    <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 04 Sep 2015 20:04:49 -0600</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2015 20:04:49 -0600</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -28,8 +28,8 @@
 
 </description>
         <pubDate>Fri, 04 Sep 2015 13:11:05 -0600</pubDate>
-        <link>http://yourdomain.com/jekyll/update/2015/09/04/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2015/09/04/welcome-to-jekyll.html</guid>
+        <link>http://jrrickard.github.io/jekyll/update/2015/09/04/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/jekyll/update/2015/09/04/welcome-to-jekyll.html</guid>
         
         
         <category>jekyll</category>
@@ -104,8 +104,8 @@ http://lattice-app.192.168.136.133.xip.io
 
 </description>
         <pubDate>Tue, 23 Jun 2015 19:12:53 -0600</pubDate>
-        <link>http://yourdomain.com/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</guid>
+        <link>http://jrrickard.github.io/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</guid>
         
         
       </item>
@@ -133,8 +133,8 @@ http://lattice-app.192.168.136.133.xip.io
 
 </description>
         <pubDate>Wed, 22 Oct 2014 20:12:04 -0600</pubDate>
-        <link>http://yourdomain.com/vrac,/work/2014/10/22/one-year-later.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/vrac,/work/2014/10/22/one-year-later.html</guid>
+        <link>http://jrrickard.github.io/vrac,/work/2014/10/22/one-year-later.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/vrac,/work/2014/10/22/one-year-later.html</guid>
         
         
         <category>vrac,</category>
@@ -151,11 +151,11 @@ http://lattice-app.192.168.136.133.xip.io
 
 &lt;p&gt;So we designed a rack for the NUCs!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/nuc_rack.jpg&quot; alt=&quot;nuc rack&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/nuc_rack.jpg&quot; alt=&quot;nuc rack&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;An earlier incarnation of the rack next to the Synology NAS.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/desklab.jpeg&quot; alt=&quot;desk lab&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/desklab.jpeg&quot; alt=&quot;desk lab&quot; /&gt;
 &lt;!--more--&gt;&lt;/p&gt;
 
 &lt;p&gt;The rack is six pieces: four identical legs and two identical base plates (top and bottom). Once assembled, you get a nice little rack that holds 4 NUC boxes and also provides a little more airflow.&lt;/p&gt;
@@ -164,18 +164,18 @@ http://lattice-app.192.168.136.133.xip.io
 
 &lt;p&gt;Here are a couple of screen shots from my browser:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/github-stl-rack-legs.png&quot; alt=&quot;stl file for rack legs&quot; /&gt;
-&lt;img src=&quot;http://yourdomain.com/images/github-baseplate-stl.png&quot; alt=&quot;stl file for the baseplate&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/github-stl-rack-legs.png&quot; alt=&quot;stl file for rack legs&quot; /&gt;
+&lt;img src=&quot;http://jrrickard.github.io/images/github-baseplate-stl.png&quot; alt=&quot;stl file for the baseplate&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If you’d like to make a version of this, grab the STL files and adjust the leg pieces for the number of NUCs you have. This supports four and was about the maximum we could print on our printer. Once you print the pieces, the legs pop into the slots on the base plates. Each leg has small platforms that the rubber feet on the NUC will rest on. You could even take these pieces and make them a little bigger with your favorite CAD program (we used &lt;a href=&quot;http://www.tinkercad.com&quot;&gt;Tinkercad&lt;/a&gt; to make these) and use them to hold something with a similar form factor, like a Mac Mini.&lt;/p&gt;
 
 &lt;p&gt;For comparison, here is a piece on a 7.5-inch by 4.75-inch &lt;a href=&quot;http://fieldnotesbrand.com/&quot;&gt;Field Notes&lt;/a&gt; Arts &amp;amp; Science notebook.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/rack_piece.jpg&quot; alt=&quot;a printed rack piece&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/rack_piece.jpg&quot; alt=&quot;a printed rack piece&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 05 Aug 2014 18:45:28 -0600</pubDate>
-        <link>http://yourdomain.com/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</guid>
+        <link>http://jrrickard.github.io/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</guid>
         
         
         <category>3d-printing,nuc,lab</category>
@@ -188,15 +188,15 @@ http://lattice-app.192.168.136.133.xip.io
 
 &lt;p&gt;I was curious where the backers clustered (many small backers? even split?) so I did made a &lt;a href=&quot;http://bl.ocks.org/jrrickard/b997968320a7674ce49f&quot;&gt;quick bar chart&lt;/a&gt; of pledge amount vs backer count using D3.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/bar_chart.png&quot; alt=&quot;a bar chart&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/bar_chart.png&quot; alt=&quot;a bar chart&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;As an update, I grabbed the data again and made a &lt;a href=&quot;http://bl.ocks.org/jrrickard/7675229d0437594663a6&quot;&gt;Sankey diagram&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/sankey.png&quot; alt=&quot;a sankey diagram&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/sankey.png&quot; alt=&quot;a sankey diagram&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 30 May 2014 21:45:32 -0600</pubDate>
-        <link>http://yourdomain.com/2014/05/30/charts.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2014/05/30/charts.html</guid>
+        <link>http://jrrickard.github.io/2014/05/30/charts.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2014/05/30/charts.html</guid>
         
         
       </item>
@@ -205,7 +205,7 @@ http://lattice-app.192.168.136.133.xip.io
         <title>maps</title>
         <description>&lt;p&gt;I was able to go to our R&amp;amp;D conference thanks to a show and tell idea I submitted with a co-worker: fun ways to visualize data using the &lt;a href=&quot;http://d3js.org/&quot;&gt;d3.js library&lt;/a&gt;. One of the ideas was to build a choropleth map that showed where everyone attending the conference was from. It turned out pretty good (I need to move the source to github at some point, for now…here is a screenshot). The mouse behaviors added a nice level of interactivity (click to drag the globe, mouse wheel to zoom in and out).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/map.png&quot; alt=&quot;map&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/map.png&quot; alt=&quot;map&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This idea was entirely driven by another idea: visualize the registration data for the Pikes Peak Road Runners &lt;a href=&quot;https://pprrun.org/events/WinterSeries&quot;&gt;Winter Series&lt;/a&gt; by county in Colorado. I did an &lt;a href=&quot;http://bl.ocks.org/jrrickard/9383162&quot;&gt;initial version&lt;/a&gt;. This was actually really easy to make with D3.&lt;/p&gt;
 
@@ -215,17 +215,17 @@ Solving this problem turned out to be pretty simple though: &lt;a href=&quot;htt
 &lt;p&gt;The two maps for comparison:&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://bl.ocks.org/jrrickard/9383162&quot;&gt;Large, unsimplified file&lt;/a&gt;
-&lt;img src=&quot;http://yourdomain.com/images/big_files.png&quot; alt=&quot;map with unsimplified files&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://jrrickard.github.io/images/big_files.png&quot; alt=&quot;map with unsimplified files&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://bl.ocks.org/jrrickard/fb531d871c5203a216d0&quot;&gt;Smaller, simplified file&lt;/a&gt;
-&lt;img src=&quot;http://yourdomain.com//images/small_files.png&quot; alt=&quot;map with simplified files&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://jrrickard.github.io//images/small_files.png&quot; alt=&quot;map with simplified files&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I applied this to my world based map and got a similar reduction in size. The take away from this execrise was to process the data in a way that makes sense for the presentation. This was web based, so a 4 MB download was pretty unacceptable to load the map up. It was even worse for the world-wide country boundaries. Using Mapshaper allowed me to shrink the size of the file without losing much resolution on county boundary within Colorado or country / state boundaries world wide.&lt;/p&gt;
 
 </description>
         <pubDate>Sun, 25 May 2014 19:36:56 -0600</pubDate>
-        <link>http://yourdomain.com/d3.js/2014/05/25/maps.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/d3.js/2014/05/25/maps.html</guid>
+        <link>http://jrrickard.github.io/d3.js/2014/05/25/maps.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/d3.js/2014/05/25/maps.html</guid>
         
         
         <category>d3.js</category>
@@ -244,8 +244,8 @@ Solving this problem turned out to be pretty simple though: &lt;a href=&quot;htt
 
 </description>
         <pubDate>Tue, 20 May 2014 21:12:16 -0600</pubDate>
-        <link>http://yourdomain.com/2014/05/20/rebooting.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2014/05/20/rebooting.html</guid>
+        <link>http://jrrickard.github.io/2014/05/20/rebooting.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2014/05/20/rebooting.html</guid>
         
         
       </item>
