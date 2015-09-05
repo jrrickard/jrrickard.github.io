@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Welcome to Jekyll!</title>
-  <meta name="description" content="You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different wa...">
+  <title>Using Octopress 3.0 with Github Pages</title>
+  <meta name="description" content="This blog has been dormant for a while. I was using a fairly old version of octopress and at some point ended up corrupting my repo. Then I got way to busy w...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://jrrickard.github.io/jekyll/update/2015/09/04/welcome-to-jekyll.html">
+  <link rel="canonical" href="http://jrrickard.github.io/2015/09/04/installing-octopress-3-0.html">
   <link rel="alternate" type="application/rss+xml" title="code to run, run to live" href="http://jrrickard.github.io/feed.xml" />
 </head>
 
@@ -57,24 +57,90 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Welcome to Jekyll!</h1>
+    <h1 class="post-title">Using Octopress 3.0 with Github Pages</h1>
     <p class="post-meta">Sep 4, 2015</p>
   </header>
 
   <article class="post-content">
-    <p>You’ll find this post in your <code>_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code>jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+    <p>This blog has been dormant for a while. I was using a fairly old version of octopress and at some point ended up corrupting my repo. Then I got way to busy with the <a href="http://vrealizeair.vmware.com/compliance">vRealize Air Compliance</a> to fix it. Now that we’ve released, I thought it was time to get this thing running again.</p>
 
-<p>To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention <code>YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<p><a href="https://github.com/octopress/octopress">Octopress 3.0</a> is available on github, so I thought I’d try that out. Rather than try and upgrade my existing instance, I went ahead and killed my github pages repo and start from scratch there. I also had a new Macbook, so I might as well try and set everything up from scratch.</p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<h1 id="step-one-create-a-new-repo">Step one, create a new repo</h1>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
-<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span></code></pre></div>
+<p>To use github pages, you create a repo of the form username.github.io. In my case, that was jrrickard.github.io. Next, I followed the <a href="https://help.github.com/articles/using-jekyll-with-pages/">Usng Jekyll with Pages</a> page to get started up to the “Running Jekyll” section of the page.</p>
 
-<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://github.com/jekyll/jekyll-help">Jekyll’s dedicated Help repository</a>.</p>
+<h1 id="step-two-get-octopress">Step two, get Octopress</h1>
+
+<p>I modified the Gemfile created above and added:</p>
+
+<p><code>
+gem 'octopress', '~&gt; 3.0.0'
+</code></p>
+
+<p>Once I did that, I did a bundle update &amp;&amp; bundle install to make sure I had the new gem. Now I had the octopress cli. This has been <em>much</em> easier to use than the previous version of octopress. Now I had everything installed, I needed to init the new blog. You can do that with Jekyll, or you can use the octopress cli and it will also copy over all the octopress scaffolding. I went with the octopress:</p>
+
+<p><code>
+# octopress new jrrickard.github.io
+</code></p>
+
+<p>That created a new directory called jrrickard.github.io with the scaffolding. Next I changed into that diretory and did a jekyll build</p>
+
+<p><code>
+# jekyll build
+</code></p>
+
+<p>This went through the directory and created the _site directory with all of the content of the blog. Now I could serve it up:</p>
+
+<p><code>
+# jekyll serve
+</code></p>
+
+<p>This started up a server listening on port 4000 so I could view the content.</p>
+
+<p>The last step of getting it setup was doing the deploy init. Again, very easy with the octopress cli:</p>
+
+<p><code>
+# octopress deploy init git git@github.com:jrrickard/jrrickard.github.io.git
+</code></p>
+
+<p>Once that was done, I added the _deploy.yml file to my .gitignore. Once I was done, the .gitignore looked like:</p>
+
+<p><code>
+_site
+.sass-cache
+_deploy.yml
+</code></p>
+
+<p>Finally, running deploy with the octopress cli pushed to my git repo:</p>
+
+<p><code>
+# octopress deploy
+</code></p>
+
+<p>Now, the new blog was available at my Github pages url. Now I just needed content!</p>
+
+<h1 id="step-three-move-all-the-old-content">Step three, move all the old content.</h1>
+
+<p>This part was simple. I still had all the markdown and image files from my original blog, so I moved them over to this new directory structure and put the existing markdown files in the _posts directory. I created an images folder and copied all the images over into that one. Once I ran the jekyll build to regenerate everything, I noticed I didn’t have the old octopress img plugin installed. I went ahead and replaced those with normal markdown and the Jekyll site.url template (make sure you update your _config.yaml to have that correctly defined).</p>
+
+<h1 id="step-four-new-posts">Step four, new posts!</h1>
+
+<p>While my blog was messed up, I had done a few gist based blogs. I wanted to move them over here, so I used the cli to create some new posts:</p>
+
+<p><code>
+# octopress new blog "Running lattice.cf on VMware AppCatalyst"
+# octopress new blog "Creating a Docker Jenkins Slave Running on a VMware Photon VM"
+</code></p>
+
+<p>This created two new files in the _posts directory with that title and today’s date. It sticks the correct header/front matter in a blank file. So I modified the filename to have the correct dates and updated the date meta data in the file. Then I simply copied the markdown from the Gists and placed them in the appropriate file. Getting everything deployed again was simply:</p>
+
+<p><code>
+# jekyll build
+# octopress deploy
+</code></p>
+
+<p>Then voila, the blog is updated. Simple.</p>
 
 
   </article>
