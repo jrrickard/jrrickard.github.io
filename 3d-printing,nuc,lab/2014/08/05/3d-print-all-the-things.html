@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Running lattice.cf on VMware AppCatalyst</title>
-  <meta name="description" content="I’ll preface this by saying I don’t think any of this is supported and AppCatalyst is a Tech Preview. But it’s a great developer tool!">
+  <title>3D Print All The Things</title>
+  <meta name="description" content="When Josh and I got accepted to our Internal R&amp;D Conference, I bought two Intel NUC boxes to run ESX and a few VMs on. After RADIO was over, I kept them ...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://yourdomain.com/2015/09/04/running-lattice-cf-on-vmware-appcatalyst.html">
+  <link rel="canonical" href="http://yourdomain.com/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html">
   <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://yourdomain.com/feed.xml" />
 </head>
 
@@ -57,73 +57,38 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Running lattice.cf on VMware AppCatalyst</h1>
-    <p class="post-meta">Sep 4, 2015</p>
+    <h1 class="post-title">3D Print All The Things</h1>
+    <p class="post-meta">Aug 5, 2014</p>
   </header>
 
   <article class="post-content">
-    <p>I’ll preface this by saying I don’t think any of this is supported and AppCatalyst is a Tech Preview. But it’s a great developer tool!</p>
+    <p>When Josh and I got accepted to our <a href="http://cto.vmware.com/radio-a-different-kind-of-high-performance/">Internal R&amp;D Conference</a>, I bought two <a href="http://www.intel.com/content/www/us/en/nuc/nuc-kit-d54250wyk.html">Intel NUC</a> boxes to run ESX and a few VMs on. After RADIO was over, I kept them on my desk at work and they turned out to be super useful for the project we’re working on right now. So useful that we ended up supplementing them with a small NAS and two more NUC boxes. Now we have a little mini lab sitting on my desk with 64 GB of RAM, 4 4th generation Intel® Core™ i5-4250U processors, a terabyte of Solid State Storage and 4 Terabytes of spinning disks. Pretty impressive for the size and energy footprint. The processors are obviously the short pole in the tent, but it’s been working very well for a little test enviroment running the vCenter Appliance, the new Log Insight (which is totally awesome), a few instances of our project and a couple of random Ubuntu Virtual machines.</p>
 
-<p>First, install <a href="https://communities.vmware.com/community/vmtn/devops/vmware-appcatalyst">AppCatalyst</a></p>
+<p>The only problem is that now I had four NUCs and a NAS just sitting on my desk. The NUC boxes have little rubber feet and sit on each other well but we thought we could do better. And we had a 3D printer in the office.</p>
 
-<p>Next, install the <a href="https://github.com/vmware/vagrant-vmware-appcatalyst">AppCatalyst Vagrant Provider</a></p>
+<p>So we designed a rack for the NUCs!</p>
 
-<p>The Vagrant Provider needs the AppCatalyst REST API, so once installed, you need to start the AppCatalyst daemon: appcatalyst-daemon</p>
+<p><img src="http://yourdomain.com/images/nuc_rack.jpg" alt="nuc rack" /></p>
 
-<p><img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/f63b7706bef41312eb9ad7a947e2f72e4dde94c1/start_deamon.png" alt="start daemon" /></p>
+<p>An earlier incarnation of the rack next to the Synology NAS.</p>
 
-<p>Finally, follow the <a href="http://lattice.cf/docs/getting-started/">Lattice.cf getting started guide</a>, including installing ltc.</p>
+<p><img src="http://yourdomain.com/images/desklab.jpeg" alt="desk lab" />
+<!--more--></p>
 
-<p>Once you get everything installed, the only real issue I had was networking.</p>
+<p>The rack is six pieces: four identical legs and two identical base plates (top and bottom). Once assembled, you get a nice little rack that holds 4 NUC boxes and also provides a little more airflow.</p>
 
-<p>The default subnet for AppCatalyst is 192.168.136.0, per Library/Preferences/VMware AppCatalyst/networking:</p>
+<p>I placed the STL files for both parts in a <a href="https://github.com/jrrickard/NUC-RACK">github repository</a>. The cool part of this is that last year, github added the ability to <a href="https://github.com/blog/1465-stl-file-viewing">view STL files</a> using a combination of Three.js and WebGL, so you can preview the pieces directly from the github repo.</p>
 
-<p><code>
-answer VNET_8_HOSTONLY_NETMASK 255.255.255.0
-answer VNET_8_HOSTONLY_SUBNET 192.168.136.0
-</code></p>
+<p>Here are a couple of screen shots from my browser:</p>
 
-<p>However, the Vagrantfile looks for an environment variable that contains the Lattice IP or it defaults to 192.168.11.11. The IP seems to increment by 1 for each new virtual machine in AppCatalyst, so my next IP would have been 192.168.136.133.</p>
+<p><img src="http://yourdomain.com/images/github-stl-rack-legs.png" alt="stl file for rack legs" />
+<img src="http://yourdomain.com/images/github-baseplate-stl.png" alt="stl file for the baseplate" /></p>
 
-<p>So finally, I launched the vagrant box with:</p>
+<p>If you’d like to make a version of this, grab the STL files and adjust the leg pieces for the number of NUCs you have. This supports four and was about the maximum we could print on our printer. Once you print the pieces, the legs pop into the slots on the base plates. Each leg has small platforms that the rubber feet on the NUC will rest on. You could even take these pieces and make them a little bigger with your favorite CAD program (we used <a href="http://www.tinkercad.com">Tinkercad</a> to make these) and use them to hold something with a similar form factor, like a Mac Mini.</p>
 
-<p><code>
-LATTICE_SYSTEM_IP=192.168.136.133 vagrant up --provider=vmware_appcatalyst
-</code>
-<img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/e831083aef54bcfcb9a38de1878a158cd8ff11ae/vagrant-up.png" alt="vagrant up" /></p>
+<p>For comparison, here is a piece on a 7.5-inch by 4.75-inch <a href="http://fieldnotesbrand.com/">Field Notes</a> Arts &amp; Science notebook.</p>
 
-<p>Once that was up, run the ltc target:
-<code>
-jrickard-mbpro:lattice jrickard$ ltc target 192.168.136.133.xip.io
-Api Location Set
-</code></p>
-
-<p>Finally, I launched the sample lattice-app. 
-<code>
-jrickard-mbpro:lattice jrickard$ ltc create lattice-app cloudfoundry/lattice-app
-No port specified, image metadata did not contain exposed ports. Defaulting to 8080.
-No working directory specified, using working directory from the image metadata...
-Monitoring the app on port 8080...
-No start command specified, using start command from the image metadata...
-Start command is:
-/lattice-app
-Creating App: lattice-app...................
-06/22 19:54:01.92 [APP|0] Successfully created container
-06/22 19:54:02.22 [APP|0] {"timestamp":"1435024442.223613262","source":"lattice-app","message":"lattice-app.lattice-app.starting","log_leve
-l":1,"data":{"port":"8080"}}
-06/22 19:54:02.22 [APP|0] {"timestamp":"1435024442.223858833","source":"lattice-app","message":"lattice-app.lattice-app.up","log_level":1,"data":{"port":"8080"}}
-06/22 19:54:02.75 [HEALTH|0] healthcheck passed
-06/22 19:54:02.75 [HEALTH|0] Exit status 0
-lattice-app is now running.
-App is reachable at:
-http://lattice-app.192.168.136.133.xip.io
-</code>
-<img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/77b99e563818b87bc279a4b32052182de100ebff/ltc-target_and_ltc-create.png" alt="targeted" /></p>
-
-<p>Now, let’s fire up a browser and hit http://lattice-app.192.168.136.133.xip.io</p>
-
-<p><img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/c6289cc2872f9ba7014bb76cb54d3ce0ef5348be/lattice_app.png" alt="we have app" /></p>
-
+<p><img src="http://yourdomain.com/images/rack_piece.jpg" alt="a printed rack piece" /></p>
 
   </article>
 

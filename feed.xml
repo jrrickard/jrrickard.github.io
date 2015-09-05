@@ -6,9 +6,37 @@
 </description>
     <link>http://yourdomain.com/</link>
     <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Sep 2015 19:14:34 -0600</pubDate>
-    <lastBuildDate>Fri, 04 Sep 2015 19:14:34 -0600</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2015 19:57:31 -0600</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2015 19:57:31 -0600</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Welcome to Jekyll!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 04 Sep 2015 13:11:05 -0600</pubDate>
+        <link>http://yourdomain.com/jekyll/update/2015/09/04/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2015/09/04/welcome-to-jekyll.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>Running lattice.cf on VMware AppCatalyst</title>
@@ -75,38 +103,150 @@ http://lattice-app.192.168.136.133.xip.io
 &lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/c6289cc2872f9ba7014bb76cb54d3ce0ef5348be/lattice_app.png&quot; alt=&quot;we have app&quot; /&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Fri, 04 Sep 2015 19:12:53 -0600</pubDate>
-        <link>http://yourdomain.com/2015/09/04/running-lattice-cf-on-vmware-appcatalyst.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2015/09/04/running-lattice-cf-on-vmware-appcatalyst.html</guid>
+        <pubDate>Tue, 23 Jun 2015 19:12:53 -0600</pubDate>
+        <link>http://yourdomain.com/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</guid>
         
         
       </item>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>one year later</title>
+        <description>&lt;p&gt;Next Tuesday will mark my one year anniversary with VMware and I still love it as much as I did the first day.&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;Some of the things I’ve done:&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Went to RADIO&lt;/li&gt;
+  &lt;li&gt;Got to see the amazing Palo Alto campus&lt;/li&gt;
+  &lt;li&gt;Wrote a whole bunch of ExtJS code and submitted some ExtJS bugs&lt;/li&gt;
+  &lt;li&gt;Wrote a bunch more Java&lt;/li&gt;
+  &lt;li&gt;Wrote some python!&lt;/li&gt;
+  &lt;li&gt;Gave a company wide (well, via WebEx) presentation on D3.js&lt;/li&gt;
+  &lt;li&gt;Worked on vCOps a little&lt;/li&gt;
+  &lt;li&gt;Build and managed a lab for the team with tiny Intel NUC boxes that gets a suprising amount of use (customer demos!)&lt;/li&gt;
+  &lt;li&gt;Volunteered with a bunch of people from the office on a Waldo Canyon Burn Scar restoration project&lt;/li&gt;
+  &lt;li&gt;And last, but not least, helped develop a &lt;a href=&quot;https://www.youtube.com/watch?v=-Au0eec2hkU&quot;&gt;brand new Software-as-a-Service offering&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I’m excited to see what the next year holds. It doesn’t feel like a year, so I was pretty surprised when I got an email from the &lt;a href=&quot;http://www.vmware.com/company/foundation&quot;&gt;VMware Foundation&lt;/a&gt; congratulating me and giving me my one year of service charitable giving gift!&lt;/p&gt;
 
 </description>
-        <pubDate>Fri, 04 Sep 2015 13:11:05 -0600</pubDate>
-        <link>http://yourdomain.com/jekyll/update/2015/09/04/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2015/09/04/welcome-to-jekyll.html</guid>
+        <pubDate>Wed, 22 Oct 2014 20:12:04 -0600</pubDate>
+        <link>http://yourdomain.com/vrac,/work/2014/10/22/one-year-later.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/vrac,/work/2014/10/22/one-year-later.html</guid>
         
         
-        <category>jekyll</category>
+        <category>vrac,</category>
         
-        <category>update</category>
+        <category>work</category>
+        
+      </item>
+    
+      <item>
+        <title>3D Print All The Things</title>
+        <description>&lt;p&gt;When Josh and I got accepted to our &lt;a href=&quot;http://cto.vmware.com/radio-a-different-kind-of-high-performance/&quot;&gt;Internal R&amp;amp;D Conference&lt;/a&gt;, I bought two &lt;a href=&quot;http://www.intel.com/content/www/us/en/nuc/nuc-kit-d54250wyk.html&quot;&gt;Intel NUC&lt;/a&gt; boxes to run ESX and a few VMs on. After RADIO was over, I kept them on my desk at work and they turned out to be super useful for the project we’re working on right now. So useful that we ended up supplementing them with a small NAS and two more NUC boxes. Now we have a little mini lab sitting on my desk with 64 GB of RAM, 4 4th generation Intel® Core™ i5-4250U processors, a terabyte of Solid State Storage and 4 Terabytes of spinning disks. Pretty impressive for the size and energy footprint. The processors are obviously the short pole in the tent, but it’s been working very well for a little test enviroment running the vCenter Appliance, the new Log Insight (which is totally awesome), a few instances of our project and a couple of random Ubuntu Virtual machines.&lt;/p&gt;
+
+&lt;p&gt;The only problem is that now I had four NUCs and a NAS just sitting on my desk. The NUC boxes have little rubber feet and sit on each other well but we thought we could do better. And we had a 3D printer in the office.&lt;/p&gt;
+
+&lt;p&gt;So we designed a rack for the NUCs!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/nuc_rack.jpg&quot; alt=&quot;nuc rack&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;An earlier incarnation of the rack next to the Synology NAS.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/desklab.jpeg&quot; alt=&quot;desk lab&quot; /&gt;
+&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;The rack is six pieces: four identical legs and two identical base plates (top and bottom). Once assembled, you get a nice little rack that holds 4 NUC boxes and also provides a little more airflow.&lt;/p&gt;
+
+&lt;p&gt;I placed the STL files for both parts in a &lt;a href=&quot;https://github.com/jrrickard/NUC-RACK&quot;&gt;github repository&lt;/a&gt;. The cool part of this is that last year, github added the ability to &lt;a href=&quot;https://github.com/blog/1465-stl-file-viewing&quot;&gt;view STL files&lt;/a&gt; using a combination of Three.js and WebGL, so you can preview the pieces directly from the github repo.&lt;/p&gt;
+
+&lt;p&gt;Here are a couple of screen shots from my browser:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/github-stl-rack-legs.png&quot; alt=&quot;stl file for rack legs&quot; /&gt;
+&lt;img src=&quot;http://yourdomain.com/images/github-baseplate-stl.png&quot; alt=&quot;stl file for the baseplate&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you’d like to make a version of this, grab the STL files and adjust the leg pieces for the number of NUCs you have. This supports four and was about the maximum we could print on our printer. Once you print the pieces, the legs pop into the slots on the base plates. Each leg has small platforms that the rubber feet on the NUC will rest on. You could even take these pieces and make them a little bigger with your favorite CAD program (we used &lt;a href=&quot;http://www.tinkercad.com&quot;&gt;Tinkercad&lt;/a&gt; to make these) and use them to hold something with a similar form factor, like a Mac Mini.&lt;/p&gt;
+
+&lt;p&gt;For comparison, here is a piece on a 7.5-inch by 4.75-inch &lt;a href=&quot;http://fieldnotesbrand.com/&quot;&gt;Field Notes&lt;/a&gt; Arts &amp;amp; Science notebook.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/rack_piece.jpg&quot; alt=&quot;a printed rack piece&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 05 Aug 2014 18:45:28 -0600</pubDate>
+        <link>http://yourdomain.com/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</guid>
+        
+        
+        <category>3d-printing,nuc,lab</category>
+        
+      </item>
+    
+      <item>
+        <title>charts</title>
+        <description>&lt;p&gt;I’m going to be doing a &lt;a href=&quot;http://d3js.org/&quot;&gt;D3.js&lt;/a&gt; related tech talk at work at the end of July, so I’m building up a set of examples. Three days ago, I saw a &lt;a href=&quot;http://bl.ocks.org/jrrickard/b997968320a7674ce49f&quot;&gt;kickstarter campaign&lt;/a&gt; to “bring back” Reading Rainbow. As of today (9:51 PM MDT…05/30/2014), they’ve almost passed 3 million dollars.&lt;/p&gt;
+
+&lt;p&gt;I was curious where the backers clustered (many small backers? even split?) so I did made a &lt;a href=&quot;http://bl.ocks.org/jrrickard/b997968320a7674ce49f&quot;&gt;quick bar chart&lt;/a&gt; of pledge amount vs backer count using D3.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/bar_chart.png&quot; alt=&quot;a bar chart&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As an update, I grabbed the data again and made a &lt;a href=&quot;http://bl.ocks.org/jrrickard/7675229d0437594663a6&quot;&gt;Sankey diagram&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/sankey.png&quot; alt=&quot;a sankey diagram&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 30 May 2014 21:45:32 -0600</pubDate>
+        <link>http://yourdomain.com/2014/05/30/charts.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/2014/05/30/charts.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>maps</title>
+        <description>&lt;p&gt;I was able to go to our R&amp;amp;D conference thanks to a show and tell idea I submitted with a co-worker: fun ways to visualize data using the &lt;a href=&quot;http://d3js.org/&quot;&gt;d3.js library&lt;/a&gt;. One of the ideas was to build a choropleth map that showed where everyone attending the conference was from. It turned out pretty good (I need to move the source to github at some point, for now…here is a screenshot). The mouse behaviors added a nice level of interactivity (click to drag the globe, mouse wheel to zoom in and out).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/map.png&quot; alt=&quot;map&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This idea was entirely driven by another idea: visualize the registration data for the Pikes Peak Road Runners &lt;a href=&quot;https://pprrun.org/events/WinterSeries&quot;&gt;Winter Series&lt;/a&gt; by county in Colorado. I did an &lt;a href=&quot;http://bl.ocks.org/jrrickard/9383162&quot;&gt;initial version&lt;/a&gt;. This was actually really easy to make with D3.&lt;/p&gt;
+
+&lt;p&gt;First, I grabbed the &lt;a href=&quot;http://www.census.gov/geo/maps-data/data/tiger-line.html&quot;&gt;US Census Bureau TIGER&lt;/a&gt; data for Colorado at the state and county level. Then I used the GDAL &lt;a href=&quot;http://www.gdal.org/ogr2ogr.html&quot;&gt;ogr2ogr&lt;/a&gt; utility to convert the Shapefiles into GeoJSON. Once the files were converted to GeoJSON, I used the &lt;a href=&quot;https://github.com/mbostock/queue&quot;&gt;queue.js&lt;/a&gt; library that &lt;a href=&quot;https://github.com/mbostock&quot;&gt;Mike Bostock&lt;/a&gt; has written and &lt;a href=&quot;http://bl.ocks.org/mbostock/4090848&quot;&gt;d3.geo.albersUsa&lt;/a&gt; projection and had a simple map of Colorado. A few more lines of code and I had a simple choropleth with one major problem: the counties GeoJSON file was almost 4 meg. This would kill the World map of attendees. 
+Solving this problem turned out to be pretty simple though: &lt;a href=&quot;http://www.mapshaper.org/&quot;&gt;mapshaper&lt;/a&gt;. Mapshaper lets you upload a shapefile, GeoJSON file or TopoJSON file and use a simple slider to simplify the polygons in the file and then export the resulting polygons into the format of your choice. As a test, I uploaded my counties GeoJSON file and reduced the file to 2% of it’s original complexity. At this point, I lost SOME of the complexity of the polygons, but the resulting file was only 103 KB!&lt;/p&gt;
+
+&lt;p&gt;The two maps for comparison:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://bl.ocks.org/jrrickard/9383162&quot;&gt;Large, unsimplified file&lt;/a&gt;
+&lt;img src=&quot;http://yourdomain.com/images/big_files.png&quot; alt=&quot;map with unsimplified files&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://bl.ocks.org/jrrickard/fb531d871c5203a216d0&quot;&gt;Smaller, simplified file&lt;/a&gt;
+&lt;img src=&quot;http://yourdomain.com//images/small_files.png&quot; alt=&quot;map with simplified files&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I applied this to my world based map and got a similar reduction in size. The take away from this execrise was to process the data in a way that makes sense for the presentation. This was web based, so a 4 MB download was pretty unacceptable to load the map up. It was even worse for the world-wide country boundaries. Using Mapshaper allowed me to shrink the size of the file without losing much resolution on county boundary within Colorado or country / state boundaries world wide.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 25 May 2014 19:36:56 -0600</pubDate>
+        <link>http://yourdomain.com/d3.js/2014/05/25/maps.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/d3.js/2014/05/25/maps.html</guid>
+        
+        
+        <category>d3.js</category>
+        
+      </item>
+    
+      <item>
+        <title>rebooting</title>
+        <description>&lt;p&gt;Around this time last year, I was neck deep in proposal writing. It was the second Command and Control Applications and Information Services Development (C2AD) task order that we wanted to win. In 2012, we submitted the first task order and won! It was a pretty stressful, but rewarding experience. May of 2013 was basically a repeat, but with higher expectations and a “must win” mentality. It also marked a turning point with my career at Lockheed Martin and around this time, I decided I’d look for a new job. I had become pretty unhappy with the type of work available and some changes in the structure of my business unit.&lt;/p&gt;
+
+&lt;p&gt;I had lots of uncertainity. I had spent almost 10 years working for LM. Nearly a third of my life! Almost my entire adult life! What would I do? Where would I go? I wanted to stay in Colorado Springs, I wanted to work in a commercial setting, I wanted to work with people that were excited about what they did and most of all, I wanted to work for a company that I respected. I didn’t think I’d be able to check off all those wants, but late last summer I left my job of 10 years…my security clearance…and the network and reputation I had built for myself and started working for VMware in October! When I was leaving, lots of people were shocked that there was an office in Colorado Springs (there is) and that development happens there (it does).&lt;/p&gt;
+
+&lt;p&gt;It’s been a pretty crazy transition. The environment is totally different, almost like culture shock (for the better). The work is fun, my team is great and I am learning a lot. I even had the opportunity to go to our &lt;a href=&quot;http://cto.vmware.com/radio-a-different-kind-of-high-performance/&quot; title=&quot;RADIO&quot;&gt;internal R&amp;amp;D conference&lt;/a&gt; and present a bunch of &lt;a href=&quot;http://jaas.co/2014/04/15/blog_as_a_service/&quot;&gt;crazy projects&lt;/a&gt; with &lt;a href=&quot;http://jaas.co/&quot;&gt;Josh&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Since I’ve rebooted my career, I’m rebooting my blog. I’ll use it to document fun things I learn. I’ll use it to talk about VMware. I’ll use it to talk about running and cycling. Most importantly, I’ll use it.&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 20 May 2014 21:12:16 -0600</pubDate>
+        <link>http://yourdomain.com/2014/05/20/rebooting.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/2014/05/20/rebooting.html</guid>
+        
         
       </item>
     

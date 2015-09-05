@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Your awesome title</title>
-  <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
-">
+  <title>maps</title>
+  <meta name="description" content="I was able to go to our R&amp;D conference thanks to a show and tell idea I submitted with a co-worker: fun ways to visualize data using the d3.js library. O...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://yourdomain.com/">
+  <link rel="canonical" href="http://yourdomain.com/d3.js/2014/05/25/maps.html">
   <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://yourdomain.com/feed.xml" />
 </head>
 
@@ -55,71 +54,35 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">maps</h1>
+    <p class="post-meta">May 25, 2014</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Sep 4, 2015</span>
+  <article class="post-content">
+    <p>I was able to go to our R&amp;D conference thanks to a show and tell idea I submitted with a co-worker: fun ways to visualize data using the <a href="http://d3js.org/">d3.js library</a>. One of the ideas was to build a choropleth map that showed where everyone attending the conference was from. It turned out pretty good (I need to move the source to github at some point, for now…here is a screenshot). The mouse behaviors added a nice level of interactivity (click to drag the globe, mouse wheel to zoom in and out).</p>
 
-        <h2>
-          <a class="post-link" href="/jekyll/update/2015/09/04/welcome-to-jekyll.html">Welcome to Jekyll!</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 23, 2015</span>
+<p><img src="http://yourdomain.com/images/map.png" alt="map" /></p>
 
-        <h2>
-          <a class="post-link" href="/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html">Running lattice.cf on VMware AppCatalyst</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 22, 2014</span>
+<p>This idea was entirely driven by another idea: visualize the registration data for the Pikes Peak Road Runners <a href="https://pprrun.org/events/WinterSeries">Winter Series</a> by county in Colorado. I did an <a href="http://bl.ocks.org/jrrickard/9383162">initial version</a>. This was actually really easy to make with D3.</p>
 
-        <h2>
-          <a class="post-link" href="/vrac,/work/2014/10/22/one-year-later.html">one year later</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Aug 5, 2014</span>
+<p>First, I grabbed the <a href="http://www.census.gov/geo/maps-data/data/tiger-line.html">US Census Bureau TIGER</a> data for Colorado at the state and county level. Then I used the GDAL <a href="http://www.gdal.org/ogr2ogr.html">ogr2ogr</a> utility to convert the Shapefiles into GeoJSON. Once the files were converted to GeoJSON, I used the <a href="https://github.com/mbostock/queue">queue.js</a> library that <a href="https://github.com/mbostock">Mike Bostock</a> has written and <a href="http://bl.ocks.org/mbostock/4090848">d3.geo.albersUsa</a> projection and had a simple map of Colorado. A few more lines of code and I had a simple choropleth with one major problem: the counties GeoJSON file was almost 4 meg. This would kill the World map of attendees. 
+Solving this problem turned out to be pretty simple though: <a href="http://www.mapshaper.org/">mapshaper</a>. Mapshaper lets you upload a shapefile, GeoJSON file or TopoJSON file and use a simple slider to simplify the polygons in the file and then export the resulting polygons into the format of your choice. As a test, I uploaded my counties GeoJSON file and reduced the file to 2% of it’s original complexity. At this point, I lost SOME of the complexity of the polygons, but the resulting file was only 103 KB!</p>
 
-        <h2>
-          <a class="post-link" href="/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html">3D Print All The Things</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 30, 2014</span>
+<p>The two maps for comparison:</p>
 
-        <h2>
-          <a class="post-link" href="/2014/05/30/charts.html">charts</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 25, 2014</span>
+<p><a href="http://bl.ocks.org/jrrickard/9383162">Large, unsimplified file</a>
+<img src="http://yourdomain.com/images/big_files.png" alt="map with unsimplified files" /></p>
 
-        <h2>
-          <a class="post-link" href="/d3.js/2014/05/25/maps.html">maps</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 20, 2014</span>
+<p><a href="http://bl.ocks.org/jrrickard/fb531d871c5203a216d0">Smaller, simplified file</a>
+<img src="http://yourdomain.com//images/small_files.png" alt="map with simplified files" /></p>
 
-        <h2>
-          <a class="post-link" href="/2014/05/20/rebooting.html">rebooting</a>
-        </h2>
-      </li>
-    
-  </ul>
+<p>I applied this to my world based map and got a similar reduction in size. The take away from this execrise was to process the data in a way that makes sense for the presentation. This was web based, so a 4 MB download was pretty unacceptable to load the map up. It was even worse for the world-wide country boundaries. Using Mapshaper allowed me to shrink the size of the file without losing much resolution on county boundary within Colorado or country / state boundaries world wide.</p>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+
+  </article>
 
 </div>
 

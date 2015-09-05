@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Your awesome title</title>
-  <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
-">
+  <title>Running lattice.cf on VMware AppCatalyst</title>
+  <meta name="description" content="I’ll preface this by saying I don’t think any of this is supported and AppCatalyst is a Tech Preview. But it’s a great developer tool!">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://yourdomain.com/">
+  <link rel="canonical" href="http://yourdomain.com/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html">
   <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://yourdomain.com/feed.xml" />
 </head>
 
@@ -55,71 +54,78 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Running lattice.cf on VMware AppCatalyst</h1>
+    <p class="post-meta">Jun 23, 2015</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Sep 4, 2015</span>
+  <article class="post-content">
+    <p>I’ll preface this by saying I don’t think any of this is supported and AppCatalyst is a Tech Preview. But it’s a great developer tool!</p>
 
-        <h2>
-          <a class="post-link" href="/jekyll/update/2015/09/04/welcome-to-jekyll.html">Welcome to Jekyll!</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 23, 2015</span>
+<p>First, install <a href="https://communities.vmware.com/community/vmtn/devops/vmware-appcatalyst">AppCatalyst</a></p>
 
-        <h2>
-          <a class="post-link" href="/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html">Running lattice.cf on VMware AppCatalyst</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 22, 2014</span>
+<p>Next, install the <a href="https://github.com/vmware/vagrant-vmware-appcatalyst">AppCatalyst Vagrant Provider</a></p>
 
-        <h2>
-          <a class="post-link" href="/vrac,/work/2014/10/22/one-year-later.html">one year later</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Aug 5, 2014</span>
+<p>The Vagrant Provider needs the AppCatalyst REST API, so once installed, you need to start the AppCatalyst daemon: appcatalyst-daemon</p>
 
-        <h2>
-          <a class="post-link" href="/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html">3D Print All The Things</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 30, 2014</span>
+<p><img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/f63b7706bef41312eb9ad7a947e2f72e4dde94c1/start_deamon.png" alt="start daemon" /></p>
 
-        <h2>
-          <a class="post-link" href="/2014/05/30/charts.html">charts</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 25, 2014</span>
+<p>Finally, follow the <a href="http://lattice.cf/docs/getting-started/">Lattice.cf getting started guide</a>, including installing ltc.</p>
 
-        <h2>
-          <a class="post-link" href="/d3.js/2014/05/25/maps.html">maps</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 20, 2014</span>
+<p>Once you get everything installed, the only real issue I had was networking.</p>
 
-        <h2>
-          <a class="post-link" href="/2014/05/20/rebooting.html">rebooting</a>
-        </h2>
-      </li>
-    
-  </ul>
+<p>The default subnet for AppCatalyst is 192.168.136.0, per Library/Preferences/VMware AppCatalyst/networking:</p>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<p><code>
+answer VNET_8_HOSTONLY_NETMASK 255.255.255.0
+answer VNET_8_HOSTONLY_SUBNET 192.168.136.0
+</code></p>
+
+<p>However, the Vagrantfile looks for an environment variable that contains the Lattice IP or it defaults to 192.168.11.11. The IP seems to increment by 1 for each new virtual machine in AppCatalyst, so my next IP would have been 192.168.136.133.</p>
+
+<p>So finally, I launched the vagrant box with:</p>
+
+<p><code>
+LATTICE_SYSTEM_IP=192.168.136.133 vagrant up --provider=vmware_appcatalyst
+</code>
+<img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/e831083aef54bcfcb9a38de1878a158cd8ff11ae/vagrant-up.png" alt="vagrant up" /></p>
+
+<p>Once that was up, run the ltc target:
+<code>
+jrickard-mbpro:lattice jrickard$ ltc target 192.168.136.133.xip.io
+Api Location Set
+</code></p>
+
+<p>Finally, I launched the sample lattice-app. 
+<code>
+jrickard-mbpro:lattice jrickard$ ltc create lattice-app cloudfoundry/lattice-app
+No port specified, image metadata did not contain exposed ports. Defaulting to 8080.
+No working directory specified, using working directory from the image metadata...
+Monitoring the app on port 8080...
+No start command specified, using start command from the image metadata...
+Start command is:
+/lattice-app
+Creating App: lattice-app...................
+06/22 19:54:01.92 [APP|0] Successfully created container
+06/22 19:54:02.22 [APP|0] {"timestamp":"1435024442.223613262","source":"lattice-app","message":"lattice-app.lattice-app.starting","log_leve
+l":1,"data":{"port":"8080"}}
+06/22 19:54:02.22 [APP|0] {"timestamp":"1435024442.223858833","source":"lattice-app","message":"lattice-app.lattice-app.up","log_level":1,"data":{"port":"8080"}}
+06/22 19:54:02.75 [HEALTH|0] healthcheck passed
+06/22 19:54:02.75 [HEALTH|0] Exit status 0
+lattice-app is now running.
+App is reachable at:
+http://lattice-app.192.168.136.133.xip.io
+</code>
+<img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/77b99e563818b87bc279a4b32052182de100ebff/ltc-target_and_ltc-create.png" alt="targeted" /></p>
+
+<p>Now, let’s fire up a browser and hit http://lattice-app.192.168.136.133.xip.io</p>
+
+<p><img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/c6289cc2872f9ba7014bb76cb54d3ce0ef5348be/lattice_app.png" alt="we have app" /></p>
+
+
+  </article>
 
 </div>
 
