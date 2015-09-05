@@ -88,35 +88,37 @@ answer VNET_8_HOSTONLY_SUBNET 192.168.136.0
 
 <pre><code>LATTICE_SYSTEM_IP=192.168.136.133 vagrant up --provider=vmware_appcatalyst
 </code></pre>
+
 <p><img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/e831083aef54bcfcb9a38de1878a158cd8ff11ae/vagrant-up.png" alt="vagrant up" /></p>
 
-<p>Once that was up, run the ltc target:
-~~~~
-jrickard-mbpro:lattice jrickard$ ltc target 192.168.136.133.xip.io
-Api Location Set
-~~~~</p>
+<p>Once that was up, run the ltc target:</p>
 
-<p>Finally, I launched the sample lattice-app. 
-~~~~
-jrickard-mbpro:lattice jrickard$ ltc create lattice-app cloudfoundry/lattice-app
+<pre><code>jrickard-mbpro:lattice jrickard$ ltc target 192.168.136.133.xip.io
+Api Location Set
+</code></pre>
+
+<p>Finally, I launched the sample lattice-app.</p>
+
+<pre><code>jrickard-mbpro:lattice jrickard$ ltc create lattice-app cloudfoundry/lattice-app
 No port specified, image metadata did not contain exposed ports. Defaulting to 8080.
-No working directory specified, using working directory from the image metadata…
-Monitoring the app on port 8080…
-No start command specified, using start command from the image metadata…
+No working directory specified, using working directory from the image metadata...
+Monitoring the app on port 8080...
+No start command specified, using start command from the image metadata...
 Start command is:
 /lattice-app
-Creating App: lattice-app……………….
+Creating App: lattice-app...................
 06/22 19:54:01.92 [APP|0] Successfully created container
-06/22 19:54:02.22 [APP|0] {“timestamp”:”1435024442.223613262”,”source”:”lattice-app”,”message”:”lattice-app.lattice-app.starting”,”log_leve
-l”:1,”data”:{“port”:”8080”}}
-06/22 19:54:02.22 [APP|0] {“timestamp”:”1435024442.223858833”,”source”:”lattice-app”,”message”:”lattice-app.lattice-app.up”,”log_level”:1,”data”:{“port”:”8080”}}
+06/22 19:54:02.22 [APP|0] {"timestamp":"1435024442.223613262","source":"lattice-app","message":"lattice-app.lattice-app.starting","log_leve
+l":1,"data":{"port":"8080"}}
+06/22 19:54:02.22 [APP|0] {"timestamp":"1435024442.223858833","source":"lattice-app","message":"lattice-app.lattice-app.up","log_level":1,"data":{"port":"8080"}}
 06/22 19:54:02.75 [HEALTH|0] healthcheck passed
 06/22 19:54:02.75 [HEALTH|0] Exit status 0
 lattice-app is now running.
 App is reachable at:
 http://lattice-app.192.168.136.133.xip.io
-~~~~
-<img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/77b99e563818b87bc279a4b32052182de100ebff/ltc-target_and_ltc-create.png" alt="targeted" /></p>
+</code></pre>
+
+<p><img src="https://gist.github.com/jrrickard/a2724c9ede44de0186cc/raw/77b99e563818b87bc279a4b32052182de100ebff/ltc-target_and_ltc-create.png" alt="targeted" /></p>
 
 <p>Now, let’s fire up a browser and hit http://lattice-app.192.168.136.133.xip.io</p>
 
