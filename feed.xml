@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Sep 2015 20:45:35 -0600</pubDate>
-    <lastBuildDate>Fri, 04 Sep 2015 20:45:35 -0600</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2015 20:46:38 -0600</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2015 20:46:38 -0600</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -75,7 +75,7 @@ _deploy.yml
 # octopress new blog &quot;Creating a Docker Jenkins Slave Running on a VMware Photon VM&quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;This created two new files in the _posts directory with that title and today’s date. It sticks the correct header/front matter in a blank file. So I modified the filename to have the correct dates and updated the date meta data in the file. Then I simply copied the markdown from the Gists and placed them in the appropriate file. Getting everything deployed again was simply:&lt;/p&gt;
+&lt;p&gt;This created two new files in the _posts directory with that title and today’s date. It sticks the correct header/front matter in a blank file. So I modified the filename to have the correct dates and updated the date meta data in the file. Then I simply copied the markdown from the Gists and placed them in the appropriate file. The only major change I had to do was to change the Github markdown preformat token (three `) to normal markdown (4 ~). Once I had done that, getting everything deployed again was simply:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;# jekyll build
 # octopress deploy

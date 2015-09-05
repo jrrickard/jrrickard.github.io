@@ -125,7 +125,7 @@ _deploy.yml
 # octopress new blog "Creating a Docker Jenkins Slave Running on a VMware Photon VM"
 </code></pre>
 
-<p>This created two new files in the _posts directory with that title and today’s date. It sticks the correct header/front matter in a blank file. So I modified the filename to have the correct dates and updated the date meta data in the file. Then I simply copied the markdown from the Gists and placed them in the appropriate file. Getting everything deployed again was simply:</p>
+<p>This created two new files in the _posts directory with that title and today’s date. It sticks the correct header/front matter in a blank file. So I modified the filename to have the correct dates and updated the date meta data in the file. Then I simply copied the markdown from the Gists and placed them in the appropriate file. The only major change I had to do was to change the Github markdown preformat token (three `) to normal markdown (4 ~). Once I had done that, getting everything deployed again was simply:</p>
 
 <pre><code># jekyll build
 # octopress deploy
