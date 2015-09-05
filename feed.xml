@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Sep 2015 20:38:38 -0600</pubDate>
-    <lastBuildDate>Fri, 04 Sep 2015 20:38:38 -0600</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2015 20:44:10 -0600</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2015 20:44:10 -0600</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -24,49 +24,42 @@
 
 &lt;p&gt;I modified the Gemfile created above and added:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-gem &#39;octopress&#39;, &#39;~&amp;gt; 3.0.0&#39;
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gem &#39;octopress&#39;, &#39;~&amp;gt; 3.0.0&#39;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Once I did that, I did a bundle update &amp;amp;&amp;amp; bundle install to make sure I had the new gem. Now I had the octopress cli. This has been &lt;em&gt;much&lt;/em&gt; easier to use than the previous version of octopress. Now I had everything installed, I needed to init the new blog. You can do that with Jekyll, or you can use the octopress cli and it will also copy over all the octopress scaffolding. I went with the octopress:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-# octopress new jrrickard.github.io
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# octopress new jrrickard.github.io
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That created a new directory called jrrickard.github.io with the scaffolding. Next I changed into that diretory and did a jekyll build&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-# jekyll build
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# jekyll build
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This went through the directory and created the _site directory with all of the content of the blog. Now I could serve it up:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-# jekyll serve
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This started up a server listening on port 4000 so I could view the content.&lt;/p&gt;
 
 &lt;p&gt;The last step of getting it setup was doing the deploy init. Again, very easy with the octopress cli:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-# octopress deploy init git git@github.com:jrrickard/jrrickard.github.io.git
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# octopress deploy init git git@github.com:jrrickard/jrrickard.github.io.git
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Once that was done, I added the _deploy.yml file to my .gitignore. Once I was done, the .gitignore looked like:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-_site
+&lt;pre&gt;&lt;code&gt;_site
 .sass-cache
 _deploy.yml
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Finally, running deploy with the octopress cli pushed to my git repo:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-# octopress deploy
-&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# octopress deploy
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now, the new blog was available at my Github pages url. Now I just needed content!&lt;/p&gt;
 
@@ -78,17 +71,15 @@ _deploy.yml
 
 &lt;p&gt;While my blog was messed up, I had done a few gist based blogs. I wanted to move them over here, so I used the cli to create some new posts:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-# octopress new blog &quot;Running lattice.cf on VMware AppCatalyst&quot;
+&lt;pre&gt;&lt;code&gt;# octopress new blog &quot;Running lattice.cf on VMware AppCatalyst&quot;
 # octopress new blog &quot;Creating a Docker Jenkins Slave Running on a VMware Photon VM&quot;
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This created two new files in the _posts directory with that title and today’s date. It sticks the correct header/front matter in a blank file. So I modified the filename to have the correct dates and updated the date meta data in the file. Then I simply copied the markdown from the Gists and placed them in the appropriate file. Getting everything deployed again was simply:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;
-# jekyll build
+&lt;pre&gt;&lt;code&gt;# jekyll build
 # octopress deploy
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Then voila, the blog is updated. Simple.&lt;/p&gt;
 

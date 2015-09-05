@@ -74,49 +74,42 @@
 
 <p>I modified the Gemfile created above and added:</p>
 
-<p><code>
-gem 'octopress', '~&gt; 3.0.0'
-</code></p>
+<pre><code>gem 'octopress', '~&gt; 3.0.0'
+</code></pre>
 
 <p>Once I did that, I did a bundle update &amp;&amp; bundle install to make sure I had the new gem. Now I had the octopress cli. This has been <em>much</em> easier to use than the previous version of octopress. Now I had everything installed, I needed to init the new blog. You can do that with Jekyll, or you can use the octopress cli and it will also copy over all the octopress scaffolding. I went with the octopress:</p>
 
-<p><code>
-# octopress new jrrickard.github.io
-</code></p>
+<pre><code># octopress new jrrickard.github.io
+</code></pre>
 
 <p>That created a new directory called jrrickard.github.io with the scaffolding. Next I changed into that diretory and did a jekyll build</p>
 
-<p><code>
-# jekyll build
-</code></p>
+<pre><code># jekyll build
+</code></pre>
 
 <p>This went through the directory and created the _site directory with all of the content of the blog. Now I could serve it up:</p>
 
-<p><code>
-# jekyll serve
-</code></p>
+<pre><code># jekyll serve
+</code></pre>
 
 <p>This started up a server listening on port 4000 so I could view the content.</p>
 
 <p>The last step of getting it setup was doing the deploy init. Again, very easy with the octopress cli:</p>
 
-<p><code>
-# octopress deploy init git git@github.com:jrrickard/jrrickard.github.io.git
-</code></p>
+<pre><code># octopress deploy init git git@github.com:jrrickard/jrrickard.github.io.git
+</code></pre>
 
 <p>Once that was done, I added the _deploy.yml file to my .gitignore. Once I was done, the .gitignore looked like:</p>
 
-<p><code>
-_site
+<pre><code>_site
 .sass-cache
 _deploy.yml
-</code></p>
+</code></pre>
 
 <p>Finally, running deploy with the octopress cli pushed to my git repo:</p>
 
-<p><code>
-# octopress deploy
-</code></p>
+<pre><code># octopress deploy
+</code></pre>
 
 <p>Now, the new blog was available at my Github pages url. Now I just needed content!</p>
 
@@ -128,17 +121,15 @@ _deploy.yml
 
 <p>While my blog was messed up, I had done a few gist based blogs. I wanted to move them over here, so I used the cli to create some new posts:</p>
 
-<p><code>
-# octopress new blog "Running lattice.cf on VMware AppCatalyst"
+<pre><code># octopress new blog "Running lattice.cf on VMware AppCatalyst"
 # octopress new blog "Creating a Docker Jenkins Slave Running on a VMware Photon VM"
-</code></p>
+</code></pre>
 
 <p>This created two new files in the _posts directory with that title and today’s date. It sticks the correct header/front matter in a blank file. So I modified the filename to have the correct dates and updated the date meta data in the file. Then I simply copied the markdown from the Gists and placed them in the appropriate file. Getting everything deployed again was simply:</p>
 
-<p><code>
-# jekyll build
+<pre><code># jekyll build
 # octopress deploy
-</code></p>
+</code></pre>
 
 <p>Then voila, the blog is updated. Simple.</p>
 
