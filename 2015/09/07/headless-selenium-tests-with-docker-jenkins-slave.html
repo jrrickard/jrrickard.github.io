@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>code to run, run to live</title>
-  <meta name="description" content="A blog about running, software and beverages. Opinions expressed are my own
-">
+  <title>Headless Selenium Test With Docker Jenkins Slave</title>
+  <meta name="description" content="In an earlier blog post, I wrote about building Docker based jenkins slaves. I used that to automate deployment of our system and clients from Jenkins. With ...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://jrrickard.github.io/">
+  <link rel="canonical" href="http://jrrickard.github.io/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html">
   <link rel="alternate" type="application/rss+xml" title="code to run, run to live" href="http://jrrickard.github.io/feed.xml" />
 </head>
 
@@ -55,95 +54,71 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Headless Selenium Test With Docker Jenkins Slave</h1>
+    <p class="post-meta">Sep 7, 2015</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Sep 7, 2015</span>
+  <article class="post-content">
+    <p>In an <a href="/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html">earlier blog post</a>, I wrote about building Docker based jenkins slaves. I used that to automate deployment of our system and clients from Jenkins. With that working, I wanted to apply the same to running some of our UI automation. We’re currently using a series of Windows virtual machines as remote slaves and Sikuli based tests. The downside to these tests is that they are based on image capture and actually driving a browser, so we can only one run at a time per slave and they can fail if resolution of the VM is changed or something is launched that is on top of the browser. One fix for this would be to use something like selenium instead. I implemented a subset of the tests using selenium and I’ve been able to run these on my laptop using the Firefox browser just fine.</p>
 
-        <h2>
-          <a class="post-link" href="/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html">Headless Selenium Test With Docker Jenkins Slave</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 4, 2015</span>
+<p>With the tests running with selenium, I wondered if we could run them headlessly via the Docker slave mechanism. To do that, I needed a new slave image. Starting with the evarga/jenkins-slave base image, I installed maven, git, firefox and xfvb. I also generated an ssh key, registered it with our git instance and then added it to the container.</p>
 
-        <h2>
-          <a class="post-link" href="/2015/09/04/installing-octopress-3-0.html">Using Octopress 3.0 with Github Pages</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 3, 2015</span>
+<pre><code>FROM evarga/jenkins-slave:latest
 
-        <h2>
-          <a class="post-link" href="/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html">Creating a Docker Jenkins Slave Running on a VMware Photon VM</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 23, 2015</span>
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
 
-        <h2>
-          <a class="post-link" href="/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html">Running lattice.cf on VMware AppCatalyst</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 31, 2014</span>
+#===================
+# Timezone settings
+# Possible alternative: https://github.com/docker/docker/issues/3359#issuecomment-32150214
+#===================
+ENV TZ "US/Mountain"
+RUN echo "US/Mountain" | sudo tee /etc/timezone \
+  &amp;&amp; dpkg-reconfigure --frontend noninteractive tzdata
 
-        <h2>
-          <a class="post-link" href="/work/office/cubicle/2014/12/31/standing-desk.html">Standing Desk</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 22, 2014</span>
+#==============
+# Xvfb, firefox, maven, git
+#==============
+RUN apt-get update -qqy \
+  &amp;&amp; apt-get -qqy install \
+    xvfb firefox maven git \
+  &amp;&amp; rm -rf /var/lib/apt/lists/*
 
-        <h2>
-          <a class="post-link" href="/vrac,/work/2014/10/22/one-year-later.html">one year later</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Aug 5, 2014</span>
+#============================
+# Some configuration options
+#============================
+ENV SCREEN_WIDTH 1360
+ENV SCREEN_HEIGHT 1020
+ENV SCREEN_DEPTH 24
+ENV DISPLAY :99.0
 
-        <h2>
-          <a class="post-link" href="/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html">3D Print All The Things</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 30, 2014</span>
+COPY id_rsa /home/jenkins/.ssh/
+COPY id_rsa.pub /home/jenkins/.ssh/
+RUN chown jenkins /home/jenkins/.ssh/
+RUN chmod 600 /home/jenkins/.ssh/id_rsa
+USER jenkins
+RUN ssh-keyscan qeconfig.wp.fsi &gt;&gt; /home/jenkins/.ssh/known_hosts
+RUN chmod 600 /home/jenkins/.ssh/id_rsa.pub
+RUN chmod 600 /home/jenkins/.ssh/known_hosts
+USER root
+</code></pre>
 
-        <h2>
-          <a class="post-link" href="/2014/05/30/charts.html">charts</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 25, 2014</span>
+<p>When all is said and done, that’s a fairly large image. Again, starting from scratch might lead to a smaller image.</p>
 
-        <h2>
-          <a class="post-link" href="/d3.js/2014/05/25/maps.html">maps</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 20, 2014</span>
+<pre><code>jeremy@euclid [ ~/ui-test ]$ sudo docker images
+REPOSITORY             TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+ui-test.slave          latest              f06dd6a0ba85        35 seconds ago      832.2 MB
+</code></pre>
 
-        <h2>
-          <a class="post-link" href="/2014/05/20/rebooting.html">rebooting</a>
-        </h2>
-      </li>
-    
-  </ul>
+<p>With the image created, I followed the same process of adding a new template to the Docker cloud defined in Jenkins. Then created a new job.</p>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<p><img src="http://jrrickard.github.io/images/docker-label.png" alt="Job config" />
+<img src="http://jrrickard.github.io/images/shell-commands.png" alt="Shell commands" /></p>
+
+  </article>
 
 </div>
 
