@@ -4,6 +4,7 @@ gem 'jekyll'
 gem 'github-pages'
 gem 'bourbon'
 gem 'kramdown'
+gem 'redcarpet'
  
 group :jekyll_plugins do
     gem 'octopress', '~> 3.0.11'
@@ -14,5 +15,6 @@ group :jekyll_plugins do
     gem 'octopress-codefence'
     gem 'octopress-solarized'
     gem 'octopress-gist'
+    gem 'octopress-escape-code'
     gem 'kramdown'
 end

@@ -217,11 +217,13 @@ DEPENDENCIES
   octopress (~> 3.0.11)
   octopress-codeblock
   octopress-codefence
+  octopress-escape-code
   octopress-gist
   octopress-image-tag
   octopress-quote-tag
   octopress-solarized
   octopress-video-tag
+  redcarpet
 
 BUNDLED WITH
    1.12.5
