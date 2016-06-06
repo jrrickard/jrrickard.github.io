@@ -4,10 +4,10 @@
     <title>Your awesome title</title>
     <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 </description>
-    <link>http://yourdomain.com/</link>
-    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 06 Jun 2016 12:53:54 -0600</pubDate>
-    <lastBuildDate>Mon, 06 Jun 2016 12:53:54 -0600</lastBuildDate>
+    <link>http://jrrickard.github.io/</link>
+    <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 06 Jun 2016 12:56:46 -0600</pubDate>
+    <lastBuildDate>Mon, 06 Jun 2016 12:56:46 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -16,15 +16,15 @@
 
 &lt;p&gt;The transition has been pretty seemless since I’ve been working from home so much. I was able to bring a couple of monitors home with me and setup my standing desk so I essentially have the same setup as I had at the office!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/standing-desk.jpeg&quot; alt=&quot;Desk&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/standing-desk.jpeg&quot; alt=&quot;Desk&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The desk is made from my existing &lt;a href=&quot;http://www.ikea.com/us/en/catalog/products/60193736/&quot;&gt;IKEA Lack Side Tables&lt;/a&gt;, along with a new &lt;a href=&quot;http://www.ikea.com/us/en/catalog/products/S29932181/&quot;&gt;LINNMON / ADILS&lt;/a&gt;. I had to make a few adjustments, but it ended up being essentially the perfect height. My new &lt;a href=&quot;http://www.wasdkeyboards.com/&quot;&gt;WASD Keyboard&lt;/a&gt; is a little bigger than the Apple keyboard I had been using, so most of the adjustment had to be done to the keyboard ledge.&lt;/p&gt;
 
 &lt;p&gt;The room I decided to use as a home office is our “technology” room and already had a PC for my son to use, along with my wife’s knitting and my turntable. Oddly enough, it’s the only room in the house that wasn’t wired with Cat6 when the house was built. My next project is either running ethernet to the room or upgrading the wireless in the house.&lt;/p&gt;
 </description>
         <pubDate>Sun, 05 Jun 2016 17:32:48 -0600</pubDate>
-        <link>http://yourdomain.com/2016/06/05/working-remotely.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2016/06/05/working-remotely.html</guid>
+        <link>http://jrrickard.github.io/2016/06/05/working-remotely.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2016/06/05/working-remotely.html</guid>
         
         
       </item>
@@ -64,15 +64,15 @@ fermat:rally-tasks-for-echo jeremy$ npm install --prefix=src rally
 
 &lt;p&gt;First, login to the AWS Console. Then Click on the Lambda link. It’s also important to make sure you are using the us-east region, as the other regions are not supported for ASK yet.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/lambda-option.png&quot; alt=&quot;aws console&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/lambda-option.png&quot; alt=&quot;aws console&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Then create a new Lambda function. I skipped the blueprint and just went with a blank configuration.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/create-lambda.png&quot; alt=&quot;new function&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/create-lambda.png&quot; alt=&quot;new function&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Now, name the function and pick Node.js as the Runtime.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/configure-function.png&quot; alt=&quot;configure-function-step-one&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/configure-function.png&quot; alt=&quot;configure-function-step-one&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Change the code entry type to “Upload a ZIP File” and click the Upload button and locate your file.&lt;/p&gt;
 
@@ -94,8 +94,8 @@ fermat:rally-tasks-for-echo jeremy$ npm install --prefix=src rally
 
 </description>
         <pubDate>Mon, 14 Sep 2015 07:49:23 -0600</pubDate>
-        <link>http://yourdomain.com/2015/09/14/aws-lambda-and-alexa-skills-kit.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2015/09/14/aws-lambda-and-alexa-skills-kit.html</guid>
+        <link>http://jrrickard.github.io/2015/09/14/aws-lambda-and-alexa-skills-kit.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2015/09/14/aws-lambda-and-alexa-skills-kit.html</guid>
         
         
       </item>
@@ -155,12 +155,12 @@ ui-test.slave          latest              f06dd6a0ba85        35 seconds ago   
 
 &lt;p&gt;With the image created, I followed the same process of adding a new template to the Docker cloud defined in Jenkins. Then created a new job.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/docker-label.png&quot; alt=&quot;Job config&quot; /&gt;
-&lt;img src=&quot;http://yourdomain.com/images/shell-commands.png&quot; alt=&quot;Shell commands&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/docker-label.png&quot; alt=&quot;Job config&quot; /&gt;
+&lt;img src=&quot;http://jrrickard.github.io/images/shell-commands.png&quot; alt=&quot;Shell commands&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 07 Sep 2015 08:15:57 -0600</pubDate>
-        <link>http://yourdomain.com/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html</guid>
+        <link>http://jrrickard.github.io/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html</guid>
         
         
       </item>
@@ -240,8 +240,8 @@ _deploy.yml
 
 </description>
         <pubDate>Fri, 04 Sep 2015 20:14:30 -0600</pubDate>
-        <link>http://yourdomain.com/2015/09/04/installing-octopress-3-0.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2015/09/04/installing-octopress-3-0.html</guid>
+        <link>http://jrrickard.github.io/2015/09/04/installing-octopress-3-0.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2015/09/04/installing-octopress-3-0.html</guid>
         
         
       </item>
@@ -394,8 +394,8 @@ RUN yes | /bin/bash /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle 
 
 </description>
         <pubDate>Thu, 03 Sep 2015 20:13:27 -0600</pubDate>
-        <link>http://yourdomain.com/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html</guid>
+        <link>http://jrrickard.github.io/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html</guid>
         
         
       </item>
@@ -466,8 +466,8 @@ http://lattice-app.192.168.136.133.xip.io
 
 </description>
         <pubDate>Tue, 23 Jun 2015 19:12:53 -0600</pubDate>
-        <link>http://yourdomain.com/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</guid>
+        <link>http://jrrickard.github.io/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html</guid>
         
         
       </item>
@@ -492,8 +492,8 @@ http://lattice-app.192.168.136.133.xip.io
 &lt;p&gt;Everything fit pretty well and day one went well. When I decided to do this, I wasn’t thinking about the fact that I’d be able to easily just glance over at Pikes Peak, but that was a pretty nice bonus. My feet were a little sore by the time I left, but I expected that (minimal shoes). I also felt really productive, although I’m not sure the desk is why. The whiteboard tables proved to be a fantastic idea as well. It’s now been over a year since I changed over to standing all the time. I’ve also obviously changed companies (and desks). The height I drilled everything for was my desk at LM. My VMware desk is slightly shorter, so I ended up using a couple packs of post-it notes and a couple CDs to prop up my keyboard tray. Other than that, it works just the same. The whiteboard aspect of the desk is my absolute favorite part.&lt;/p&gt;
 </description>
         <pubDate>Wed, 31 Dec 2014 21:01:00 -0700</pubDate>
-        <link>http://yourdomain.com/work/office/cubicle/2014/12/31/standing-desk.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/work/office/cubicle/2014/12/31/standing-desk.html</guid>
+        <link>http://jrrickard.github.io/work/office/cubicle/2014/12/31/standing-desk.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/work/office/cubicle/2014/12/31/standing-desk.html</guid>
         
         
         <category>work</category>
@@ -527,8 +527,8 @@ http://lattice-app.192.168.136.133.xip.io
 
 </description>
         <pubDate>Wed, 22 Oct 2014 20:12:04 -0600</pubDate>
-        <link>http://yourdomain.com/vrac,/work/2014/10/22/one-year-later.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/vrac,/work/2014/10/22/one-year-later.html</guid>
+        <link>http://jrrickard.github.io/vrac,/work/2014/10/22/one-year-later.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/vrac,/work/2014/10/22/one-year-later.html</guid>
         
         
         <category>vrac,</category>
@@ -545,11 +545,11 @@ http://lattice-app.192.168.136.133.xip.io
 
 &lt;p&gt;So we designed a rack for the NUCs!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/nuc_rack.jpg&quot; alt=&quot;nuc rack&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/nuc_rack.jpg&quot; alt=&quot;nuc rack&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;An earlier incarnation of the rack next to the Synology NAS.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/desklab.jpeg&quot; alt=&quot;desk lab&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/desklab.jpeg&quot; alt=&quot;desk lab&quot; /&gt;
 &lt;!--more--&gt;&lt;/p&gt;
 
 &lt;p&gt;The rack is six pieces: four identical legs and two identical base plates (top and bottom). Once assembled, you get a nice little rack that holds 4 NUC boxes and also provides a little more airflow.&lt;/p&gt;
@@ -558,18 +558,18 @@ http://lattice-app.192.168.136.133.xip.io
 
 &lt;p&gt;Here are a couple of screen shots from my browser:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/github-stl-rack-legs.png&quot; alt=&quot;stl file for rack legs&quot; /&gt;
-&lt;img src=&quot;http://yourdomain.com/images/github-baseplate-stl.png&quot; alt=&quot;stl file for the baseplate&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/github-stl-rack-legs.png&quot; alt=&quot;stl file for rack legs&quot; /&gt;
+&lt;img src=&quot;http://jrrickard.github.io/images/github-baseplate-stl.png&quot; alt=&quot;stl file for the baseplate&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If you’d like to make a version of this, grab the STL files and adjust the leg pieces for the number of NUCs you have. This supports four and was about the maximum we could print on our printer. Once you print the pieces, the legs pop into the slots on the base plates. Each leg has small platforms that the rubber feet on the NUC will rest on. You could even take these pieces and make them a little bigger with your favorite CAD program (we used &lt;a href=&quot;http://www.tinkercad.com&quot;&gt;Tinkercad&lt;/a&gt; to make these) and use them to hold something with a similar form factor, like a Mac Mini.&lt;/p&gt;
 
 &lt;p&gt;For comparison, here is a piece on a 7.5-inch by 4.75-inch &lt;a href=&quot;http://fieldnotesbrand.com/&quot;&gt;Field Notes&lt;/a&gt; Arts &amp;amp; Science notebook.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/rack_piece.jpg&quot; alt=&quot;a printed rack piece&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/rack_piece.jpg&quot; alt=&quot;a printed rack piece&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 05 Aug 2014 18:45:28 -0600</pubDate>
-        <link>http://yourdomain.com/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</guid>
+        <link>http://jrrickard.github.io/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</guid>
         
         
         <category>3d-printing,nuc,lab</category>
@@ -582,15 +582,15 @@ http://lattice-app.192.168.136.133.xip.io
 
 &lt;p&gt;I was curious where the backers clustered (many small backers? even split?) so I did made a &lt;a href=&quot;http://bl.ocks.org/jrrickard/b997968320a7674ce49f&quot;&gt;quick bar chart&lt;/a&gt; of pledge amount vs backer count using D3.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/bar_chart.png&quot; alt=&quot;a bar chart&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/bar_chart.png&quot; alt=&quot;a bar chart&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;As an update, I grabbed the data again and made a &lt;a href=&quot;http://bl.ocks.org/jrrickard/7675229d0437594663a6&quot;&gt;Sankey diagram&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://yourdomain.com/images/sankey.png&quot; alt=&quot;a sankey diagram&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/sankey.png&quot; alt=&quot;a sankey diagram&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 30 May 2014 21:45:32 -0600</pubDate>
-        <link>http://yourdomain.com/2014/05/30/charts.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/2014/05/30/charts.html</guid>
+        <link>http://jrrickard.github.io/2014/05/30/charts.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2014/05/30/charts.html</guid>
         
         
       </item>
