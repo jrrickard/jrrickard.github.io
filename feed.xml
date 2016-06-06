@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>red, green, refactor</title>
-    <description>MI-DC-CO. software, coffee, beer and bicycle fanatic. now a dad. Working on SaaS stuff @ VMware Opinions expressed and tweets are my own!
+    <title>code to run, run to live</title>
+    <description>A blog about running, software and beverages. Opinions expressed are my own
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 06 Jun 2016 12:59:43 -0600</pubDate>
-    <lastBuildDate>Mon, 06 Jun 2016 12:59:43 -0600</lastBuildDate>
+    <pubDate>Mon, 06 Jun 2016 13:00:44 -0600</pubDate>
+    <lastBuildDate>Mon, 06 Jun 2016 13:00:44 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
