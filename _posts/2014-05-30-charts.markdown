@@ -1,0 +1,19 @@
+---
+layout: post
+title: "charts"
+date: 2014-05-30 21:45:32 -0600
+comments: true
+categories: 
+---
+
+I'm going to be doing a [D3.js](http://d3js.org/) related tech talk at work at the end of July, so I'm building up a set of examples. Three days ago, I saw a [kickstarter campaign](http://bl.ocks.org/jrrickard/b997968320a7674ce49f) to "bring back" Reading Rainbow. As of today (9:51 PM MDT...05/30/2014), they've almost passed 3 million dollars. 
+
+I was curious where the backers clustered (many small backers? even split?) so I did made a [quick bar chart](http://bl.ocks.org/jrrickard/b997968320a7674ce49f) of pledge amount vs backer count using D3.
+
+
+
+![a bar chart]({{site.url}}/images/bar_chart.png) 
+
+As an update, I grabbed the data again and made a [Sankey diagram](http://bl.ocks.org/jrrickard/7675229d0437594663a6).
+
+![a sankey diagram]({{site.url}}/images/sankey.png) 

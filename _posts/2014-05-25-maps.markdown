@@ -1,0 +1,27 @@
+---
+layout: post
+title: "maps"
+date: 2014-05-25 19:36:56 -0600
+comments: true
+categories: d3.js  
+---
+
+I was able to go to our R&D conference thanks to a show and tell idea I submitted with a co-worker: fun ways to visualize data using the [d3.js library](http://d3js.org/). One of the ideas was to build a choropleth map that showed where everyone attending the conference was from. It turned out pretty good (I need to move the source to github at some point, for now...here is a screenshot). The mouse behaviors added a nice level of interactivity (click to drag the globe, mouse wheel to zoom in and out). 
+
+![map]({{ site.url }}/images/map.png)
+
+This idea was entirely driven by another idea: visualize the registration data for the Pikes Peak Road Runners [Winter Series](https://pprrun.org/events/WinterSeries) by county in Colorado. I did an [initial version](http://bl.ocks.org/jrrickard/9383162). This was actually really easy to make with D3. 
+
+First, I grabbed the [US Census Bureau TIGER](http://www.census.gov/geo/maps-data/data/tiger-line.html) data for Colorado at the state and county level. Then I used the GDAL [ogr2ogr](http://www.gdal.org/ogr2ogr.html) utility to convert the Shapefiles into GeoJSON. Once the files were converted to GeoJSON, I used the [queue.js](https://github.com/mbostock/queue) library that [Mike Bostock](https://github.com/mbostock) has written and [d3.geo.albersUsa](http://bl.ocks.org/mbostock/4090848) projection and had a simple map of Colorado. A few more lines of code and I had a simple choropleth with one major problem: the counties GeoJSON file was almost 4 meg. This would kill the World map of attendees. 
+Solving this problem turned out to be pretty simple though: [mapshaper](http://www.mapshaper.org/). Mapshaper lets you upload a shapefile, GeoJSON file or TopoJSON file and use a simple slider to simplify the polygons in the file and then export the resulting polygons into the format of your choice. As a test, I uploaded my counties GeoJSON file and reduced the file to 2% of it's original complexity. At this point, I lost SOME of the complexity of the polygons, but the resulting file was only 103 KB! 
+
+The two maps for comparison:
+
+[Large, unsimplified file](http://bl.ocks.org/jrrickard/9383162)
+![map with unsimplified files]({{ site.url }}/images/big_files.png)
+
+[Smaller, simplified file](http://bl.ocks.org/jrrickard/fb531d871c5203a216d0)
+![map with simplified files]({{ site.url }}//images/small_files.png)
+
+I applied this to my world based map and got a similar reduction in size. The take away from this execrise was to process the data in a way that makes sense for the presentation. This was web based, so a 4 MB download was pretty unacceptable to load the map up. It was even worse for the world-wide country boundaries. Using Mapshaper allowed me to shrink the size of the file without losing much resolution on county boundary within Colorado or country / state boundaries world wide.
+ 
