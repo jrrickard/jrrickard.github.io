@@ -10,7 +10,7 @@ Taking a look a their website, they have quite a few [integrations](https://duo.
 
 First, I needed to grab some dependencies since I was running CentOS minimal, mainly a C compiler and both the pam-devel and openssl-devl libraries.
 
-```bash
+```console
 $ yum group install "Development Tools"
 $ yum install pam-devel
 $ yum install openssl-devel
@@ -18,7 +18,7 @@ $ yum install openssl-devel
 
 One that was completed, I grabbed the source and built the duo unix package with pam support.
 
-```bash
+```
 $ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
 $ tar zxf duo_unix-latest.tar.gz
 $ cd duo_unix-1.9.18
@@ -29,7 +29,7 @@ Next, I modified the /etc/pam.d/sshd config file:
 
 ![conf]({{site.url}}/images/pam-config.png)
 
-```bash
+```
 auth       required pam_env.so
 auth       sufficient pam_duo.so
 auth       required pam_deny.so
@@ -37,19 +37,19 @@ auth       required pam_deny.so
 
 and changed the value of ChallengeResponseAuthentication in my /etc/ssh/sshd_config file to yes. 
 
-```bash
+```
 ChallengeResponseAuthentication yes
 ```
 
 Finally, I restarted ssdh
 
-```bash
+```console
 $ systemctl restart bash
 ```
 
 Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. 
 
-![conf]({{site.url}}/images/duo-entroll.png)
+![conf]({{site.url}}/images/duo-enroll.png)
 
 I selected the push option and got a notification on my phone almost immediately.
 

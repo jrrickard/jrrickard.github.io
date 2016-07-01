@@ -16,4 +16,4 @@ twitter_username: jrrickard
 github_username: jrrickard 
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet 
