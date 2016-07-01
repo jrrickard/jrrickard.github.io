@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>2FA</title>
-  <meta name="description" content="I’m working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for “SaaS 2FA” and the first response I got ...">
+  <meta name="description" content="I&#39;m working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for &quot;SaaS 2FA&quot; and the first r...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://jrrickard.github.io/2016/07/01/2fa.html">
@@ -62,56 +62,41 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>I’m working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for “SaaS 2FA” and the first response I got was <a href="https://duo.com/">duo security</a>, which happens to be based in my home state of Michigan!</p>
+    <p>I&#39;m working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for &quot;SaaS 2FA&quot; and the first response I got was <a href="https://duo.com/">duo security</a>, which happens to be based in my home state of Michigan!</p>
 
-<p>Taking a look a their website, they have quite a few <a href="https://duo.com/solutions/features/supported-applications">integrations</a>. One of them is PAM support, so I thought I’d check that out. I fired up a CentOS VM and followed their <a href="https://duo.com/docs/duounix">docs</a> and within about 5 minutes I had two-factor auth enabled for my linux VM.</p>
+<p>Taking a look a their website, they have quite a few <a href="https://duo.com/solutions/features/supported-applications">integrations</a>. One of them is PAM support, so I thought I&#39;d check that out. I fired up a CentOS VM and followed their <a href="https://duo.com/docs/duounix">docs</a> and within about 5 minutes I had two-factor auth enabled for my linux VM.</p>
 
 <p>First, I needed to grab some dependencies since I was running CentOS minimal, mainly a C compiler and both the pam-devel and openssl-devl libraries.</p>
-
-<p><code>bash
-$ yum group install "Development Tools"
-$ yum install pam-devel
-$ yum install openssl-devel
-</code></p>
-
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span> yum group install <span class="s2">&quot;Development Tools&quot;</span>
+<span class="gp">$</span> yum install pam-devel
+<span class="gp">$</span> yum install openssl-devel
+</code></pre></div>
 <p>One that was completed, I grabbed the source and built the duo unix package with pam support.</p>
-
-<p><code>bash
-$ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
 $ tar zxf duo_unix-latest.tar.gz
 $ cd duo_unix-1.9.18
 $ ./configure --with-pam --prefix=/usr &amp;&amp; make &amp;&amp; sudo make install
-</code></p>
-
+</code></pre></div>
 <p>Next, I modified the /etc/pam.d/sshd config file:</p>
 
-<p><img src="http://jrrickard.github.io/images/pam-config.png" alt="conf" /></p>
-
-<p><code>bash
-auth       required pam_env.so
+<p><img src="http://jrrickard.github.io/images/pam-config.png" alt="conf"></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">auth       required pam_env.so
 auth       sufficient pam_duo.so
 auth       required pam_deny.so
-</code></p>
-
-<p>and changed the value of ChallengeResponseAuthentication in my /etc/ssh/sshd_config file to yes.</p>
-
-<p><code>bash
-ChallengeResponseAuthentication yes
-</code></p>
-
+</code></pre></div>
+<p>and changed the value of ChallengeResponseAuthentication in my /etc/ssh/sshd_config file to yes. </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ChallengeResponseAuthentication yes
+</code></pre></div>
 <p>Finally, I restarted ssdh</p>
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span> systemctl restart bash
+</code></pre></div>
+<p>Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. </p>
 
-<p><code>bash
-$ systemctl restart bash
-</code></p>
-
-<p>Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number.</p>
-
-<p><img src="http://jrrickard.github.io/images/duo-entroll.png" alt="conf" /></p>
+<p><img src="http://jrrickard.github.io/images/duo-enroll.png" alt="conf"></p>
 
 <p>I selected the push option and got a notification on my phone almost immediately.</p>
 
-<p><img src="http://jrrickard.github.io/images/duo-app-push.png" alt="Desk" /></p>
+<p><img src="http://jrrickard.github.io/images/duo-app-push.png" alt="Desk"></p>
 
 <p>Pretty cool.</p>
 
