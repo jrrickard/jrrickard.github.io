@@ -1,0 +1,58 @@
+---
+layout: post
+title: "2FA"
+date: 2016-07-01T10:47:57-06:00
+---
+
+I'm working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for "SaaS 2FA" and the first response I got was [duo security](https://duo.com/), which happens to be based in my home state of Michigan!
+
+Taking a look a their website, they have quite a few [integrations](https://duo.com/solutions/features/supported-applications). One of them is PAM support, so I thought I'd check that out. I fired up a CentOS VM and followed their [docs](https://duo.com/docs/duounix) and within about 5 minutes I had two-factor auth enabled for my linux VM.
+
+First, I needed to grab some dependencies since I was running CentOS minimal, mainly a C compiler and both the pam-devel and openssl-devl libraries.
+
+```bash
+$ yum group install "Development Tools"
+$ yum install pam-devel
+$ yum install openssl-devel
+```
+
+One that was completed, I grabbed the source and built the duo unix package with pam support.
+
+```bash
+$ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
+$ tar zxf duo_unix-latest.tar.gz
+$ cd duo_unix-1.9.18
+$ ./configure --with-pam --prefix=/usr && make && sudo make install
+```
+
+Next, I modified the /etc/pam.d/sshd config file:
+
+![conf]({{site.url}}/images/pam-config.png)
+
+```bash
+auth       required pam_env.so
+auth       sufficient pam_duo.so
+auth       required pam_deny.so
+```
+
+and changed the value of ChallengeResponseAuthentication in my /etc/ssh/sshd_config file to yes. 
+
+```bash
+ChallengeResponseAuthentication yes
+```
+
+Finally, I restarted ssdh
+
+```bash
+$ systemctl restart bash
+```
+
+Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. 
+
+![conf]({{site.url}}/images/duo-entroll.png)
+
+I selected the push option and got a notification on my phone almost immediately.
+
+![Desk]({{site.url}}/images/duo-app-push.png)
+
+Pretty cool.
