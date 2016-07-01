@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>code to run, run to live</title>
-  <meta name="description" content="A blog about running, software and beverages. Opinions expressed are my own
-">
+  <title>2FA</title>
+  <meta name="description" content="I’m working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for “SaaS 2FA” and the first response I got ...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://jrrickard.github.io/">
+  <link rel="canonical" href="http://jrrickard.github.io/2016/07/01/2fa.html">
   <link rel="alternate" type="application/rss+xml" title="code to run, run to live" href="http://jrrickard.github.io/feed.xml">
 </head>
 
@@ -55,121 +54,70 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">2FA</h1>
+    <p class="post-meta"><time datetime="2016-07-01T10:47:57-06:00" itemprop="datePublished">Jul 1, 2016</time></p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Jul 1, 2016</span>
+  <div class="post-content" itemprop="articleBody">
+    <p>I’m working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for “SaaS 2FA” and the first response I got was <a href="https://duo.com/">duo security</a>, which happens to be based in my home state of Michigan!</p>
 
-        <h2>
-          <a class="post-link" href="/2016/07/01/2fa.html">2FA</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 5, 2016</span>
+<p>Taking a look a their website, they have quite a few <a href="https://duo.com/solutions/features/supported-applications">integrations</a>. One of them is PAM support, so I thought I’d check that out. I fired up a CentOS VM and followed their <a href="https://duo.com/docs/duounix">docs</a> and within about 5 minutes I had two-factor auth enabled for my linux VM.</p>
 
-        <h2>
-          <a class="post-link" href="/2016/06/05/working-remotely.html">Working Remotely</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 14, 2015</span>
+<p>First, I needed to grab some dependencies since I was running CentOS minimal, mainly a C compiler and both the pam-devel and openssl-devl libraries.</p>
 
-        <h2>
-          <a class="post-link" href="/2015/09/14/aws-lambda-and-alexa-skills-kit.html">AWS Lambda and Alexa Skills Kit</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 7, 2015</span>
+<p><code>bash
+$ yum group install "Development Tools"
+$ yum install pam-devel
+$ yum install openssl-devel
+</code></p>
 
-        <h2>
-          <a class="post-link" href="/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html">Headless Selenium Test With Docker Jenkins Slave</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 4, 2015</span>
+<p>One that was completed, I grabbed the source and built the duo unix package with pam support.</p>
 
-        <h2>
-          <a class="post-link" href="/2015/09/04/installing-octopress-3-0.html">Using Octopress 3.0 with Github Pages</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 3, 2015</span>
+<p><code>bash
+$ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
+$ tar zxf duo_unix-latest.tar.gz
+$ cd duo_unix-1.9.18
+$ ./configure --with-pam --prefix=/usr &amp;&amp; make &amp;&amp; sudo make install
+</code></p>
 
-        <h2>
-          <a class="post-link" href="/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html">Creating a Docker Jenkins Slave Running on a VMware Photon VM</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 23, 2015</span>
+<p>Next, I modified the /etc/pam.d/sshd config file:</p>
 
-        <h2>
-          <a class="post-link" href="/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html">Running lattice.cf on VMware AppCatalyst</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 31, 2014</span>
+<p><img src="http://jrrickard.github.io/images/pam-config.png" alt="conf" /></p>
 
-        <h2>
-          <a class="post-link" href="/work/office/cubicle/2014/12/31/standing-desk.html">Standing Desk</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 22, 2014</span>
+<p><code>bash
+auth       required pam_env.so
+auth       sufficient pam_duo.so
+auth       required pam_deny.so
+</code></p>
 
-        <h2>
-          <a class="post-link" href="/vrac,/work/2014/10/22/one-year-later.html">one year later</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Aug 5, 2014</span>
+<p>and changed the value of ChallengeResponseAuthentication in my /etc/ssh/sshd_config file to yes.</p>
 
-        <h2>
-          <a class="post-link" href="/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html">3D Print All The Things</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 30, 2014</span>
+<p><code>bash
+ChallengeResponseAuthentication yes
+</code></p>
 
-        <h2>
-          <a class="post-link" href="/2014/05/30/charts.html">charts</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 25, 2014</span>
+<p>Finally, I restarted ssdh</p>
 
-        <h2>
-          <a class="post-link" href="/d3.js/2014/05/25/maps.html">maps</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 20, 2014</span>
+<p><code>bash
+$ systemctl restart bash
+</code></p>
 
-        <h2>
-          <a class="post-link" href="/2014/05/20/rebooting.html">rebooting</a>
-        </h2>
-      </li>
-    
-  </ul>
+<p>Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number.</p>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<p><img src="http://jrrickard.github.io/images/duo-entroll.png" alt="conf" /></p>
 
-</div>
+<p>I selected the push option and got a notification on my phone almost immediately.</p>
+
+<p><img src="http://jrrickard.github.io/images/duo-app-push.png" alt="Desk" /></p>
+
+<p>Pretty cool.</p>
+
+  </div>
+
+</article>
 
       </div>
     </div>

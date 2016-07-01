@@ -6,9 +6,71 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 06 Jun 2016 13:00:44 -0600</pubDate>
-    <lastBuildDate>Mon, 06 Jun 2016 13:00:44 -0600</lastBuildDate>
+    <pubDate>Fri, 01 Jul 2016 11:38:53 -0600</pubDate>
+    <lastBuildDate>Fri, 01 Jul 2016 11:38:53 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>2FA</title>
+        <description>&lt;p&gt;I’m working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for “SaaS 2FA” and the first response I got was &lt;a href=&quot;https://duo.com/&quot;&gt;duo security&lt;/a&gt;, which happens to be based in my home state of Michigan!&lt;/p&gt;
+
+&lt;p&gt;Taking a look a their website, they have quite a few &lt;a href=&quot;https://duo.com/solutions/features/supported-applications&quot;&gt;integrations&lt;/a&gt;. One of them is PAM support, so I thought I’d check that out. I fired up a CentOS VM and followed their &lt;a href=&quot;https://duo.com/docs/duounix&quot;&gt;docs&lt;/a&gt; and within about 5 minutes I had two-factor auth enabled for my linux VM.&lt;/p&gt;
+
+&lt;p&gt;First, I needed to grab some dependencies since I was running CentOS minimal, mainly a C compiler and both the pam-devel and openssl-devl libraries.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bash
+$ yum group install &quot;Development Tools&quot;
+$ yum install pam-devel
+$ yum install openssl-devel
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;One that was completed, I grabbed the source and built the duo unix package with pam support.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bash
+$ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
+$ tar zxf duo_unix-latest.tar.gz
+$ cd duo_unix-1.9.18
+$ ./configure --with-pam --prefix=/usr &amp;amp;&amp;amp; make &amp;amp;&amp;amp; sudo make install
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Next, I modified the /etc/pam.d/sshd config file:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/pam-config.png&quot; alt=&quot;conf&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bash
+auth       required pam_env.so
+auth       sufficient pam_duo.so
+auth       required pam_deny.so
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;and changed the value of ChallengeResponseAuthentication in my /etc/ssh/sshd_config file to yes.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bash
+ChallengeResponseAuthentication yes
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally, I restarted ssdh&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bash
+$ systemctl restart bash
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-entroll.png&quot; alt=&quot;conf&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I selected the push option and got a notification on my phone almost immediately.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-app-push.png&quot; alt=&quot;Desk&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Pretty cool.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 01 Jul 2016 10:47:57 -0600</pubDate>
+        <link>http://jrrickard.github.io/2016/07/01/2fa.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2016/07/01/2fa.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Working Remotely</title>
@@ -573,25 +635,6 @@ http://lattice-app.192.168.136.133.xip.io
         
         
         <category>3d-printing,nuc,lab</category>
-        
-      </item>
-    
-      <item>
-        <title>charts</title>
-        <description>&lt;p&gt;I’m going to be doing a &lt;a href=&quot;http://d3js.org/&quot;&gt;D3.js&lt;/a&gt; related tech talk at work at the end of July, so I’m building up a set of examples. Three days ago, I saw a &lt;a href=&quot;http://bl.ocks.org/jrrickard/b997968320a7674ce49f&quot;&gt;kickstarter campaign&lt;/a&gt; to “bring back” Reading Rainbow. As of today (9:51 PM MDT…05/30/2014), they’ve almost passed 3 million dollars.&lt;/p&gt;
-
-&lt;p&gt;I was curious where the backers clustered (many small backers? even split?) so I did made a &lt;a href=&quot;http://bl.ocks.org/jrrickard/b997968320a7674ce49f&quot;&gt;quick bar chart&lt;/a&gt; of pledge amount vs backer count using D3.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/bar_chart.png&quot; alt=&quot;a bar chart&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;As an update, I grabbed the data again and made a &lt;a href=&quot;http://bl.ocks.org/jrrickard/7675229d0437594663a6&quot;&gt;Sankey diagram&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/sankey.png&quot; alt=&quot;a sankey diagram&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 30 May 2014 21:45:32 -0600</pubDate>
-        <link>http://jrrickard.github.io/2014/05/30/charts.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/2014/05/30/charts.html</guid>
-        
         
       </item>
     
