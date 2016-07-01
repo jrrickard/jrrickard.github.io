@@ -18,7 +18,7 @@ $ yum install openssl-devel
 
 One that was completed, I grabbed the source and built the duo unix package with pam support.
 
-```
+```console
 $ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
 $ tar zxf duo_unix-latest.tar.gz
 $ cd duo_unix-1.9.18
@@ -47,12 +47,17 @@ Finally, I restarted ssdh
 $ systemctl restart bash
 ```
 
-Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. 
+Once I tried to login via SSH, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. 
 
-![conf]({{site.url}}/images/duo-enroll.png)
+![enroll]({{site.url}}/images/duo-enroll.png)
+
+
+I opened a new SSH session and got the 2FA promptes.
+
+![login]({{site.url}}/images/duo-login.png)
 
 I selected the push option and got a notification on my phone almost immediately.
 
-![Desk]({{site.url}}/images/duo-app-push.png)
+![push notification]({{site.url}}/images/duo-app-push.png)
 
 Pretty cool.
