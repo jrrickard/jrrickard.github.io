@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 01 Jul 2016 11:42:25 -0600</pubDate>
-    <lastBuildDate>Fri, 01 Jul 2016 11:42:25 -0600</lastBuildDate>
+    <pubDate>Fri, 01 Jul 2016 11:48:25 -0600</pubDate>
+    <lastBuildDate>Fri, 01 Jul 2016 11:48:25 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -22,10 +22,10 @@
 &lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; yum install openssl-devel
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;One that was completed, I grabbed the source and built the duo unix package with pam support.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
-$ tar zxf duo_unix-latest.tar.gz
-$ cd duo_unix-1.9.18
-$ ./configure --with-pam --prefix=/usr &amp;amp;&amp;amp; make &amp;amp;&amp;amp; sudo make install
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; tar zxf duo_unix-latest.tar.gz
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;duo_unix-1.9.18
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; ./configure --with-pam --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo make install
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Next, I modified the /etc/pam.d/sshd config file:&lt;/p&gt;
 
@@ -40,13 +40,17 @@ auth       required pam_deny.so
 &lt;p&gt;Finally, I restarted ssdh&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; systemctl restart bash
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. &lt;/p&gt;
+&lt;p&gt;Once I tried to login via SSH, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-enroll.png&quot; alt=&quot;conf&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-enroll.png&quot; alt=&quot;enroll&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;I opened a new SSH session and got the 2FA promptes.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-login.png&quot; alt=&quot;login&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;I selected the push option and got a notification on my phone almost immediately.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-app-push.png&quot; alt=&quot;Desk&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-app-push.png&quot; alt=&quot;push notification&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;Pretty cool.&lt;/p&gt;
 </description>

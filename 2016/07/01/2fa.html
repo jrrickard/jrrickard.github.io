@@ -72,10 +72,10 @@
 <span class="gp">$</span> yum install openssl-devel
 </code></pre></div>
 <p>One that was completed, I grabbed the source and built the duo unix package with pam support.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
-$ tar zxf duo_unix-latest.tar.gz
-$ cd duo_unix-1.9.18
-$ ./configure --with-pam --prefix=/usr &amp;&amp; make &amp;&amp; sudo make install
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span> wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
+<span class="gp">$</span> tar zxf duo_unix-latest.tar.gz
+<span class="gp">$</span> <span class="nb">cd </span>duo_unix-1.9.18
+<span class="gp">$</span> ./configure --with-pam --prefix<span class="o">=</span>/usr <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> sudo make install
 </code></pre></div>
 <p>Next, I modified the /etc/pam.d/sshd config file:</p>
 
@@ -90,13 +90,17 @@ auth       required pam_deny.so
 <p>Finally, I restarted ssdh</p>
 <div class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span> systemctl restart bash
 </code></pre></div>
-<p>Once I tried to login, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. </p>
+<p>Once I tried to login via SSH, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. </p>
 
-<p><img src="http://jrrickard.github.io/images/duo-enroll.png" alt="conf"></p>
+<p><img src="http://jrrickard.github.io/images/duo-enroll.png" alt="enroll"></p>
+
+<p>I opened a new SSH session and got the 2FA promptes.</p>
+
+<p><img src="http://jrrickard.github.io/images/duo-login.png" alt="login"></p>
 
 <p>I selected the push option and got a notification on my phone almost immediately.</p>
 
-<p><img src="http://jrrickard.github.io/images/duo-app-push.png" alt="Desk"></p>
+<p><img src="http://jrrickard.github.io/images/duo-app-push.png" alt="push notification"></p>
 
 <p>Pretty cool.</p>
 
