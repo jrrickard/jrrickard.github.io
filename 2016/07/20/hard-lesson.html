@@ -98,6 +98,8 @@
 </code></pre></div>
 <p>In this case, you&#39;d want to replace the instances attribute with the number of agents in your cluster. The hostname : UNIQUE constraint should force this to run on each of the agents.</p>
 
+<p>This probably isn&#39;t the greatest use of Marathon, as it will run this task over and over again. Once it is run, you probably want to delete the app from Marathon to prevent this. A better alternative might be to use <a href="https://mesos.github.io/chronos/">Chronos</a> or <a href="https://github.com/klarna/eremetic">Eremetic</a> </p>
+
   </div>
 
 </article>

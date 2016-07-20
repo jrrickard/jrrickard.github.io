@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 20 Jul 2016 11:09:04 -0600</pubDate>
-    <lastBuildDate>Wed, 20 Jul 2016 11:09:04 -0600</lastBuildDate>
+    <pubDate>Wed, 20 Jul 2016 11:19:16 -0600</pubDate>
+    <lastBuildDate>Wed, 20 Jul 2016 11:19:16 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -47,6 +47,8 @@
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;In this case, you&amp;#39;d want to replace the instances attribute with the number of agents in your cluster. The hostname : UNIQUE constraint should force this to run on each of the agents.&lt;/p&gt;
+
+&lt;p&gt;This probably isn&amp;#39;t the greatest use of Marathon, as it will run this task over and over again. Once it is run, you probably want to delete the app from Marathon to prevent this. A better alternative might be to use &lt;a href=&quot;https://mesos.github.io/chronos/&quot;&gt;Chronos&lt;/a&gt; or &lt;a href=&quot;https://github.com/klarna/eremetic&quot;&gt;Eremetic&lt;/a&gt; &lt;/p&gt;
 </description>
         <pubDate>Wed, 20 Jul 2016 10:42:45 -0600</pubDate>
         <link>http://jrrickard.github.io/2016/07/20/hard-lesson.html</link>
