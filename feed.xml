@@ -6,9 +6,54 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 01 Jul 2016 12:34:01 -0600</pubDate>
-    <lastBuildDate>Fri, 01 Jul 2016 12:34:01 -0600</lastBuildDate>
+    <pubDate>Wed, 20 Jul 2016 11:09:04 -0600</pubDate>
+    <lastBuildDate>Wed, 20 Jul 2016 11:09:04 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Painful Lesson</title>
+        <description>&lt;p&gt;We are using &lt;a href=&quot;http://mesos.apache.org/&quot;&gt;Mesos&lt;/a&gt; and &lt;a href=&quot;https://mesosphere.github.io/marathon/&quot;&gt;Marathon&lt;/a&gt; to run our Dockerized system. In the matter of two days, I learned a painful lesson. Namely, the following is a terrible, terrible practice:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;  &lt;span class=&quot;s2&quot;&gt;&amp;quot;container&amp;quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;docker&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;quot;image&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;repo/image-name:latest&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;quot;forcePullImage&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;quot;network&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;BRIDGE&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;quot;portMappings&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;&amp;quot;containerPort&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;&amp;quot;hostPort&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Using forcePullImage : true and the latest tag on the image goes really badly when you implement CD and push images with breaking changes to your repository. In our current deployment scenario, we run a cluster of three containers. The implication with forcePullImage : true is that anytime the container is restarted, it will pull the latest of whatever image is specified and start with that. That is GREAT for testing out new changes when you manually initiate a restart across the cluster. That is TERRIBLE when one of the containers dies and restarts with the new image, leading to an inconsistent cluster. This of course happened overnight in our staging environment!&lt;/p&gt;
+
+&lt;p&gt;We&amp;#39;re now pushing images that make it through our image promotion process with specific tags and we are not using the forcePullImage setting. This poses an issue: what if we DO want to have it pull the image? Really, the solution here is another tag. If there is a problem with the image, it should be replaced with a new verison. &lt;/p&gt;
+
+&lt;p&gt;If you DO need to force an image pull, you can change the Marathon configuration to specify that, causing a restart (after the pull). You&amp;#39;d likely want to then change it again to change it back, but this would also result in a restart. Another option might be to run a non-container task and execute &amp;#39;docker pull&amp;#39; on each of the Agents (slaves in old Mesos terminology). That might look something like:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
+  &amp;quot;id&amp;quot;: &amp;quot;test-pull&amp;quot;,
+  &amp;quot;instances&amp;quot;: 3,
+  &amp;quot;mem&amp;quot;: 128.0,
+  &amp;quot;cpus&amp;quot;: 1,
+  &amp;quot;cmd&amp;quot;: &amp;quot;sudo docker pull %%IMAGE_NAME%%&amp;quot;,
+  &amp;quot;constraints&amp;quot;: [
+    [
+      &amp;quot;hostname&amp;quot;,
+      &amp;quot;UNIQUE&amp;quot;
+    ]
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In this case, you&amp;#39;d want to replace the instances attribute with the number of agents in your cluster. The hostname : UNIQUE constraint should force this to run on each of the agents.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 20 Jul 2016 10:42:45 -0600</pubDate>
+        <link>http://jrrickard.github.io/2016/07/20/hard-lesson.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2016/07/20/hard-lesson.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>2FA</title>
@@ -520,45 +565,6 @@ http://lattice-app.192.168.136.133.xip.io
         <category>vrac,</category>
         
         <category>work</category>
-        
-      </item>
-    
-      <item>
-        <title>3D Print All The Things</title>
-        <description>&lt;p&gt;When Josh and I got accepted to our &lt;a href=&quot;http://cto.vmware.com/radio-a-different-kind-of-high-performance/&quot;&gt;Internal R&amp;amp;D Conference&lt;/a&gt;, I bought two &lt;a href=&quot;http://www.intel.com/content/www/us/en/nuc/nuc-kit-d54250wyk.html&quot;&gt;Intel NUC&lt;/a&gt; boxes to run ESX and a few VMs on. After RADIO was over, I kept them on my desk at work and they turned out to be super useful for the project we&amp;#39;re working on right now. So useful that we ended up supplementing them with a small NAS and two more NUC boxes. Now we have a little mini lab sitting on my desk with 64 GB of RAM, 4 4th generation Intel® Core™ i5-4250U processors, a terabyte of Solid State Storage and 4 Terabytes of spinning disks. Pretty impressive for the size and energy footprint. The processors are obviously the short pole in the tent, but it&amp;#39;s been working very well for a little test enviroment running the vCenter Appliance, the new Log Insight (which is totally awesome), a few instances of our project and a couple of random Ubuntu Virtual machines. &lt;/p&gt;
-
-&lt;p&gt;The only problem is that now I had four NUCs and a NAS just sitting on my desk. The NUC boxes have little rubber feet and sit on each other well but we thought we could do better. And we had a 3D printer in the office.&lt;/p&gt;
-
-&lt;p&gt;So we designed a rack for the NUCs!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/nuc_rack.jpg&quot; alt=&quot;nuc rack&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;An earlier incarnation of the rack next to the Synology NAS. &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/desklab.jpeg&quot; alt=&quot;desk lab&quot;&gt;
-&amp;lt;!--more--&amp;gt;&lt;/p&gt;
-
-&lt;p&gt;The rack is six pieces: four identical legs and two identical base plates (top and bottom). Once assembled, you get a nice little rack that holds 4 NUC boxes and also provides a little more airflow. &lt;/p&gt;
-
-&lt;p&gt;I placed the STL files for both parts in a &lt;a href=&quot;https://github.com/jrrickard/NUC-RACK&quot;&gt;github repository&lt;/a&gt;. The cool part of this is that last year, github added the ability to &lt;a href=&quot;https://github.com/blog/1465-stl-file-viewing&quot;&gt;view STL files&lt;/a&gt; using a combination of Three.js and WebGL, so you can preview the pieces directly from the github repo.&lt;/p&gt;
-
-&lt;p&gt;Here are a couple of screen shots from my browser:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/github-stl-rack-legs.png&quot; alt=&quot;stl file for rack legs&quot;&gt;
-&lt;img src=&quot;http://jrrickard.github.io/images/github-baseplate-stl.png&quot; alt=&quot;stl file for the baseplate&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;If you&amp;#39;d like to make a version of this, grab the STL files and adjust the leg pieces for the number of NUCs you have. This supports four and was about the maximum we could print on our printer. Once you print the pieces, the legs pop into the slots on the base plates. Each leg has small platforms that the rubber feet on the NUC will rest on. You could even take these pieces and make them a little bigger with your favorite CAD program (we used &lt;a href=&quot;http://www.tinkercad.com&quot;&gt;Tinkercad&lt;/a&gt; to make these) and use them to hold something with a similar form factor, like a Mac Mini. &lt;/p&gt;
-
-&lt;p&gt;For comparison, here is a piece on a 7.5-inch by 4.75-inch &lt;a href=&quot;http://fieldnotesbrand.com/&quot;&gt;Field Notes&lt;/a&gt; Arts &amp;amp; Science notebook. &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/rack_piece.jpg&quot; alt=&quot;a printed rack piece&quot;&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 05 Aug 2014 18:45:28 -0600</pubDate>
-        <link>http://jrrickard.github.io/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html</guid>
-        
-        
-        <category>3d-printing,nuc,lab</category>
         
       </item>
     

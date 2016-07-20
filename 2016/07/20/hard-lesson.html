@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>code to run, run to live</title>
-  <meta name="description" content="A blog about running, software and beverages. Opinions expressed are my own
-">
+  <title>Painful Lesson</title>
+  <meta name="description" content="We are using Mesos and Marathon to run our Dockerized system. In the matter of two days, I learned a painful lesson. Namely, the following is a terrible, ter...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://jrrickard.github.io/">
+  <link rel="canonical" href="http://jrrickard.github.io/2016/07/20/hard-lesson.html">
   <link rel="alternate" type="application/rss+xml" title="code to run, run to live" href="http://jrrickard.github.io/feed.xml">
 </head>
 
@@ -55,129 +54,53 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Painful Lesson</h1>
+    <p class="post-meta"><time datetime="2016-07-20T10:42:45-06:00" itemprop="datePublished">Jul 20, 2016</time></p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Jul 20, 2016</span>
+  <div class="post-content" itemprop="articleBody">
+    <p>We are using <a href="http://mesos.apache.org/">Mesos</a> and <a href="https://mesosphere.github.io/marathon/">Marathon</a> to run our Dockerized system. In the matter of two days, I learned a painful lesson. Namely, the following is a terrible, terrible practice:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">  <span class="s2">&quot;container&quot;</span><span class="err">:</span> <span class="p">{</span>
+    <span class="nt">&quot;docker&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;repo/image-name:latest&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;forcePullImage&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;network&quot;</span><span class="p">:</span> <span class="s2">&quot;BRIDGE&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">8000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>Using forcePullImage : true and the latest tag on the image goes really badly when you implement CD and push images with breaking changes to your repository. In our current deployment scenario, we run a cluster of three containers. The implication with forcePullImage : true is that anytime the container is restarted, it will pull the latest of whatever image is specified and start with that. That is GREAT for testing out new changes when you manually initiate a restart across the cluster. That is TERRIBLE when one of the containers dies and restarts with the new image, leading to an inconsistent cluster. This of course happened overnight in our staging environment!</p>
 
-        <h2>
-          <a class="post-link" href="/2016/07/20/hard-lesson.html">Painful Lesson</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jul 1, 2016</span>
+<p>We&#39;re now pushing images that make it through our image promotion process with specific tags and we are not using the forcePullImage setting. This poses an issue: what if we DO want to have it pull the image? Really, the solution here is another tag. If there is a problem with the image, it should be replaced with a new verison. </p>
 
-        <h2>
-          <a class="post-link" href="/2016/07/01/2fa.html">2FA</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 5, 2016</span>
+<p>If you DO need to force an image pull, you can change the Marathon configuration to specify that, causing a restart (after the pull). You&#39;d likely want to then change it again to change it back, but this would also result in a restart. Another option might be to run a non-container task and execute &#39;docker pull&#39; on each of the Agents (slaves in old Mesos terminology). That might look something like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+  &quot;id&quot;: &quot;test-pull&quot;,
+  &quot;instances&quot;: 3,
+  &quot;mem&quot;: 128.0,
+  &quot;cpus&quot;: 1,
+  &quot;cmd&quot;: &quot;sudo docker pull %%IMAGE_NAME%%&quot;,
+  &quot;constraints&quot;: [
+    [
+      &quot;hostname&quot;,
+      &quot;UNIQUE&quot;
+    ]
+  ]
+}
+</code></pre></div>
+<p>In this case, you&#39;d want to replace the instances attribute with the number of agents in your cluster. The hostname : UNIQUE constraint should force this to run on each of the agents.</p>
 
-        <h2>
-          <a class="post-link" href="/2016/06/05/working-remotely.html">Working Remotely</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 14, 2015</span>
+  </div>
 
-        <h2>
-          <a class="post-link" href="/2015/09/14/aws-lambda-and-alexa-skills-kit.html">AWS Lambda and Alexa Skills Kit</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 7, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html">Headless Selenium Test With Docker Jenkins Slave</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 4, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/09/04/installing-octopress-3-0.html">Using Octopress 3.0 with Github Pages</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 3, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html">Creating a Docker Jenkins Slave Running on a VMware Photon VM</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 23, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html">Running lattice.cf on VMware AppCatalyst</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 31, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/work/office/cubicle/2014/12/31/standing-desk.html">Standing Desk</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 22, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/vrac,/work/2014/10/22/one-year-later.html">one year later</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Aug 5, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html">3D Print All The Things</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 30, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/2014/05/30/charts.html">charts</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 25, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/d3.js/2014/05/25/maps.html">maps</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 20, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/2014/05/20/rebooting.html">rebooting</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
-</div>
+</article>
 
       </div>
     </div>
