@@ -10,7 +10,7 @@ I could keep the cluster running as is, but I've decided to reinstall it using D
 
 I currently have the hardware setup in the basement, using some old entertainment centers to hold everything. 
 
-![lab]({{site.url}}/images/basement_lab.jpeg)
+![lab]({{site.url}}/images/basement_lab.png)
 
 In the next post, I'll cover setting up my NAS and Router to provide a PXE boot environment. Then, I'll cover getting CoreOS running on the hosts, followed by getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I'll probably buy another NUC or two over the coming weeks and add them as Mesos agents. 
 
