@@ -6,9 +6,28 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 20 Jul 2016 11:19:16 -0600</pubDate>
-    <lastBuildDate>Wed, 20 Jul 2016 11:19:16 -0600</lastBuildDate>
+    <pubDate>Sat, 23 Jul 2016 21:29:38 -0600</pubDate>
+    <lastBuildDate>Sat, 23 Jul 2016 21:29:38 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Setting Up Local DC/OS Lab - Part One</title>
+        <description>&lt;p&gt;In my new role, I&amp;#39;m working pretty extensively with Marathon and Mesos. Prior to moving to my home office, I setup a Marathon and Mesos cluster using my &lt;a href=&quot;/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html&quot;&gt;Link text&lt;/a&gt; lab. That lab was still in the office taking up (limited) space on someone&amp;#39;s desk so I&amp;#39;ve still been using it, but the network connectivity between my hosue and the office meant that I had noticable delay when transfering Docker images to the docker registry running on the lab. On Friday, I decided to bring it home and set it up in my basement. &lt;/p&gt;
+
+&lt;p&gt;I could keep the cluster running as is, but I&amp;#39;ve decided to reinstall it using DC/OS instead of simply installing Marathon and Mesos again. I&amp;#39;ve also decided to recreate the storage volume on the NAS, as it still contained things from my previous role that I no longer needed. This will be a totally clean rebuild of the lab then! I&amp;#39;ll need to setup the NAS again, along with the hosts, followed by the DC/OS setup. I&amp;#39;ll also need to run a docker registry to support what I am doing. I&amp;#39;ll use the NAS to provide storage for the docker registry and mostly use the host storage for the Mesos agents, although I&amp;#39;ll also do some research for persistent volumes from Mesos and will use it. It&amp;#39;s got around 2 TB of storage if I set it up with RAID1. I plan on running &lt;a href=&quot;https://coreos.com/&quot;&gt;CoreOS&lt;/a&gt; on the hosts, so I&amp;#39;ll setup a PXE boot server using my NAS, since Synology supports that pretty well.  &lt;/p&gt;
+
+&lt;p&gt;I currently have the hardware setup in the basement, using some old entertainment centers to hold everything. &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/basement_lab.jpeg&quot; alt=&quot;lab&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;In the next post, I&amp;#39;ll cover setting up my NAS and Router to provide a PXE boot environment. Then, I&amp;#39;ll cover getting CoreOS running on the hosts, followed by getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I&amp;#39;ll probably buy another NUC or two over the coming weeks and add them as Mesos agents. &lt;/p&gt;
+</description>
+        <pubDate>Sat, 23 Jul 2016 20:22:26 -0600</pubDate>
+        <link>http://jrrickard.github.io/2016/07/23/setting-up-local-dc-os-lab.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2016/07/23/setting-up-local-dc-os-lab.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Painful Lesson</title>
@@ -535,38 +554,6 @@ http://lattice-app.192.168.136.133.xip.io
         <category>office</category>
         
         <category>cubicle</category>
-        
-      </item>
-    
-      <item>
-        <title>one year later</title>
-        <description>&lt;p&gt;Next Tuesday will mark my one year anniversary with VMware and I still love it as much as I did the first day. &lt;/p&gt;
-
-&lt;p&gt;Some of the things I&amp;#39;ve done:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Went to RADIO&lt;/li&gt;
-&lt;li&gt;Got to see the amazing Palo Alto campus&lt;/li&gt;
-&lt;li&gt;Wrote a whole bunch of ExtJS code and submitted some ExtJS bugs&lt;/li&gt;
-&lt;li&gt;Wrote a bunch more Java&lt;/li&gt;
-&lt;li&gt;Wrote some python!&lt;/li&gt;
-&lt;li&gt;Gave a company wide (well, via WebEx) presentation on D3.js&lt;/li&gt;
-&lt;li&gt;Worked on vCOps a little&lt;/li&gt;
-&lt;li&gt;Build and managed a lab for the team with tiny Intel NUC boxes that gets a suprising amount of use (customer demos!)&lt;/li&gt;
-&lt;li&gt;Volunteered with a bunch of people from the office on a Waldo Canyon Burn Scar restoration project&lt;/li&gt;
-&lt;li&gt;And last, but not least, helped develop a &lt;a href=&quot;https://www.youtube.com/watch?v=-Au0eec2hkU&quot;&gt;brand new Software-as-a-Service offering&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I&amp;#39;m excited to see what the next year holds. It doesn&amp;#39;t feel like a year, so I was pretty surprised when I got an email from the &lt;a href=&quot;http://www.vmware.com/company/foundation&quot;&gt;VMware Foundation&lt;/a&gt; congratulating me and giving me my one year of service charitable giving gift!  &lt;/p&gt;
-</description>
-        <pubDate>Wed, 22 Oct 2014 20:12:04 -0600</pubDate>
-        <link>http://jrrickard.github.io/vrac,/work/2014/10/22/one-year-later.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/vrac,/work/2014/10/22/one-year-later.html</guid>
-        
-        
-        <category>vrac,</category>
-        
-        <category>work</category>
         
       </item>
     

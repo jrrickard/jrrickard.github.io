@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>code to run, run to live</title>
-  <meta name="description" content="A blog about running, software and beverages. Opinions expressed are my own
-">
+  <title>Setting Up Local DC/OS Lab - Part One</title>
+  <meta name="description" content="In my new role, I&#39;m working pretty extensively with Marathon and Mesos. Prior to moving to my home office, I setup a Marathon and Mesos cluster using my ...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://jrrickard.github.io/">
+  <link rel="canonical" href="http://jrrickard.github.io/2016/07/23/setting-up-local-dc-os-lab.html">
   <link rel="alternate" type="application/rss+xml" title="code to run, run to live" href="http://jrrickard.github.io/feed.xml">
 </head>
 
@@ -55,137 +54,27 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Setting Up Local DC/OS Lab - Part One</h1>
+    <p class="post-meta"><time datetime="2016-07-23T20:22:26-06:00" itemprop="datePublished">Jul 23, 2016</time></p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Jul 23, 2016</span>
+  <div class="post-content" itemprop="articleBody">
+    <p>In my new role, I&#39;m working pretty extensively with Marathon and Mesos. Prior to moving to my home office, I setup a Marathon and Mesos cluster using my <a href="/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html">Link text</a> lab. That lab was still in the office taking up (limited) space on someone&#39;s desk so I&#39;ve still been using it, but the network connectivity between my hosue and the office meant that I had noticable delay when transfering Docker images to the docker registry running on the lab. On Friday, I decided to bring it home and set it up in my basement. </p>
 
-        <h2>
-          <a class="post-link" href="/2016/07/23/setting-up-local-dc-os-lab.html">Setting Up Local DC/OS Lab - Part One</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jul 20, 2016</span>
+<p>I could keep the cluster running as is, but I&#39;ve decided to reinstall it using DC/OS instead of simply installing Marathon and Mesos again. I&#39;ve also decided to recreate the storage volume on the NAS, as it still contained things from my previous role that I no longer needed. This will be a totally clean rebuild of the lab then! I&#39;ll need to setup the NAS again, along with the hosts, followed by the DC/OS setup. I&#39;ll also need to run a docker registry to support what I am doing. I&#39;ll use the NAS to provide storage for the docker registry and mostly use the host storage for the Mesos agents, although I&#39;ll also do some research for persistent volumes from Mesos and will use it. It&#39;s got around 2 TB of storage if I set it up with RAID1. I plan on running <a href="https://coreos.com/">CoreOS</a> on the hosts, so I&#39;ll setup a PXE boot server using my NAS, since Synology supports that pretty well.  </p>
 
-        <h2>
-          <a class="post-link" href="/2016/07/20/hard-lesson.html">Painful Lesson</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jul 1, 2016</span>
+<p>I currently have the hardware setup in the basement, using some old entertainment centers to hold everything. </p>
 
-        <h2>
-          <a class="post-link" href="/2016/07/01/2fa.html">2FA</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 5, 2016</span>
+<p><img src="http://jrrickard.github.io/images/basement_lab.jpeg" alt="lab"></p>
 
-        <h2>
-          <a class="post-link" href="/2016/06/05/working-remotely.html">Working Remotely</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 14, 2015</span>
+<p>In the next post, I&#39;ll cover setting up my NAS and Router to provide a PXE boot environment. Then, I&#39;ll cover getting CoreOS running on the hosts, followed by getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I&#39;ll probably buy another NUC or two over the coming weeks and add them as Mesos agents. </p>
 
-        <h2>
-          <a class="post-link" href="/2015/09/14/aws-lambda-and-alexa-skills-kit.html">AWS Lambda and Alexa Skills Kit</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 7, 2015</span>
+  </div>
 
-        <h2>
-          <a class="post-link" href="/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html">Headless Selenium Test With Docker Jenkins Slave</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 4, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/09/04/installing-octopress-3-0.html">Using Octopress 3.0 with Github Pages</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 3, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html">Creating a Docker Jenkins Slave Running on a VMware Photon VM</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 23, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/06/23/running-lattice-cf-on-vmware-appcatalyst.html">Running lattice.cf on VMware AppCatalyst</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 31, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/work/office/cubicle/2014/12/31/standing-desk.html">Standing Desk</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 22, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/vrac,/work/2014/10/22/one-year-later.html">one year later</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Aug 5, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/3d-printing,nuc,lab/2014/08/05/3d-print-all-the-things.html">3D Print All The Things</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 30, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/2014/05/30/charts.html">charts</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 25, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/d3.js/2014/05/25/maps.html">maps</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 20, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/2014/05/20/rebooting.html">rebooting</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
-</div>
+</article>
 
       </div>
     </div>
