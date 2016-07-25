@@ -66,13 +66,17 @@
 
 <p>I could keep the cluster running as is, but I&#39;ve decided to reinstall it using DC/OS instead of simply installing Marathon and Mesos again. I&#39;ve also decided to recreate the storage volume on the NAS, as it still contained things from my previous role that I no longer needed. This will be a totally clean rebuild of the lab then! I&#39;ll need to setup the NAS again, along with the hosts, followed by the DC/OS setup. I&#39;ll also need to run a docker registry to support what I am doing. I&#39;ll use the NAS to provide storage for the docker registry and mostly use the host storage for the Mesos agents, although I&#39;ll also do some research for persistent volumes from Mesos and will use it. It&#39;s got around 2 TB of storage if I set it up with RAID1. </p>
 
-<p>My plan is to run <a href="https://coreos.com/">CoreOS</a> on the hosts, so  I&#39;ll setup a PXE boot server using my NAS, since Synology supports that pretty well. In the short term, I&#39;ll use <a href="https://www.centos.org/">CentOS</a> if I&#39;m unable to get CoreOS working propertly, because that will be a mirror of what we&#39;re using in production at the moment.   </p>
+<p>My original plan was to run <a href="https://coreos.com/">CoreOS</a> on the hosts, but I don&#39;t think that really fits with my needs right now (i.e. I don&#39;t need etcd or other features of CoreOS right now), so  I&#39;ll revisit that later. </p>
+
+<p><img src="http://jrrickard.github.io/images/pxeboot.png" alt="pxeboot"></p>
+
+<p>I was able to setup a PXE boot server using my NAS, since Synology supports that pretty well. In the short term, I&#39;ll use <a href="http://www.ubuntu.com/">Ubuntu</a> since I know that I can install that on the NUCs without much troubleshooting. Later I&#39;ll maybe move to <a href="https://www.centos.org/">CentOS</a>, because that will be a mirror of what we&#39;re using in production at the moment. I previously had to make some BIOS changes to get Ubuntu running on the NUCs, so I&#39;m guessing I&#39;ll need to do something similar for CentOS.    </p>
 
 <p>I currently have the hardware setup in the basement, using some old entertainment centers to hold everything. </p>
 
 <p><img src="http://jrrickard.github.io/images/basement_lab.png" alt="lab"></p>
 
-<p>In the next post, I&#39;ll cover getting PXE boot running from my Synology, along with getting CoreOS running on the hosts. After that, I;ll follow up with getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I&#39;ll probably buy another NUC or two over the coming weeks and add them as Mesos agents. </p>
+<p>In the next blog, I&#39;ll cover getting Ubuntu running on the hosts. After that, I&#39;ll follow up with getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I&#39;ll probably buy another NUC or two over the coming weeks and add them as Mesos agents. </p>
 
   </div>
 
