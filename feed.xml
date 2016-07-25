@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 25 Jul 2016 09:02:45 -0600</pubDate>
-    <lastBuildDate>Mon, 25 Jul 2016 09:02:45 -0600</lastBuildDate>
+    <pubDate>Mon, 25 Jul 2016 09:53:04 -0600</pubDate>
+    <lastBuildDate>Mon, 25 Jul 2016 09:53:04 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -16,13 +16,13 @@
 
 &lt;p&gt;I could keep the cluster running as is, but I&amp;#39;ve decided to reinstall it using DC/OS instead of simply installing Marathon and Mesos again. I&amp;#39;ve also decided to recreate the storage volume on the NAS, as it still contained things from my previous role that I no longer needed. This will be a totally clean rebuild of the lab then! I&amp;#39;ll need to setup the NAS again, along with the hosts, followed by the DC/OS setup. I&amp;#39;ll also need to run a docker registry to support what I am doing. I&amp;#39;ll use the NAS to provide storage for the docker registry and mostly use the host storage for the Mesos agents, although I&amp;#39;ll also do some research for persistent volumes from Mesos and will use it. It&amp;#39;s got around 2 TB of storage if I set it up with RAID1. &lt;/p&gt;
 
-&lt;p&gt;My original plan was to run &lt;a href=&quot;https://coreos.com/&quot;&gt;CoreOS&lt;/a&gt; on the hosts, so at some point I&amp;#39;ll setup a PXE boot server using my NAS, since Synology supports that pretty well. In the short term, I&amp;#39;ll use &lt;a href=&quot;https://www.centos.org/&quot;&gt;CentOS&lt;/a&gt; because that will be a mirror of what we&amp;#39;re using in production at the moment.   &lt;/p&gt;
+&lt;p&gt;My plan is to run &lt;a href=&quot;https://coreos.com/&quot;&gt;CoreOS&lt;/a&gt; on the hosts, so  I&amp;#39;ll setup a PXE boot server using my NAS, since Synology supports that pretty well. In the short term, I&amp;#39;ll use &lt;a href=&quot;https://www.centos.org/&quot;&gt;CentOS&lt;/a&gt; if I&amp;#39;m unable to get CoreOS working propertly, because that will be a mirror of what we&amp;#39;re using in production at the moment.   &lt;/p&gt;
 
 &lt;p&gt;I currently have the hardware setup in the basement, using some old entertainment centers to hold everything. &lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/basement_lab.png&quot; alt=&quot;lab&quot;&gt;&lt;/p&gt;
 
-&lt;p&gt;In the next post, I&amp;#39;ll cover getting CentOS running on the hosts, followed by getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I&amp;#39;ll probably buy another NUC or two over the coming weeks and add them as Mesos agents. &lt;/p&gt;
+&lt;p&gt;In the next post, I&amp;#39;ll cover getting PXE boot running from my Synology, along with getting CoreOS running on the hosts. After that, I;ll follow up with getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I&amp;#39;ll probably buy another NUC or two over the coming weeks and add them as Mesos agents. &lt;/p&gt;
 </description>
         <pubDate>Sat, 23 Jul 2016 20:22:26 -0600</pubDate>
         <link>http://jrrickard.github.io/2016/07/23/setting-up-local-dc-os-lab.html</link>
