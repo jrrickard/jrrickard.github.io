@@ -12,11 +12,11 @@ My original plan was to run [CoreOS](https://coreos.com/) on the hosts, but I do
 
 ![pxeboot]({{site.url}}/images/pxeboot.png)
 
-I was able to setup a PXE boot server using my NAS, since Synology supports that pretty well. In the short term, I'll use [Ubuntu](http://www.ubuntu.com/) since I know that I can install that on the NUCs without much troubleshooting. Later I'll maybe move to [CentOS](https://www.centos.org/), because that will be a mirror of what we're using in production at the moment. I previously had to make some BIOS changes to get Ubuntu running on the NUCs, so I'm guessing I'll need to do something similar for CentOS.    
+I was able to setup a PXE boot server using my NAS, since Synology supports that pretty well. In the short term, I thought I would  use [Ubuntu](http://www.ubuntu.com/) since I know that I can install that on the NUCs without much troubleshooting. However, Ubuntu is currently not supported by the DC/OS installation scripts, so I'll use [CentOS](https://www.centos.org/). This will be a mirror of what we're using in production at the moment. I previously had to make some BIOS changes to get Ubuntu running on the NUCs, so I'm guessing I'll need to do something similar for CentOS.    
 
 I currently have the hardware setup in the basement, using some old entertainment centers to hold everything. 
 
 ![lab]({{site.url}}/images/basement_lab.png)
 
-In the next blog, I'll cover getting Ubuntu running on the hosts. After that, I'll follow up with getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I'll probably buy another NUC or two over the coming weeks and add them as Mesos agents. 
+In the next blog, I'll cover getting CentOS running on the hosts. After that, I'll follow up with getting DC/OS running. I currently have the bare minimum for running DC/OS, so I think I'll probably buy another NUC or two over the coming weeks and add them as Mesos agents. 
 
