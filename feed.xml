@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 10 Aug 2016 15:46:53 -0600</pubDate>
-    <lastBuildDate>Wed, 10 Aug 2016 15:46:53 -0600</lastBuildDate>
+    <pubDate>Wed, 10 Aug 2016 15:47:28 -0600</pubDate>
+    <lastBuildDate>Wed, 10 Aug 2016 15:47:28 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -105,9 +105,8 @@ $bash dcos_generate_config.sh --web
 &lt;h1&gt;DCOS Uninstall&lt;/h1&gt;
 
 &lt;p&gt;If you&amp;#39;re like me, and something goes wrong and you want to start over, you first need to uninstall DC/OS. This is done by:&lt;/p&gt;
-
-&lt;p&gt;bash dcos&lt;em&gt;generate&lt;/em&gt;config.sh --uninstall&lt;/p&gt;
-</description>
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ bash dcos_generate_config.sh --uninstall
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         <pubDate>Wed, 27 Jul 2016 11:38:37 -0600</pubDate>
         <link>http://jrrickard.github.io/2016/07/27/installing-centos-and-dc-os.html</link>
         <guid isPermaLink="true">http://jrrickard.github.io/2016/07/27/installing-centos-and-dc-os.html</guid>
