@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 10 Aug 2016 15:45:02 -0600</pubDate>
-    <lastBuildDate>Wed, 10 Aug 2016 15:45:02 -0600</lastBuildDate>
+    <pubDate>Wed, 10 Aug 2016 15:46:53 -0600</pubDate>
+    <lastBuildDate>Wed, 10 Aug 2016 15:46:53 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -37,15 +37,13 @@
 
 &lt;h2&gt;Python, Pip, Virtualenv&lt;/h2&gt;
 
-&lt;p&gt;My CentOS 7 installation did come with compatible version of Python, so that pre-req was already satisfied. Next, you&amp;#39;ll need to install pip and virtualenv so that the bootstrap process can install the other dependencies, along with the DC/OS components. My CentOS installation did not come with pip, so here are the steps I followed to get pip running. I decided to use yum to install pip, but you could take an &lt;a href=&quot;https://pip.pypa.io/en/stable/installing/&quot;&gt;alternate approach&lt;/a&gt;.&lt;br&gt;
-```
-  $ yum install epel-release&lt;/p&gt;
+&lt;p&gt;My CentOS 7 installation did come with compatible version of Python, so that pre-req was already satisfied. Next, you&amp;#39;ll need to install pip and virtualenv so that the bootstrap process can install the other dependencies, along with the DC/OS components. My CentOS installation did not come with pip, so here are the steps I followed to get pip running. I decided to use yum to install pip, but you could take an &lt;a href=&quot;https://pip.pypa.io/en/stable/installing/&quot;&gt;alternate approach&lt;/a&gt;.  &lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ yum install epel-release
 
-&lt;p&gt;$ yum -y update&lt;/p&gt;
+$ yum -y update
 
-&lt;p&gt;$ yum install python-pip
-```&lt;/p&gt;
-
+$ yum install python-pip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This installed a somewhat old version of pip install, so I also went ahead and did a pip upgrade using pip.&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;  pip install --upgrade pip
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;

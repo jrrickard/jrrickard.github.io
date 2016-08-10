@@ -87,15 +87,13 @@
 
 <h2>Python, Pip, Virtualenv</h2>
 
-<p>My CentOS 7 installation did come with compatible version of Python, so that pre-req was already satisfied. Next, you&#39;ll need to install pip and virtualenv so that the bootstrap process can install the other dependencies, along with the DC/OS components. My CentOS installation did not come with pip, so here are the steps I followed to get pip running. I decided to use yum to install pip, but you could take an <a href="https://pip.pypa.io/en/stable/installing/">alternate approach</a>.<br>
-```
-  $ yum install epel-release</p>
+<p>My CentOS 7 installation did come with compatible version of Python, so that pre-req was already satisfied. Next, you&#39;ll need to install pip and virtualenv so that the bootstrap process can install the other dependencies, along with the DC/OS components. My CentOS installation did not come with pip, so here are the steps I followed to get pip running. I decided to use yum to install pip, but you could take an <a href="https://pip.pypa.io/en/stable/installing/">alternate approach</a>.  </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ yum install epel-release
 
-<p>$ yum -y update</p>
+$ yum -y update
 
-<p>$ yum install python-pip
-```</p>
-
+$ yum install python-pip
+</code></pre></div>
 <p>This installed a somewhat old version of pip install, so I also went ahead and did a pip upgrade using pip.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">  pip install --upgrade pip
 </code></pre></div>
