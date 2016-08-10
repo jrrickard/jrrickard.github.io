@@ -88,11 +88,13 @@
 <h2>Python, Pip, Virtualenv</h2>
 
 <p>My CentOS 7 installation did come with compatible version of Python, so that pre-req was already satisfied. Next, you&#39;ll need to install pip and virtualenv so that the bootstrap process can install the other dependencies, along with the DC/OS components. My CentOS installation did not come with pip, so here are the steps I followed to get pip running. I decided to use yum to install pip, but you could take an <a href="https://pip.pypa.io/en/stable/installing/">alternate approach</a>.<br>
-<code>
-  $ yum install epel-release
-  $ yum -y update
-  $ yum install python-pip
-</code></p>
+```
+  $ yum install epel-release</p>
+
+<p>$ yum -y update</p>
+
+<p>$ yum install python-pip
+```</p>
 
 <p>This installed a somewhat old version of pip install, so I also went ahead and did a pip upgrade using pip.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">  pip install --upgrade pip
@@ -117,7 +119,7 @@ ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
 <p>With Python and Docker installed, I moved on to the DC/OS install. Following the GUI instructions was mostly straight forward, however it requires a network discovery script for the local/custom installation I was doing. To create a network discovery script, I followed the guidelines from the CLI install</p>
 
 <p>Next, I made a directory to hold the dcos-install script and used curl to download it.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$  mkdir -p /tmp/dcos-install
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ mkdir -p /tmp/dcos-install
 $ cd /tmp/dcos-install
 $ curl -O https://downloads.dcos.io/dcos/EarlyAccess/dcos_generate_config.sh
 $bash dcos_generate_config.sh --web
