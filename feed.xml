@@ -6,9 +6,30 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 10 Aug 2016 16:10:25 -0600</pubDate>
-    <lastBuildDate>Wed, 10 Aug 2016 16:10:25 -0600</lastBuildDate>
+    <pubDate>Sun, 16 Oct 2016 20:15:03 -0600</pubDate>
+    <lastBuildDate>Sun, 16 Oct 2016 20:15:03 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Comparing Spring and Xenon</title>
+        <description>&lt;p&gt;In my last job, our Java development exclusively used the &lt;a href=&quot;https://spring.io/&quot;&gt;Spring&lt;/a&gt; ecosystem. In my current job, we&amp;#39;re instead using &lt;a href=&quot;https://vmware.github.io/xenon/&quot;&gt;Project&lt;/a&gt; &lt;a href=&quot;https://github.com/vmware/xenon&quot;&gt;Xenon&lt;/a&gt;. Both frameworks enable you to build services, but help you get there with pretty different approaches. To provide some comparison between the two, I&amp;#39;ve gone ahead and built the same application twice: one using Spring and one using Xenon.&lt;/p&gt;
+
+&lt;p&gt;The Spring based application is written using Spring Boot, Spring MVC, Spring Data and a Mongo DB instance. I need to add everything to github still, but when I do there will be a some scripts to build the source, package as Docker and a Docker compose file that will run the app. The Xenon app, on the otherhand, is written only using the Xenon framework. Xenon makes use of Lucene as a persistence layer, so it does not need an external database. &lt;/p&gt;
+
+&lt;p&gt;Stay tuned for three blog posts this week: &lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;First, I will walk through the Spring app&lt;/li&gt;
+&lt;li&gt;Next, I will walk through the Xenon app&lt;/li&gt;
+&lt;li&gt;I&amp;#39;ll offer my thoughts comparing the two.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Sun, 16 Oct 2016 20:07:21 -0600</pubDate>
+        <link>http://jrrickard.github.io/2016/10/16/comparing-spring-and-xenon.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2016/10/16/comparing-spring-and-xenon.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Marathon-LB and Zero Downtime Deployments</title>
@@ -489,142 +510,6 @@ _deploy.yml
         <pubDate>Fri, 04 Sep 2015 20:14:30 -0600</pubDate>
         <link>http://jrrickard.github.io/2015/09/04/installing-octopress-3-0.html</link>
         <guid isPermaLink="true">http://jrrickard.github.io/2015/09/04/installing-octopress-3-0.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Creating a Docker Jenkins Slave Running on a VMware Photon VM</title>
-        <description>&lt;p&gt;Let&amp;#39;s setup a Docker based Jenkins slave using VMware Photon (currently using Tech Preview #2) as the docker host. &lt;/p&gt;
-
-&lt;p&gt;This assumes you have Jenkins installed.&lt;/p&gt;
-
-&lt;h2&gt;Install Jenkins Plugin(s)&lt;/h2&gt;
-
-&lt;p&gt;First, let&amp;#39;s install the Jenkins &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Docker+Plugin&quot;&gt;Docker Plugin&lt;/a&gt;, plus all of it&amp;#39;s dependencies (if you don&amp;#39;t already have them):
- * &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Durable+Task+Plugin&quot;&gt;Durable Task&lt;/a&gt;
- * &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Token+Macro+Plugin&quot;&gt;Token Macro&lt;/a&gt;
- * &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/SSH+Slaves+plugin&quot;&gt;SSH Slaves&lt;/a&gt;
- * &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/SSH+Credentials+Plugin&quot;&gt;SSH Credentials&lt;/a&gt;
- * &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Credentials+Plugin&quot;&gt;Credentials&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2&gt;Install Photon&lt;/h2&gt;
-
-&lt;p&gt;Next, let&amp;#39;s grab the &lt;a href=&quot;https://bintray.com/vmware/photon/iso/1.0TP2/view&quot;&gt;Photon 1.0 TP2 ISO&lt;/a&gt;, create a new virtual machine and use the Photon ISO to install. I did the full install, but the minimal would probably work as well. My full install took 70 seconds. &lt;/p&gt;
-
-&lt;p&gt;Once installed, open the console to the VM using the vSphere Web Client and log into the VM. By default, a Photon installation doesn&amp;#39;t allow root to SSH into the VM. So let&amp;#39;s create a user to do the work we need to do.&lt;/p&gt;
-
-&lt;p&gt;First, let&amp;#39;s enable sudo access by using visudo to edit the sudoers file. 
-Find this block in the sudoers file:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;## Uncomment to allow members of group wheel to execute any command
-#%wheel ALL=(ALL) ALL
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And uncomment the second line (#%wheel ALL=(ALL) ALL.&lt;/p&gt;
-
-&lt;p&gt;Next, let&amp;#39;s add a user with useradd: &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;root [ / ]$ useradd --create-home --shell=/bin/bash jeremy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Next, add it to the wheel group:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;root [ / ]$  usermod -aG wheel jeremy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now set it&amp;#39;s password:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;root [ / ]$ passwd jeremy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;Docker Config&lt;/h2&gt;
-
-&lt;p&gt;Now you should be able to login via your favorite means of sshing. Now let&amp;#39;s move on to setting up the VM as a Docker based Jenkins slave.&lt;/p&gt;
-
-&lt;p&gt;Note that by default, a user created above has very limited privileges. So most of the following commands are done via sudo.&lt;/p&gt;
-
-&lt;p&gt;First, let&amp;#39;s enable docker.  :
-~~~~
-jeremy@euclid [ ~ ]$ sudo systemctl start docker
-jeremy@euclid [ ~ ]$ sudo systemctl enable docker
-~~~~&lt;/p&gt;
-
-&lt;p&gt;Now let&amp;#39;s enable remote management of Docker so Jenkins can connect. To do this, we need to modify  /etc/systemd/system/multi-user.target.wants/docker.service and enable remote access to the Docker api. This is normally turned off. Really, this is the most Photon specific part of this entire gist. You&amp;#39;ll see the location of that file when you execute the systemctl enable docker command above. Find the ExecStart line and edit it like so:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;ExecStart=/bin/docker -d -s overlay -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now, reload the systemctl daemon and restat the Docker daemon:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;jeremy@euclid [ ~ ]$ sudo systemctl daemon-reload
-jeremy@euclid [ ~ ]$ sudo systemctl restart docker
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;Configure Jenkins and Docker Slave&lt;/h2&gt;
-
-&lt;p&gt;Now, let&amp;#39;s grab the ready made Jenkins slave image:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;jeremy@euclid [ ~ ]$ sudo docker pull evarga/jenkins-slave
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now you should have the slave image:
-~~~~
-jeremy@euclid [ ~ ]$ sudo docker images
-REPOSITORY             TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-evarga/jenkins-slave   latest              8880612971b0        8 months ago        610.7 MB
-~~~~&lt;/p&gt;
-
-&lt;p&gt;I&amp;#39;m going to use this to deploy our application which is currently packaged as an OVA, so I will use the jenkins-slave image as the base for my new image. Then I will install ovftool along with python because we already have some deploy automation with it. Here is my new Dockerfile:  &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;FROM evarga/jenkins-slave:latest
-
-RUN mkdir -p /opt/vmware
-COPY pycaaso.py /opt/vmware/
-COPY scale-weekly.conf /opt/vmware/
-RUN apt-get install python -y
-RUN mkdir -p /opt/ovftool
-ADD VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle /opt/ovftool/
-RUN yes | /bin/bash /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle --required --console \
-    &amp;amp;&amp;amp; rm -f /opt/ovftool/VMware-ovftool-4.1.0-2459827-lin.x86_64.bundle
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now, rebuild it and tag it so we can use it from Jenkins:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;jeremy@euclid [ ~ ]$ sudo docker build -t jenkins-slave2 .
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now we can go configure Jenkins. The Docker plugin makes your docker slaves available as a remote cloud, not as remote nodes. So when you configure, you don&amp;#39;t actually use the normal add remote node workflow that you&amp;#39;d do if you were adding a traditional Windows or Linux remote slave. To configure the Docker connectivity, first login to Jenkins and click Manage Jenkins:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/d7d915e03c4835e0d99a27594a65559ed907f72c/manage-jenkins.png&quot; alt=&quot;mange jenkins&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Then click Configure System: &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/9ecf828f23dd1133448a104e0dca0297dff64e6c/configure-system.png&quot; alt=&quot;configure system&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Then scroll down to Cloud and Click Add New Cloud, then Select Docker.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/d7d915e03c4835e0d99a27594a65559ed907f72c/cloud-add-new-cloud.png&quot; alt=&quot;add new cloud&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/d7d915e03c4835e0d99a27594a65559ed907f72c/pick-docker.png&quot; alt=&quot;pick docker&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;That should give you a blank entry form to configure the Docker cloud.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/d7d915e03c4835e0d99a27594a65559ed907f72c/blank-docker-config.png&quot; alt=&quot;blank docker entry&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Enter the relevant configuration for your system:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/6c8284d1dee92d3c8eb9a1f7565832549b8b1000/docker-jenkins-config.png&quot; alt=&quot;my system&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Then create an image that matches our jenkins slave image. The defaults largely work here if you used the base image above. &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/d7d915e03c4835e0d99a27594a65559ed907f72c/jenkins-docker-image.png&quot; alt=&quot;configure an image&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Notice the label here. This is what you will is used to match Jenkins jobs to the docker setup. I also checked the &amp;quot;Docker Container&amp;quot; checkbox and the &amp;quot;Clean local images&amp;quot; checkbox. This should instruct Docker to clean up after itself.&lt;/p&gt;
-
-&lt;p&gt;Next, go create a job. &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/d52762c15357eee01b7b17fd89b10b21710c3139/deploy-job-config.png&quot; alt=&quot;create a job&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;As mentioned, the crucial part here is to put the label entered in the Docker image config in the &amp;quot;Label Expression&amp;quot; text box and check &amp;quot;Restrict where this project can be run&amp;quot;. The label here needs to match what was entered in the earlier image config.&lt;/p&gt;
-
-&lt;p&gt;Now when you run your job, it should execute within the Docker container. Here is my job:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://gist.github.com/jrrickard/114b8c35b1d5306ff3e0/raw/4d3ee2aca02c53d4736ef3bba1bac9a7cc25578c/built-on-docker.png&quot; alt=&quot;built on docker&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Some additional things to consider:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;No authentication on that docker connection, I might update this later with changes to that, ideally with TLS. &lt;/li&gt;
-&lt;li&gt;Might be able to build smaller images if you start with something other than the turn key image referenced above&lt;/li&gt;
-&lt;li&gt;The use here isn&amp;#39;t really a compelling story, my next docker slave will run a headless firefox browser to do automated testing of our UI. I&amp;#39;ll blog that next&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Thu, 03 Sep 2015 20:13:27 -0600</pubDate>
-        <link>http://jrrickard.github.io/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/2015/09/03/creating-a-docker-jenkins-slave-running-on-a-vmware-photon-vm.html</guid>
         
         
       </item>
