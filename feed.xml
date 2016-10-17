@@ -6,13 +6,13 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 16 Oct 2016 20:15:03 -0600</pubDate>
-    <lastBuildDate>Sun, 16 Oct 2016 20:15:03 -0600</lastBuildDate>
+    <pubDate>Sun, 16 Oct 2016 20:22:46 -0600</pubDate>
+    <lastBuildDate>Sun, 16 Oct 2016 20:22:46 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>Comparing Spring and Xenon</title>
-        <description>&lt;p&gt;In my last job, our Java development exclusively used the &lt;a href=&quot;https://spring.io/&quot;&gt;Spring&lt;/a&gt; ecosystem. In my current job, we&amp;#39;re instead using &lt;a href=&quot;https://vmware.github.io/xenon/&quot;&gt;Project&lt;/a&gt; &lt;a href=&quot;https://github.com/vmware/xenon&quot;&gt;Xenon&lt;/a&gt;. Both frameworks enable you to build services, but help you get there with pretty different approaches. To provide some comparison between the two, I&amp;#39;ve gone ahead and built the same application twice: one using Spring and one using Xenon.&lt;/p&gt;
+        <description>&lt;p&gt;In my last job, our Java development exclusively used the &lt;a href=&quot;https://spring.io/&quot;&gt;Spring&lt;/a&gt; ecosystem. In my current job, we&amp;#39;re instead using &lt;a href=&quot;https://vmware.github.io/xenon/&quot;&gt;Project&lt;/a&gt; &lt;a href=&quot;https://github.com/vmware/xenon&quot;&gt;Xenon&lt;/a&gt;. Both frameworks enable you to build services, but help you get there with pretty different approaches. To provide some comparison between the two, I&amp;#39;ve gone ahead and built the same application twice: one using Spring and one using Xenon. You can accomplish a LOT with both the Spring ecosystem and Xenon, but I&amp;#39;ve chosen to keep this fairly simply and compare a fairly simple application. I originally wrote the app to better learn Xenon (for the day job) and to help automate some of my volunteer responsibilities with the &lt;a href=&quot;https://pprrun.org/&quot;&gt;Pikes Peak Road Runners&lt;/a&gt;. The app exposes a REST API for managing race and participant data for a series of winter running races the club holds. I&amp;#39;ve been acting as the registrar for the series for a few years now and the process has been fairly manual and prone to human (me) data entry errors. I wanted to make it a little easier, and learn Xenon a little more, so I wrote the app. It&amp;#39;s extra timely because we&amp;#39;re expecting our second child around the time of the race series, so I&amp;#39;ll probably have much less time to volunteer this year. I&amp;#39;ve decided to offer a comparison point to Xenon using Spring since it&amp;#39;s a pretty popular choice in the Java world and I expect many people have some familiarity with it.  &lt;/p&gt;
 
 &lt;p&gt;The Spring based application is written using Spring Boot, Spring MVC, Spring Data and a Mongo DB instance. I need to add everything to github still, but when I do there will be a some scripts to build the source, package as Docker and a Docker compose file that will run the app. The Xenon app, on the otherhand, is written only using the Xenon framework. Xenon makes use of Lucene as a persistence layer, so it does not need an external database. &lt;/p&gt;
 
