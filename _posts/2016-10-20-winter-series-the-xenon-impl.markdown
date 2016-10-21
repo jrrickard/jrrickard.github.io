@@ -12,7 +12,7 @@ In the Xenon world, services fall into two main types of services: stateful and 
 
 Some important things to keep in mind with Xenon is that it isn't really intended to facilitate building things using normal object oriented design. It discourages inheritance and focuses on code-reuse through composition of stateless helper services or stateless utility classes. It also very highly discourages blocking operations. Working with within these constraints took some adjustment for me. When I first started implementing the Winter Series app, I made the mistake of emebedding logic into stateful services (base classes) and tried to share this into my services through inheritance. This didn't work that well in practice and also caused some issues with testing the code. Writing testable code when I violated the Xenon principles actually became pretty difficult and more or less forced me into writing code that I think fit a little better with the model. As an example, I had wrote some Task services that did some blocking calls to a client library that called an external service. Writing unit tests for the Task service was actually quite difficult because I could not Mock the service easily. This led me to refactor into a stateless utility class that I interacted with via a stateless helper service.  That was much easier to provide a mock implementation of, which I think led to more testable code. 
 
-Let's take a look at the building blocks of my Winter Series app, starting with a Participant. I need to be able to do CRUD operations of race participants, so we need a PODO and a Service object to deal with it. 
+Let's take a look at the building blocks of my Winter Series app, starting with a Participant. I need to be able to do CRUD operations of race participants, so we need a PODO and a Service to deal with it. 
 
 First, the PODO:
 
@@ -52,7 +52,7 @@ public class Participant extends ServiceDocument {
 
 ``` 
 
-As you can see, this is pretty simple. The AUTO_MERGE_IF_NOT_NULL enables me to write a little bit less logic in the service.
+As you can see, this is pretty simple. The AUTO_MERGE_IF_NOT_NULL enables me to write a little bit less logic in the service, which we'll look at next. It's really just a Java representation the object that will be serialized as JSON and stored in Lucene via the service. 
 
 Now for the service:
 
@@ -77,9 +77,9 @@ public class ParticipantService extends StatefulService {
 
 ```
 
-This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. 
+This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. The FACTORY_LINK static helps Xenon to know the URI for this service. In earlier versions, you needed to define both a FactoryService, which created the lifecycle of your Service instances, as well as the Service itself. That was changed and now you can simply define the service like this. 
 
-With the two above, I just need to build a Xenon ServiceHost. This is another pretty simple class:
+With the two classes above, I just need to build a Xenon ServiceHost. This is another pretty simple class:
 
 ```java 
 package io.github.jrrickard.ws;
@@ -143,4 +143,8 @@ I can then issue a GET request to get that specific service.
 This time, the request was handled by the default handleGet() method in StatefulService. Nice an easy to build a really simple CRUD service.
 I could easily run this as a multi-node cluster now and the use of the options in the ParticipantService constructor would tell Xenon to take care of replication and owner selection for me. You can also see the default pieces of data from the ServiceDocument, like the version. Xenon will also handle that for you, allowing you to query for different versions of your service instance. If I issue changes to the service instance, that version counter will change automatically. 
 
-There isn't a LOT of boiler plate code here and it was fairly simple to make this single object, but it is a simple case. In the next post, I'll show a more complicated example involving links between PODOs and collections, as well as building out the app a little more with an architeture that fits a little more with what we've done on my project at work. I'll also make some changes to better handle things like that default pattern for the date of birth and add in validation.  
+There isn't a LOT of boiler plate code here and it was fairly simple to make this single object, but it is a simple case. In my ServiceHost, the line that actually starts my ParticipantService up is  super.startFactory(new ParticipantService()); 
+
+This creates the ParticipantService Factory Service, using the FACTORY_LINK defined in the class. This is what responded to the POST call and created the instance of the service. As I add more services, I just need to call startFactory or startService on them. 
+
+In the next post, I'll show a more complicated example involving links between PODOs and collections, as well as building out the app a little more with an architeture that fits a little more with what we've done on my project at work. I'll also make some changes to better handle things like that default pattern for the date of birth and add in validation.  
