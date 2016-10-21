@@ -6,9 +6,37 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 16 Oct 2016 20:22:46 -0600</pubDate>
-    <lastBuildDate>Sun, 16 Oct 2016 20:22:46 -0600</lastBuildDate>
+    <pubDate>Thu, 20 Oct 2016 20:03:55 -0600</pubDate>
+    <lastBuildDate>Thu, 20 Oct 2016 20:03:55 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Winter Series - the Xenon Impl</title>
+        <description>&lt;p&gt;I won&amp;#39;t get into &lt;a href=&quot;https://github.com/vmware/xenon&quot;&gt;Xenon&lt;/a&gt; fundamentals too much in this post, but in general you build capabilities using  cooperating REST services. In the Xenon world, services fall into two main types of services: stateful and stateless. At the heart of stateful services is something called a Plain Old Data Object, or a PODO. Under the covers, Xenon uses Lucene as a persistence mechanism and provides services on top of Lucene to handle replication to enable building distributed stateful services across many Xenon nodes. Within a stateful service, you implement logic to handle the persistence/management of a PODO. Stateful services can also be used to model Tasks, via &lt;a href=&quot;https://github.com/vmware/xenon/wiki/Task-Service-Tutorial&quot;&gt;Task Services&lt;/a&gt;. Stateless services, on the other hand, do not represent some sort of state like a Stateful service. &lt;/p&gt;
+
+&lt;p&gt;While working on the Winter Series app, I initially embedded a lot of logic (as the tutorials kind of do) within the stateful service, including things like validation of data or calling external services or client libraries in the case of task services (like importing data from Active.com). This worked, but I ran into some problems with that approach. &lt;/p&gt;
+
+&lt;p&gt;The first was migration of data. In this case when doing data migration, some of the validation (which I initially copy/pasted from the Xenon examples), would cause the migrations to fail. An example was validation that some of the state of a Task did not exist on initial creation of a Task. That worked and was reasonable when creating the task initially, but would fail on the migration. &lt;/p&gt;
+
+&lt;p&gt;The second issue I ran into with this approach was in unit testing. It proved difficult to do Unit testing of stateful services if then used anything that required being mocked. &lt;/p&gt;
+
+&lt;p&gt;This isn&amp;#39;t really unsurprising after thinking about it. The Xenon documentation actually specifies this in a few places:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Persisted services, extending StatefulService in particular will not function correctly if the code relies on state outside the state PODO.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Service should re-use code not through inheritance but through:
+
+stateless helper services
+singleton, stateless utility classes that take operations or completions (and never block)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;My team at work eventually arrived at a similar approach, implemnting something like an MVC architecture. In this pattern, we fronted all of our Stateful with Xenon Stateless services making use of the ServiceOption.URI&lt;em&gt;NAMESPACE&lt;/em&gt;OWNER option to build fairly well defined REST interfaces. These make use of helper classes (normally POJOs) to encapsulate business logic. The stateful services then really operate more or less like CRUD services for the PODO of interest. Within Task services, following this model works as well. The Task services don&amp;#39;t contain much of the business logic, that is mostly encapsulated in helper classes. This leads to easier re-use and better testability in my opinion.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 20 Oct 2016 19:28:41 -0600</pubDate>
+        <link>http://jrrickard.github.io/2016/10/20/winter-series-the-xenon-impl.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2016/10/20/winter-series-the-xenon-impl.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Comparing Spring and Xenon</title>
@@ -448,68 +476,6 @@ ui-test.slave          latest              f06dd6a0ba85        35 seconds ago   
         <pubDate>Mon, 07 Sep 2015 08:15:57 -0600</pubDate>
         <link>http://jrrickard.github.io/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html</link>
         <guid isPermaLink="true">http://jrrickard.github.io/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Using Octopress 3.0 with Github Pages</title>
-        <description>&lt;p&gt;This blog has been dormant for a while. I was using a fairly old version of octopress and at some point ended up corrupting my repo. Then I got way to busy with the &lt;a href=&quot;http://vrealizeair.vmware.com/compliance&quot;&gt;vRealize Air Compliance&lt;/a&gt; to fix it. Now that we&amp;#39;ve released, I thought it was time to get this thing running again. &lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/octopress/octopress&quot;&gt;Octopress 3.0&lt;/a&gt; is available on github, so I thought I&amp;#39;d try that out. Rather than try and upgrade my existing instance, I went ahead and killed my github pages repo and start from scratch there. I also had a new Macbook, so I might as well try and set everything up from scratch.&lt;/p&gt;
-
-&lt;h1&gt;Step one, create a new repo&lt;/h1&gt;
-
-&lt;p&gt;To use github pages, you create a repo of the form username.github.io. In my case, that was jrrickard.github.io. Next, I followed the &lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot;&gt;Usng Jekyll with Pages&lt;/a&gt; page to get started up to the &amp;quot;Running Jekyll&amp;quot; section of the page.&lt;/p&gt;
-
-&lt;h1&gt;Step two, get Octopress&lt;/h1&gt;
-
-&lt;p&gt;I modified the Gemfile created above and added:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;gem &amp;#39;octopress&amp;#39;, &amp;#39;~&amp;gt; 3.0.0&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Once I did that, I did a bundle update &amp;amp;&amp;amp; bundle install to make sure I had the new gem. Now I had the octopress cli. This has been &lt;em&gt;much&lt;/em&gt; easier to use than the previous version of octopress. Now I had everything installed, I needed to init the new blog. You can do that with Jekyll, or you can use the octopress cli and it will also copy over all the octopress scaffolding. I went with the octopress:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# octopress new jrrickard.github.io
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;That created a new directory called jrrickard.github.io with the scaffolding. Next I changed into that diretory and did a jekyll build&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# jekyll build
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This went through the directory and created the _site directory with all of the content of the blog. Now I could serve it up:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# jekyll serve
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This started up a server listening on port 4000 so I could view the content. &lt;/p&gt;
-
-&lt;p&gt;The last step of getting it setup was doing the deploy init. Again, very easy with the octopress cli:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# octopress deploy init git git@github.com:jrrickard/jrrickard.github.io.git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Once that was done, I added the _deploy.yml file to my .gitignore. Once I was done, the .gitignore looked like:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;_site
-.sass-cache
-_deploy.yml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Finally, running deploy with the octopress cli pushed to my git repo:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# octopress deploy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now, the new blog was available at my Github pages url. Now I just needed content!&lt;/p&gt;
-
-&lt;h1&gt;Step three, move all the old content.&lt;/h1&gt;
-
-&lt;p&gt;This part was simple. I still had all the markdown and image files from my original blog, so I moved them over to this new directory structure and put the existing markdown files in the _posts directory. I created an images folder and copied all the images over into that one. Once I ran the jekyll build to regenerate everything, I noticed I didn&amp;#39;t have the old octopress img plugin installed. I went ahead and replaced those with normal markdown and the Jekyll site.url template (make sure you update your _config.yaml to have that correctly defined). &lt;/p&gt;
-
-&lt;h1&gt;Step four, new posts!&lt;/h1&gt;
-
-&lt;p&gt;While my blog was messed up, I had done a few gist based blogs. I wanted to move them over here, so I used the cli to create some new posts:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# octopress new blog &amp;quot;Running lattice.cf on VMware AppCatalyst&amp;quot;
-# octopress new blog &amp;quot;Creating a Docker Jenkins Slave Running on a VMware Photon VM&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This created two new files in the _posts directory with that title and today&amp;#39;s date. It sticks the correct header/front matter in a blank file. So I modified the filename to have the correct dates and updated the date meta data in the file. Then I simply copied the markdown from the Gists and placed them in the appropriate file. The only major change I had to do was to change the Github markdown preformat token (three `) to normal markdown (4 ~). Once I had done that, getting everything deployed again was simply:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# jekyll build
-# octopress deploy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Then voila, the blog is updated. Simple.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 04 Sep 2015 20:14:30 -0600</pubDate>
-        <link>http://jrrickard.github.io/2015/09/04/installing-octopress-3-0.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/2015/09/04/installing-octopress-3-0.html</guid>
         
         
       </item>
