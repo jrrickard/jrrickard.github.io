@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Winter Series - the Xenon Impl</title>
-  <meta name="description" content="I won&#39;t get into Xenon fundamentals too much in this post, but in general you build capabilities using  cooperating REST services. In the Xenon world, se...">
+  <title>Winter Series - the Xenon implementation. Part 1</title>
+  <meta name="description" content="This week ended up being a little crazy and I haven&#39;t had enough time to really devote to writing up the Xenon vs Spring comparison, so I&#39;m going to ...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://jrrickard.github.io/2016/10/20/winter-series-the-xenon-impl.html">
@@ -57,29 +57,136 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Winter Series - the Xenon Impl</h1>
+    <h1 class="post-title" itemprop="name headline">Winter Series - the Xenon implementation. Part 1</h1>
     <p class="post-meta"><time datetime="2016-10-20T19:28:41-06:00" itemprop="datePublished">Oct 20, 2016</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>I won&#39;t get into <a href="https://github.com/vmware/xenon">Xenon</a> fundamentals too much in this post, but in general you build capabilities using  cooperating REST services. In the Xenon world, services fall into two main types of services: stateful and stateless. At the heart of stateful services is something called a Plain Old Data Object, or a PODO. Under the covers, Xenon uses Lucene as a persistence mechanism and provides services on top of Lucene to handle replication to enable building distributed stateful services across many Xenon nodes. Within a stateful service, you implement logic to handle the persistence/management of a PODO. Stateful services can also be used to model Tasks, via <a href="https://github.com/vmware/xenon/wiki/Task-Service-Tutorial">Task Services</a>. Stateless services, on the other hand, do not represent some sort of state like a Stateful service. </p>
+    <p>This week ended up being a little crazy and I haven&#39;t had enough time to really devote to writing up the Xenon vs Spring comparison, so I&#39;m going to break this up into more managable pieces. </p>
 
-<p>While working on the Winter Series app, I initially embedded a lot of logic (as the tutorials kind of do) within the stateful service, including things like validation of data or calling external services or client libraries in the case of task services (like importing data from Active.com). This worked, but I ran into some problems with that approach. </p>
+<p>I won&#39;t get into <a href="https://github.com/vmware/xenon">Xenon</a> fundamentals too much in this post, but in general you build capabilities using  cooperating REST services. Xenon lets you build REST services, but also provides a mechanism for persistence and replication of data as well as built in query capabilities. </p>
 
-<p>The first was migration of data. In this case when doing data migration, some of the validation (which I initially copy/pasted from the Xenon examples), would cause the migrations to fail. An example was validation that some of the state of a Task did not exist on initial creation of a Task. That worked and was reasonable when creating the task initially, but would fail on the migration. </p>
+<p>In the Xenon world, services fall into two main types of services: stateful and stateless. At the heart of stateful services is something called a Plain Old Data Object, or a PODO. Under the covers, Xenon uses Lucene as a persistence mechanism and provides services on top of Lucene to handle replication to enable building distributed stateful services across many Xenon nodes. Within a stateful service, you implement logic to handle the persistence/management of a PODO. Stateful services can also be used to model Tasks, via <a href="https://github.com/vmware/xenon/wiki/Task-Service-Tutorial">Task Services</a>. Stateless services, on the other hand, do not represent some sort of state like a Stateful service. </p>
 
-<p>The second issue I ran into with this approach was in unit testing. It proved difficult to do Unit testing of stateful services if then used anything that required being mocked. </p>
+<p>Some important things to keep in mind with Xenon is that it isn&#39;t really intended to facilitate building things using normal object oriented design. It discourages inheritance and focuses on code-reuse through composition of stateless helper services or stateless utility classes. It also very highly discourages blocking operations. Working with within these constraints took some adjustment for me. When I first started implementing the Winter Series app, I made the mistake of emebedding logic into stateful services (base classes) and tried to share this into my services through inheritance. This didn&#39;t work that well in practice and also caused some issues with testing the code. Writing testable code when I violated the Xenon principles actually became pretty difficult and more or less forced me into writing code that I think fit a little better with the model. As an example, I had wrote some Task services that did some blocking calls to a client library that called an external service. Writing unit tests for the Task service was actually quite difficult because I could not Mock the service easily. This led me to refactor into a stateless utility class that I interacted with via a stateless helper service.  That was much easier to provide a mock implementation of, which I think led to more testable code. </p>
 
-<p>This isn&#39;t really unsurprising after thinking about it. The Xenon documentation actually specifies this in a few places:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Persisted services, extending StatefulService in particular will not function correctly if the code relies on state outside the state PODO.
+<p>Let&#39;s take a look at the building blocks of my Winter Series app, starting with a Participant. I need to be able to do CRUD operations of race participants, so we need a PODO and a Service object to deal with it. </p>
+
+<p>First, the PODO:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">io</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">jrrickard</span><span class="o">.</span><span class="na">ws</span><span class="o">.</span><span class="na">state</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.vmware.xenon.common.ServiceDocument</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.vmware.xenon.common.ServiceDocumentDescription</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Participant</span> <span class="kd">extends</span> <span class="n">ServiceDocument</span> <span class="o">{</span>
+
+    <span class="kd">enum</span> <span class="n">Gender</span> <span class="o">{</span>
+        <span class="n">MALE</span><span class="o">,</span>
+        <span class="n">FEMALE</span>
+    <span class="o">}</span>
+
+    <span class="nd">@UsageOption</span><span class="o">(</span><span class="n">option</span> <span class="o">=</span> <span class="n">ServiceDocumentDescription</span><span class="o">.</span><span class="na">PropertyUsageOption</span><span class="o">.</span><span class="na">AUTO_MERGE_IF_NOT_NULL</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+
+    <span class="nd">@UsageOption</span><span class="o">(</span><span class="n">option</span> <span class="o">=</span> <span class="n">ServiceDocumentDescription</span><span class="o">.</span><span class="na">PropertyUsageOption</span><span class="o">.</span><span class="na">AUTO_MERGE_IF_NOT_NULL</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+
+    <span class="nd">@UsageOption</span><span class="o">(</span><span class="n">option</span> <span class="o">=</span> <span class="n">ServiceDocumentDescription</span><span class="o">.</span><span class="na">PropertyUsageOption</span><span class="o">.</span><span class="na">AUTO_MERGE_IF_NOT_NULL</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Date</span> <span class="n">dateOfBirth</span><span class="o">;</span>
+
+    <span class="nd">@UsageOption</span><span class="o">(</span><span class="n">option</span> <span class="o">=</span> <span class="n">ServiceDocumentDescription</span><span class="o">.</span><span class="na">PropertyUsageOption</span><span class="o">.</span><span class="na">AUTO_MERGE_IF_NOT_NULL</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Gender</span> <span class="n">gender</span><span class="o">;</span>
+
+    <span class="nd">@UsageOption</span><span class="o">(</span><span class="n">option</span> <span class="o">=</span> <span class="n">ServiceDocumentDescription</span><span class="o">.</span><span class="na">PropertyUsageOption</span><span class="o">.</span><span class="na">AUTO_MERGE_IF_NOT_NULL</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">city</span><span class="o">;</span>
+
+    <span class="nd">@UsageOption</span><span class="o">(</span><span class="n">option</span> <span class="o">=</span> <span class="n">ServiceDocumentDescription</span><span class="o">.</span><span class="na">PropertyUsageOption</span><span class="o">.</span><span class="na">AUTO_MERGE_IF_NOT_NULL</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">state</span><span class="o">;</span>
+<span class="o">}</span>
 </code></pre></div>
-<p>and</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Service should re-use code not through inheritance but through:
+<p>As you can see, this is pretty simple. The AUTO<em>MERGE</em>IF<em>NOT</em>NULL enables me to write a little bit less logic in the service.</p>
 
-stateless helper services
-singleton, stateless utility classes that take operations or completions (and never block)
+<p>Now for the service:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">io</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">jrrickard</span><span class="o">.</span><span class="na">ws</span><span class="o">.</span><span class="na">service</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.vmware.xenon.common.StatefulService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.github.jrrickard.ws.state.Participant</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ParticipantService</span> <span class="kd">extends</span> <span class="n">StatefulService</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FACTORY_LINK</span> <span class="o">=</span> <span class="s">&quot;/ws/participants&quot;</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ParticipantService</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">Participant</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">toggleOption</span><span class="o">(</span><span class="n">ServiceOption</span><span class="o">.</span><span class="na">PERSISTENCE</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">toggleOption</span><span class="o">(</span><span class="n">ServiceOption</span><span class="o">.</span><span class="na">REPLICATION</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">toggleOption</span><span class="o">(</span><span class="n">ServiceOption</span><span class="o">.</span><span class="na">OWNER_SELECTION</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
 </code></pre></div>
-<p>My team at work eventually arrived at a similar approach, implemnting something like an MVC architecture. In this pattern, we fronted all of our Stateful with Xenon Stateless services making use of the ServiceOption.URI<em>NAMESPACE</em>OWNER option to build fairly well defined REST interfaces. These make use of helper classes (normally POJOs) to encapsulate business logic. The stateful services then really operate more or less like CRUD services for the PODO of interest. Within Task services, following this model works as well. The Task services don&#39;t contain much of the business logic, that is mostly encapsulated in helper classes. This leads to easier re-use and better testability in my opinion.</p>
+<p>This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. </p>
+
+<p>With the two above, I just need to build a Xenon ServiceHost. This is another pretty simple class:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">io</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">jrrickard</span><span class="o">.</span><span class="na">ws</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.vmware.xenon.common.ServiceHost</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.vmware.xenon.services.common.RootNamespaceService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.github.jrrickard.ws.service.ParticipantService</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WinterSeries</span> <span class="kd">extends</span> <span class="n">ServiceHost</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">ServiceHost</span> <span class="nf">start</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">startDefaultCoreServicesSynchronously</span><span class="o">();</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">startService</span><span class="o">(</span><span class="k">new</span> <span class="nf">RootNamespaceService</span><span class="o">());</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">startFactory</span><span class="o">(</span><span class="k">new</span> <span class="nf">ParticipantService</span><span class="o">());</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">WinterSeries</span> <span class="n">ws</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">WinterSeries</span><span class="o">();</span>
+        <span class="n">ws</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+        <span class="n">ws</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Running this will start up the Participant factory service (POSTing to this will create new service instances -- one for each participant). I started this up by running the service host via the shaded jar produced by the Gradle build like so:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>java -jar build/libs/ws-xenon-1.0-snapshot-standalone.jar --sandbox<span class="o">=</span>/tmp/ws
+<span class="o">[</span>0<span class="o">][</span>I<span class="o">][</span>1477019153298<span class="o">][</span>8000<span class="o">][</span>startImpl<span class="o">][</span>ServiceHost/0f68f721 listening on http://127.0.0.1:8000<span class="o">]</span>
+<span class="o">[</span>1<span class="o">][</span>I<span class="o">][</span>1477019155321<span class="o">][</span>8000/core/node-groups/default<span class="o">][</span>mergeRemoteAndLocalMembership<span class="o">][</span>State updated, merge with 61c60cff-fa9e-4362-a6b5-3e9863f39693, self 61c60cff-fa9e-4362-a6b5-3e9863f39693, 1477019155320001<span class="o">]</span>
+<span class="o">[</span>2<span class="o">][</span>I<span class="o">][</span>1477019158320<span class="o">][</span>8000/core/node-selectors/default<span class="o">][</span>checkAndScheduleSynchronization<span class="o">][</span>Scheduling synchronization <span class="o">(</span><span class="m">1</span> nodes<span class="o">)]</span>
+<span class="o">[</span>3<span class="o">][</span>I<span class="o">][</span>1477019158320<span class="o">][</span>8000/core/node-selectors/default-3x<span class="o">][</span>checkAndScheduleSynchronization<span class="o">][</span>Scheduling synchronization <span class="o">(</span><span class="m">1</span> nodes<span class="o">)]</span>
+<span class="o">[</span>4<span class="o">][</span>I<span class="o">][</span>1477019158320<span class="o">][</span>8000<span class="o">][</span>scheduleNodeGroupChangeMaintenance<span class="o">][</span>/core/node-selectors/default 1477019158320001<span class="o">]</span>
+<span class="o">[</span>5<span class="o">][</span>I<span class="o">][</span>1477019158321<span class="o">][</span>8000<span class="o">][</span>scheduleNodeGroupChangeMaintenance<span class="o">][</span>/core/node-selectors/default-3x 1477019158321012<span class="o">]</span>
+</code></pre></div>
+<p>As you can see from the output, this started up on port 8000. You could run it without the sandbox argument, but I needed that because I&#39;ve run another service on this laptop and it clashed with the state in my service (more on that later). </p>
+
+<p>I can then use a browser to examine the service :</p>
+
+<p><img src="http://jrrickard.github.io/images/xenon/query-in-browser.png" alt="Query browser"> </p>
+
+<p>Next, I&#39;ll use Postman to create a record</p>
+
+<p><img src="http://jrrickard.github.io/images/xenon/xenon-post.png" alt="Postman create"></p>
+
+<p>Now if I query again (using Postman again..)</p>
+
+<p><img src="http://jrrickard.github.io/images/xenon/get-participants.png" alt="Postman GET"></p>
+
+<p>What happened here, is that first we made a POST to the ParticipantService factory. The body of this was then turned into a ParticipantService instance, with the state represented by our Participant PODO. Xenon took care of creating this for me through the StatefulService base code. When I then issued the GET request to the /ws/participants endpoint, it did a query to find all ParticipantService instances. In this case, there is only one.</p>
+
+<p>I can then issue a GET request to get that specific service.</p>
+
+<p><img src="http://jrrickard.github.io/images/xenon/specific-record.png" alt="Postman GET Service instance"></p>
+
+<p>This time, the request was handled by the default handleGet() method in StatefulService. Nice an easy to build a really simple CRUD service.
+I could easily run this as a multi-node cluster now and the use of the options in the ParticipantService constructor would tell Xenon to take care of replication and owner selection for me. </p>
+
+<p>There isn&#39;t a LOT of boiler plate code here and it was fairly simple to make this single object, but it is a simple case. In the next post, I&#39;ll show a more complicated example involving links between PODOs and collections, as well as building out the app a little more with an architeture that fits a little more with what we&#39;ve done on my project at work. </p>
 
   </div>
 
