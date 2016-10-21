@@ -4,7 +4,7 @@ title: "Winter Series - the Xenon implementation. Part 1"
 date: 2016-10-20T19:28:41-06:00
 ---
 
-This week ended up being a little crazy and I haven't had enough time to really devote to writing up the Xenon vs Spring comparison, so I'm going to break this up into more managable pieces. 
+This week ended up being a little crazy and I haven't had enough time to really devote to writing up the Xenon vs Spring comparison, so I'm going to break this up into more managable pieces. I also decided to tackle the Xenon app first.  
 
 I won't get into [Xenon](https://github.com/vmware/xenon) fundamentals too much in this post, but in general you build capabilities using  cooperating REST services. Xenon lets you build REST services, but also provides a mechanism for persistence and replication of data as well as built in query capabilities. 
 
