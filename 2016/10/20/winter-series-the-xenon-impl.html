@@ -184,9 +184,9 @@
 <p><img src="http://jrrickard.github.io/images/xenon/specific-record.png" alt="Postman GET Service instance"></p>
 
 <p>This time, the request was handled by the default handleGet() method in StatefulService. Nice an easy to build a really simple CRUD service.
-I could easily run this as a multi-node cluster now and the use of the options in the ParticipantService constructor would tell Xenon to take care of replication and owner selection for me. </p>
+I could easily run this as a multi-node cluster now and the use of the options in the ParticipantService constructor would tell Xenon to take care of replication and owner selection for me. You can also see the default pieces of data from the ServiceDocument, like the version. Xenon will also handle that for you, allowing you to query for different versions of your service instance. If I issue changes to the service instance, that version counter will change automatically. </p>
 
-<p>There isn&#39;t a LOT of boiler plate code here and it was fairly simple to make this single object, but it is a simple case. In the next post, I&#39;ll show a more complicated example involving links between PODOs and collections, as well as building out the app a little more with an architeture that fits a little more with what we&#39;ve done on my project at work. </p>
+<p>There isn&#39;t a LOT of boiler plate code here and it was fairly simple to make this single object, but it is a simple case. In the next post, I&#39;ll show a more complicated example involving links between PODOs and collections, as well as building out the app a little more with an architeture that fits a little more with what we&#39;ve done on my project at work. I&#39;ll also make some changes to better handle things like that default pattern for the date of birth and add in validation.  </p>
 
   </div>
 

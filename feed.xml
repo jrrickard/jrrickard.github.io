@@ -6,8 +6,8 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 20 Oct 2016 21:37:39 -0600</pubDate>
-    <lastBuildDate>Thu, 20 Oct 2016 21:37:39 -0600</lastBuildDate>
+    <pubDate>Thu, 20 Oct 2016 21:41:57 -0600</pubDate>
+    <lastBuildDate>Thu, 20 Oct 2016 21:41:57 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -134,9 +134,9 @@
 &lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/xenon/specific-record.png&quot; alt=&quot;Postman GET Service instance&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;This time, the request was handled by the default handleGet() method in StatefulService. Nice an easy to build a really simple CRUD service.
-I could easily run this as a multi-node cluster now and the use of the options in the ParticipantService constructor would tell Xenon to take care of replication and owner selection for me. &lt;/p&gt;
+I could easily run this as a multi-node cluster now and the use of the options in the ParticipantService constructor would tell Xenon to take care of replication and owner selection for me. You can also see the default pieces of data from the ServiceDocument, like the version. Xenon will also handle that for you, allowing you to query for different versions of your service instance. If I issue changes to the service instance, that version counter will change automatically. &lt;/p&gt;
 
-&lt;p&gt;There isn&amp;#39;t a LOT of boiler plate code here and it was fairly simple to make this single object, but it is a simple case. In the next post, I&amp;#39;ll show a more complicated example involving links between PODOs and collections, as well as building out the app a little more with an architeture that fits a little more with what we&amp;#39;ve done on my project at work. &lt;/p&gt;
+&lt;p&gt;There isn&amp;#39;t a LOT of boiler plate code here and it was fairly simple to make this single object, but it is a simple case. In the next post, I&amp;#39;ll show a more complicated example involving links between PODOs and collections, as well as building out the app a little more with an architeture that fits a little more with what we&amp;#39;ve done on my project at work. I&amp;#39;ll also make some changes to better handle things like that default pattern for the date of birth and add in validation.  &lt;/p&gt;
 </description>
         <pubDate>Thu, 20 Oct 2016 19:28:41 -0600</pubDate>
         <link>http://jrrickard.github.io/2016/10/20/winter-series-the-xenon-impl.html</link>
