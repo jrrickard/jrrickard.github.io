@@ -6,13 +6,13 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 20 Oct 2016 21:41:57 -0600</pubDate>
-    <lastBuildDate>Thu, 20 Oct 2016 21:41:57 -0600</lastBuildDate>
+    <pubDate>Thu, 20 Oct 2016 21:45:55 -0600</pubDate>
+    <lastBuildDate>Thu, 20 Oct 2016 21:45:55 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>Winter Series - the Xenon implementation. Part 1</title>
-        <description>&lt;p&gt;This week ended up being a little crazy and I haven&amp;#39;t had enough time to really devote to writing up the Xenon vs Spring comparison, so I&amp;#39;m going to break this up into more managable pieces. &lt;/p&gt;
+        <description>&lt;p&gt;This week ended up being a little crazy and I haven&amp;#39;t had enough time to really devote to writing up the Xenon vs Spring comparison, so I&amp;#39;m going to break this up into more managable pieces. I also decided to tackle the Xenon app first.  &lt;/p&gt;
 
 &lt;p&gt;I won&amp;#39;t get into &lt;a href=&quot;https://github.com/vmware/xenon&quot;&gt;Xenon&lt;/a&gt; fundamentals too much in this post, but in general you build capabilities using  cooperating REST services. Xenon lets you build REST services, but also provides a mechanism for persistence and replication of data as well as built in query capabilities. &lt;/p&gt;
 
