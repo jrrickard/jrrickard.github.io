@@ -6,9 +6,22 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 22 Apr 2017 15:37:21 -0600</pubDate>
-    <lastBuildDate>Sat, 22 Apr 2017 15:37:21 -0600</lastBuildDate>
+    <pubDate>Sat, 22 Apr 2017 15:48:18 -0600</pubDate>
+    <lastBuildDate>Sat, 22 Apr 2017 15:48:18 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Catching Up</title>
+        <description>&lt;p&gt;It&amp;#39;s been almost 6 months since my last post! I&amp;#39;m still working on my Xenon vs Spring series, but life got in the way. First a few work trips popped up, then we had a baby! Now that we&amp;#39;re past those initial months of newborn life, I&amp;#39;m back to finishing up my series on Xenon vs Spring. I&amp;#39;ll take a look at a simple CRUD service using Spring Boot + Spring Data next. After that, we&amp;#39;ll take a look at what a controller layer might look like in both.&lt;/p&gt;
+
+&lt;p&gt;At work, I&amp;#39;ve been focusing on Kubernetes lately, so I&amp;#39;ll share some of what I&amp;#39;ve been doing there as well. We&amp;#39;ve been taking advantage of &lt;a href=&quot;https://github.com/kubernetes/kops&quot;&gt;kops&lt;/a&gt; to get some clusters up and running, but I&amp;#39;ve also been working on following the super awesome &lt;a href=&quot;https://github.com/kelseyhightower/kubernetes-the-hard-way&quot;&gt;Kubernetes The Hardway&lt;/a&gt; guide that &lt;a href=&quot;https://twitter.com/kelseyhightower&quot;&gt;Kelsey Hightower&lt;/a&gt; has put together. I&amp;#39;ve been using VMware tooling though, getting it up and running with vCenter and &lt;a href=&quot;https://github.com/vmware/vic&quot;&gt;VIC&lt;/a&gt;. That has been pretty interesting, so I&amp;#39;ll share a post about that too fairly soon.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 22 Apr 2017 15:40:27 -0600</pubDate>
+        <link>http://jrrickard.github.io/2017/04/22/catching-up.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2017/04/22/catching-up.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Winter Series - the Xenon implementation. Part 1</title>
@@ -526,67 +539,6 @@ I started out by grabbing the &lt;a href=&quot;https://developer.amazon.com/publ
         <pubDate>Mon, 14 Sep 2015 07:49:23 -0600</pubDate>
         <link>http://jrrickard.github.io/2015/09/14/aws-lambda-and-alexa-skills-kit.html</link>
         <guid isPermaLink="true">http://jrrickard.github.io/2015/09/14/aws-lambda-and-alexa-skills-kit.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Headless Selenium Test With Docker Jenkins Slave</title>
-        <description>&lt;p&gt;In an earlier blog post, I wrote about building Docker based jenkins slaves. I used that to automate deployment of our system and clients from Jenkins. With that working, I wanted to apply the same to running some of our UI automation. We&amp;#39;re currently using a series of Windows virtual machines as remote slaves and Sikuli based tests. The downside to these tests is that they are based on image capture and actually driving a browser, so we can only one run at a time per slave and they can fail if resolution of the VM is changed or something is launched that is on top of the browser. One fix for this would be to use something like selenium instead. I implemented a subset of the tests using selenium and I&amp;#39;ve been able to run these on my laptop using the Firefox browser just fine. &lt;/p&gt;
-
-&lt;p&gt;With the tests running with selenium, I wondered if we could run them headlessly via the Docker slave mechanism. To do that, I needed a new slave image. Starting with the evarga/jenkins-slave base image, I installed maven, git, firefox and xfvb. I also generated an ssh key, registered it with our git instance and then added it to the container.   &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;FROM evarga/jenkins-slave:latest
-
-ENV DEBIAN_FRONTEND noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN true
-
-#===================
-# Timezone settings
-# Possible alternative: https://github.com/docker/docker/issues/3359#issuecomment-32150214
-#===================
-ENV TZ &amp;quot;US/Mountain&amp;quot;
-RUN echo &amp;quot;US/Mountain&amp;quot; | sudo tee /etc/timezone \
-  &amp;amp;&amp;amp; dpkg-reconfigure --frontend noninteractive tzdata
-
-#==============
-# Xvfb, firefox, maven, git
-#==============
-RUN apt-get update -qqy \
-  &amp;amp;&amp;amp; apt-get -qqy install \
-    xvfb firefox maven git \
-  &amp;amp;&amp;amp; rm -rf /var/lib/apt/lists/*
-
-#============================
-# Some configuration options, same size as MacBook display
-#============================
-ENV SCREEN_WIDTH 1680
-ENV SCREEN_HEIGHT 1050
-ENV SCREEN_DEPTH 24
-ENV DISPLAY :99.0
-
-COPY id_rsa /home/jenkins/.ssh/
-COPY id_rsa.pub /home/jenkins/.ssh/
-RUN chown jenkins /home/jenkins/.ssh/
-RUN chmod 600 /home/jenkins/.ssh/id_rsa
-USER jenkins
-RUN ssh-keyscan qeconfig.wp.fsi &amp;gt;&amp;gt; /home/jenkins/.ssh/known_hosts
-RUN chmod 600 /home/jenkins/.ssh/id_rsa.pub
-RUN chmod 600 /home/jenkins/.ssh/known_hosts
-USER root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;When all is said and done, that&amp;#39;s a fairly large image. Again, starting from scratch might lead to a smaller image.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;jeremy@euclid [ ~/ui-test ]$ sudo docker images
-REPOSITORY             TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-ui-test.slave          latest              f06dd6a0ba85        35 seconds ago      832.2 MB
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;With the image created, I followed the same process of adding a new template to the Docker cloud defined in Jenkins. Then created a new job. &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/docker-label.png&quot; alt=&quot;Job config&quot;&gt;
-&lt;img src=&quot;http://jrrickard.github.io/images/shell-commands.png&quot; alt=&quot;Shell commands&quot;&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 07 Sep 2015 08:15:57 -0600</pubDate>
-        <link>http://jrrickard.github.io/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/2015/09/07/headless-selenium-tests-with-docker-jenkins-slave.html</guid>
         
         
       </item>
