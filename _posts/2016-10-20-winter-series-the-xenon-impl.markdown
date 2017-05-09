@@ -52,7 +52,7 @@ public class Participant extends ServiceDocument {
 
 ``` 
 
-As you can see, this is pretty simple. The AUTO_MERGE_IF_NOT_NULL enables me to write a little bit less logic in the service, which we'll look at next. It's really just a Java representation the object that will be serialized as JSON and stored in Lucene via the service. 
+This is a pretty simple example. The AUTO\_MERGE\_IF\_NOT\_NULL will enable me to write a little bit less logic in the service when I implement PATCH on participants (a future post). It's really just a Java representation the object that will be serialized as JSON and stored in Lucene via the service, much the same way you might write objects to use with another serialization library like [Jackson](https://github.com/FasterXML/jackson). 
 
 Now for the service:
 
@@ -77,7 +77,7 @@ public class ParticipantService extends StatefulService {
 
 ```
 
-This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. The FACTORY_LINK static helps Xenon to know the URI for this service. In earlier versions, you needed to define both a FactoryService, which created the lifecycle of your Service instances, as well as the Service itself. That was changed and now you can simply define the service like this. 
+This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. The FACTORY_LINK static helps Xenon to know the URI for this service. In earlier versions, you needed to define both a FactoryService, which created the lifecycle of your Service instances, as well as the Service itself. That was changed and now you can simply define the service like this. You can also implement additional HTTP verbs, such as PATCH simply by overriding the StatefulService class.  
 
 With the two classes above, I just need to build a Xenon ServiceHost. This is another pretty simple class:
 
