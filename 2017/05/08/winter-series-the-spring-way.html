@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Winter Series - The(or a) Spring Way</title>
+  <meta name="description" content="Getting back to the Spring and Xenon comparison, I&#39;ve implemented pretty much the same participant management capability for my Race Management System us...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://jrrickard.github.io/2017/05/08/winter-series-the-spring-way.html">
+  <link rel="alternate" type="application/rss+xml" title="code to run, run to live" href="http://jrrickard.github.io/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">code to run, run to live</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Winter Series - The(or a) Spring Way</h1>
+    <p class="post-meta"><time datetime="2017-05-08T19:26:16-06:00" itemprop="datePublished">May 8, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Getting back to the Spring and Xenon comparison, I&#39;ve implemented pretty much the same participant management capability for my Race Management System using the Spring ecosystem: <a href="https://projects.spring.io/spring-boot/">Spring Boot</a>, <a href="http://projects.spring.io/spring-data-mongodb/">Spring Data MongoDB</a> and <a href="http://projects.spring.io/spring-data-rest/">Spring Data REST</a>. You can find the Github repo <a href="https://github.com/jrrickard/ws-spring">here</a>. For this simple use case, we can provide pretty similar capabilities using these three Spring projects, although we get to the end result in a diffeerent way. The first difference is that I&#39;m obviously using MongoDB for persistence instead of the native persistence that you can leverage with Xenon. This means that I need to run Mongo plus my service. I&#39;ll use Docker for that. In a later post, I&#39;ll get into comparing how to run multiple replicas of MongoDB or a multi-node group of Xenon here, but for now we&#39;ll just compare the developer use case with both.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ docker run -p 27017:27017 -d mongo
+f8cbf4712a228a240d17da97e0cc366807b88c215d447129d90a65481a648c30
+</code></pre></div>
+<p>Now that I have a database, I&#39;ll the service using <a href="http://start.spring.io/">Spring Initializer</a>, which is super simple! </p>
+
+<p><img src="http://jrrickard.github.io/images/spring/spring_initializer.png" alt="Bootstrap the project"> </p>
+
+<p>This ends up giving me a Gradle based project skeleton and I can start building the service. I&#39;ll start with the data model. I&#39;m also going to be using <a href="https://projectlombok.org/">Lombok</a> annotations to remove some boilerplate code. </p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">io</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">jrrickard</span><span class="o">.</span><span class="na">ws</span><span class="o">.</span><span class="na">model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.annotation.Id</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.core.mapping.Document</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="nd">@Document</span>
+<span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Participant</span> <span class="o">{</span>
+
+    <span class="kd">enum</span> <span class="n">Gender</span> <span class="o">{</span>
+        <span class="n">MALE</span><span class="o">,</span>
+        <span class="n">FEMALE</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Id</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Date</span> <span class="n">dateOfBirth</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Gender</span> <span class="n">gender</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">city</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">state</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Just like with the Xenon example, this is pretty simple. Next, I need to make a <a href="https://docs.spring.io/spring-data/data-commons/docs/1.6.1.RELEASE/reference/html/repositories.html">Spring Data Repository</a> for the Participant objects.</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">io</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">jrrickard</span><span class="o">.</span><span class="na">ws</span><span class="o">.</span><span class="na">persistence</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">io.github.jrrickard.ws.model.Participant</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.CrudRepository</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ParticipantRepository</span> <span class="kd">extends</span> <span class="n">CrudRepository</span><span class="o">&lt;</span><span class="n">Participant</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>When using <a href="http://docs.spring.io/spring-data/rest/docs/2.6.3.RELEASE/reference/html/">Spring Data Rest</a> and a CRUD repository, you get a similar base capability that you&#39;d get with a default Xenon stateful service. Spring goes further though and provides a number of additional capabilities, such as a PATCH operation and the ability to expose pre-defined queries.  </p>
+
+<p>Next, we need to create a class that will provide our service configuration.</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">io</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">jrrickard</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.repository.config.EnableMongoRepositories</span><span class="o">;</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableMongoRepositories</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WsParticipantApplication</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">WsParticipantApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>This class is pretty simple as well. The important parts here are the @SpringBootApplication and @EnableMongoRepositories annotations. This will enable Spring Boot and enable some auto configuration of the service based on the classpath defined in the gradle build</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  compile(&#39;org.springframework.boot:spring-boot-starter-data-mongodb&#39;)
+  compile(&#39;org.springframework.boot:spring-boot-starter-data-rest&#39;)
+  compile(&#39;org.springframework.boot:spring-boot-starter-web&#39;)
+</code></pre></div>
+<p>Spring Boot will enable Spring Data MongoDB because of the @EnableMongoRepositories annotation and turn on Spring Data Rest because of the spring-boot-starter-data-rest dependency.</p>
+
+<p>With this in place, I can build the project and end up with an executable JAR like with the Xenon project. This will use Tomcat instead of the embedded Netty you&#39;d get with Xenon. I&#39;ll use Docker to run this as well. </p>
+
+<p>Now, I can run the service.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ docker run -d -p 8111:8080 -e SPRING_DATA_MONGODB_URI=mongodb://192.168.86.53:27017 -e SPRING_DATA_MONGODB_DATABASE=participnts spring-participant-service
+</code></pre></div>
+<p>Using Postman, I can now interact with the service</p>
+
+<p><img src="http://jrrickard.github.io/images/spring/spring-data-rest-initial.png" alt="Initial repository state"> </p>
+
+<p>Next, I&#39;ll use Postman to create a record</p>
+
+<p><img src="http://jrrickard.github.io/images/spring/spring-data-rest-post.png" alt="Postman create"></p>
+
+<p>Thanks to the capabilities provided by Spring Data REST, I&#39;ve now created a record in the database. I can retrieve it with a simple GET request</p>
+
+<p><img src="http://jrrickard.github.io/images/spring/spring-data-rest-get.png" alt="New record"></p>
+
+<p>I can also modify it with a PATCH operation and fetch it again to get the changed state.</p>
+
+<p><img src="http://jrrickard.github.io/images/spring/spring-data-rest-patch.png" alt="Patch request"></p>
+
+<p><img src="http://jrrickard.github.io/images/spring/spring-data-rest-get-after-patch.png" alt="Updated Record"></p>
+
+<p>Using Spring, I was able to get a really simple CRUD based service up and running in only a few minutes. Almost everything is provided for you by the framework in this case, just like with Xenon. </p>
+
+<p>Obviously this is a pretty contrived example, but it demonstrates this simple use case using both technologies. It&#39;s hard to do an apples to apples comparison of Spring and Xenon, because they strive to do different things and have very different opinons about how to do the things they have in common. For this example, Spring was a litle easier to get going with. Getting an executable JAR with a RESTful interface to do CRUD operations on data with Spring was a bit simpler because Spring does a little more for you out of the box. Xenon, on the other hand, resulted in a slightly simpler deployment because I didn&#39;t need to also run MongoDB. </p>
+
+<p>I think the more interesting comparisons will come when comparing what building stateless and event-driven services  look like with both of the frameworks. </p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">code to run, run to live</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>code to run, run to live</li>
+          <li><a href="mailto:jeremy.r.rickard@gmail.com">jeremy.r.rickard@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/jrrickard"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">jrrickard</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/jrrickard"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">jrrickard</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>A blog about running, software and beverages. Opinions expressed are my own
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

@@ -6,9 +6,117 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 22 Apr 2017 15:48:18 -0600</pubDate>
-    <lastBuildDate>Sat, 22 Apr 2017 15:48:18 -0600</lastBuildDate>
+    <pubDate>Mon, 08 May 2017 21:50:45 -0600</pubDate>
+    <lastBuildDate>Mon, 08 May 2017 21:50:45 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Winter Series - The(or a) Spring Way</title>
+        <description>&lt;p&gt;Getting back to the Spring and Xenon comparison, I&amp;#39;ve implemented pretty much the same participant management capability for my Race Management System using the Spring ecosystem: &lt;a href=&quot;https://projects.spring.io/spring-boot/&quot;&gt;Spring Boot&lt;/a&gt;, &lt;a href=&quot;http://projects.spring.io/spring-data-mongodb/&quot;&gt;Spring Data MongoDB&lt;/a&gt; and &lt;a href=&quot;http://projects.spring.io/spring-data-rest/&quot;&gt;Spring Data REST&lt;/a&gt;. You can find the Github repo &lt;a href=&quot;https://github.com/jrrickard/ws-spring&quot;&gt;here&lt;/a&gt;. For this simple use case, we can provide pretty similar capabilities using these three Spring projects, although we get to the end result in a diffeerent way. The first difference is that I&amp;#39;m obviously using MongoDB for persistence instead of the native persistence that you can leverage with Xenon. This means that I need to run Mongo plus my service. I&amp;#39;ll use Docker for that. In a later post, I&amp;#39;ll get into comparing how to run multiple replicas of MongoDB or a multi-node group of Xenon here, but for now we&amp;#39;ll just compare the developer use case with both.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ docker run -p 27017:27017 -d mongo
+f8cbf4712a228a240d17da97e0cc366807b88c215d447129d90a65481a648c30
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now that I have a database, I&amp;#39;ll the service using &lt;a href=&quot;http://start.spring.io/&quot;&gt;Spring Initializer&lt;/a&gt;, which is super simple! &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/spring/spring_initializer.png&quot; alt=&quot;Bootstrap the project&quot;&gt; &lt;/p&gt;
+
+&lt;p&gt;This ends up giving me a Gradle based project skeleton and I can start building the service. I&amp;#39;ll start with the data model. I&amp;#39;m also going to be using &lt;a href=&quot;https://projectlombok.org/&quot;&gt;Lombok&lt;/a&gt; annotations to remove some boilerplate code. &lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;jrrickard&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ws&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;lombok.Data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.springframework.data.annotation.Id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.springframework.data.mongodb.core.mapping.Document&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.util.Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nd&quot;&gt;@Document&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Data&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Participant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Gender&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;MALE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;FEMALE&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Id&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Date&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dateOfBirth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Gender&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;city&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Just like with the Xenon example, this is pretty simple. Next, I need to make a &lt;a href=&quot;https://docs.spring.io/spring-data/data-commons/docs/1.6.1.RELEASE/reference/html/repositories.html&quot;&gt;Spring Data Repository&lt;/a&gt; for the Participant objects.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;jrrickard&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ws&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;persistence&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;io.github.jrrickard.ws.model.Participant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.springframework.data.repository.CrudRepository&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ParticipantRepository&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CrudRepository&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Participant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;When using &lt;a href=&quot;http://docs.spring.io/spring-data/rest/docs/2.6.3.RELEASE/reference/html/&quot;&gt;Spring Data Rest&lt;/a&gt; and a CRUD repository, you get a similar base capability that you&amp;#39;d get with a default Xenon stateful service. Spring goes further though and provides a number of additional capabilities, such as a PATCH operation and the ability to expose pre-defined queries.  &lt;/p&gt;
+
+&lt;p&gt;Next, we need to create a class that will provide our service configuration.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;jrrickard&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.springframework.boot.SpringApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.springframework.boot.autoconfigure.SpringBootApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.springframework.data.mongodb.repository.config.EnableMongoRepositories&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nd&quot;&gt;@SpringBootApplication&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@EnableMongoRepositories&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WsParticipantApplication&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;SpringApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WsParticipantApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This class is pretty simple as well. The important parts here are the @SpringBootApplication and @EnableMongoRepositories annotations. This will enable Spring Boot and enable some auto configuration of the service based on the classpath defined in the gradle build&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;  compile(&amp;#39;org.springframework.boot:spring-boot-starter-data-mongodb&amp;#39;)
+  compile(&amp;#39;org.springframework.boot:spring-boot-starter-data-rest&amp;#39;)
+  compile(&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Spring Boot will enable Spring Data MongoDB because of the @EnableMongoRepositories annotation and turn on Spring Data Rest because of the spring-boot-starter-data-rest dependency.&lt;/p&gt;
+
+&lt;p&gt;With this in place, I can build the project and end up with an executable JAR like with the Xenon project. This will use Tomcat instead of the embedded Netty you&amp;#39;d get with Xenon. I&amp;#39;ll use Docker to run this as well. &lt;/p&gt;
+
+&lt;p&gt;Now, I can run the service.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ docker run -d -p 8111:8080 -e SPRING_DATA_MONGODB_URI=mongodb://192.168.86.53:27017 -e SPRING_DATA_MONGODB_DATABASE=participnts spring-participant-service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Using Postman, I can now interact with the service&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/spring/spring-data-rest-initial.png&quot; alt=&quot;Initial repository state&quot;&gt; &lt;/p&gt;
+
+&lt;p&gt;Next, I&amp;#39;ll use Postman to create a record&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/spring/spring-data-rest-post.png&quot; alt=&quot;Postman create&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Thanks to the capabilities provided by Spring Data REST, I&amp;#39;ve now created a record in the database. I can retrieve it with a simple GET request&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/spring/spring-data-rest-get.png&quot; alt=&quot;New record&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;I can also modify it with a PATCH operation and fetch it again to get the changed state.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/spring/spring-data-rest-patch.png&quot; alt=&quot;Patch request&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/spring/spring-data-rest-get-after-patch.png&quot; alt=&quot;Updated Record&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Using Spring, I was able to get a really simple CRUD based service up and running in only a few minutes. Almost everything is provided for you by the framework in this case, just like with Xenon. &lt;/p&gt;
+
+&lt;p&gt;Obviously this is a pretty contrived example, but it demonstrates this simple use case using both technologies. It&amp;#39;s hard to do an apples to apples comparison of Spring and Xenon, because they strive to do different things and have very different opinons about how to do the things they have in common. For this example, Spring was a litle easier to get going with. Getting an executable JAR with a RESTful interface to do CRUD operations on data with Spring was a bit simpler because Spring does a little more for you out of the box. Xenon, on the other hand, resulted in a slightly simpler deployment because I didn&amp;#39;t need to also run MongoDB. &lt;/p&gt;
+
+&lt;p&gt;I think the more interesting comparisons will come when comparing what building stateless and event-driven services  look like with both of the frameworks. &lt;/p&gt;
+</description>
+        <pubDate>Mon, 08 May 2017 19:26:16 -0600</pubDate>
+        <link>http://jrrickard.github.io/2017/05/08/winter-series-the-spring-way.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2017/05/08/winter-series-the-spring-way.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Catching Up</title>
@@ -69,7 +177,7 @@
     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;As you can see, this is pretty simple. The AUTO&lt;em&gt;MERGE&lt;/em&gt;IF&lt;em&gt;NOT&lt;/em&gt;NULL enables me to write a little bit less logic in the service, which we&amp;#39;ll look at next. It&amp;#39;s really just a Java representation the object that will be serialized as JSON and stored in Lucene via the service. &lt;/p&gt;
+&lt;p&gt;This is a pretty simple example. The AUTO_MERGE_IF_NOT_NULL will enable me to write a little bit less logic in the service when I implement PATCH on participants (a future post). It&amp;#39;s really just a Java representation the object that will be serialized as JSON and stored in Lucene via the service, much the same way you might write objects to use with another serialization library like &lt;a href=&quot;https://github.com/FasterXML/jackson&quot;&gt;Jackson&lt;/a&gt;. &lt;/p&gt;
 
 &lt;p&gt;Now for the service:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;jrrickard&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ws&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
@@ -90,7 +198,7 @@
 
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. The FACTORY_LINK static helps Xenon to know the URI for this service. In earlier versions, you needed to define both a FactoryService, which created the lifecycle of your Service instances, as well as the Service itself. That was changed and now you can simply define the service like this. &lt;/p&gt;
+&lt;p&gt;This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. The FACTORY_LINK static helps Xenon to know the URI for this service. In earlier versions, you needed to define both a FactoryService, which created the lifecycle of your Service instances, as well as the Service itself. That was changed and now you can simply define the service like this. You can also implement additional HTTP verbs, such as PATCH simply by overriding the StatefulService class.  &lt;/p&gt;
 
 &lt;p&gt;With the two classes above, I just need to build a Xenon ServiceHost. This is another pretty simple class:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;jrrickard&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ws&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
@@ -478,67 +586,6 @@ auth       required pam_deny.so
         <pubDate>Sun, 05 Jun 2016 17:32:48 -0600</pubDate>
         <link>http://jrrickard.github.io/2016/06/05/working-remotely.html</link>
         <guid isPermaLink="true">http://jrrickard.github.io/2016/06/05/working-remotely.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>AWS Lambda and Alexa Skills Kit</title>
-        <description>&lt;p&gt;A few months ago, I bought an Amazon Echo because I have a ton of music in the Amazon ecosystem. When they announced the &lt;a href=&quot;https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit&quot;&gt;Alexa Skills Kit&lt;/a&gt;, I was excited to try it out. I had already done a few things with &lt;a href=&quot;https://aws.amazon.com/lambda/&quot;&gt;AWS Lambda&lt;/a&gt;, so I was already familiar with writing a lambda function. I decided a quick way to try it out would be to implement something with ASK that I had done previously. I recently wrote a bot for Slack using go and one of it&amp;#39;s first functions was to do things with the Rally Web Services API. That seemed like a fun thing to do with the Echo as well. I already ask the Echo for the weather and a couple other things in the morning...what If I could ask it what bugs I have to fix? I created a github repo to store everything I describe below.
-I started out by grabbing the &lt;a href=&quot;https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/using-the-alexa-skills-kit-samples&quot;&gt;reference skills&lt;/a&gt;. I already had a develoepr account, so once I had the reference skills I was able to register them on the develoepr portal and try them out. Developing a skill turns out to be &lt;strong&gt;REALLY&lt;/strong&gt; simple. You basically come up with an interaction model, write some JavaScript, upload it to AWS, do a little configuration and it&amp;#39;s ready to go.&lt;/p&gt;
-
-&lt;p&gt;Using the references as a starting point, I came up with an interaction model. The first thing I would implement with the Rally API was fetching my defects. The recommended interaction design is to ask your service for something. You might say, &amp;quot;Alexa, ask &lt;Invocation Name&gt; for &lt;intent trigger&gt;. I originally started out with &amp;quot;my current defects&amp;quot; for the intent trigger, but it was more natural for me to say bugs so I went with that. Getting bugs from the Echo would be:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Alexa, ask Rally for my current bugs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Rally would become the Invocation Name. We&amp;#39;ll look at configuring that in a minute.&lt;/p&gt;
-
-&lt;p&gt;Now it was time to implement my lambda function. I had two choices here, I could implement a client for the Rally WS API myself, or use the &lt;a href=&quot;https://github.com/RallyTools/rally-node&quot;&gt;unsupported Node.js library&lt;/a&gt; that Rally developed. I went with the library to avoid reinventing the wheel. It&amp;#39;s easy to use Node libraries with Lambda, you just need to delivery the library with the Lambda function. The easiest way to do this is to run the npm install and specify a prefix so that it installs in the same directory as your lambda code. Then you can simply zip up the entire directory and upload that to the AWS console. In my case, I had created a directory called &amp;quot;rally-tasks-for-echo&amp;quot; and a &amp;quot;src&amp;quot; directory under that to hold all the JavaScript. Installing the node library was just:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;fermat:rally-tasks-for-echo jeremy$ npm install --prefix=src rally
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now, when I looked in the src directory, I had a node_modules subdirectory with the Rally library and the associated dependencies.&lt;/p&gt;
-
-&lt;p&gt;Next, I needed a way to configure the Lambda. I decided to create a JSON document with my read-only Rally key, my project ID and my username and stoer that in S3. This ended up being a really easy way to store the configuration. Here is an example:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-        &amp;quot;key&amp;quot; : &amp;quot;INSERT_RALLY_KEY&amp;quot;,
-        &amp;quot;projectID&amp;quot; : &amp;quot;INSERT_RALLY_PROJECT_ID&amp;quot;,
-        &amp;quot;user&amp;quot; : &amp;quot;INSERT_USERNAME&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The actual Lambda function is pretty simple, so I won&amp;#39;t go into it much here. Simply zip up the directory with the source code and keep the file handy. Once it was written I had to configure both the Lambda and the Skill. Once all the configuration is done, I need to come back and update the source code with the appId of the skill. The Lambda should be first.&lt;/p&gt;
-
-&lt;p&gt;First, login to the AWS Console. Then Click on the Lambda link. It&amp;#39;s also important to make sure you are using the us-east region, as the other regions are not supported for ASK yet.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/lambda-option.png&quot; alt=&quot;aws console&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Then create a new Lambda function. I skipped the blueprint and just went with a blank configuration. &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/create-lambda.png&quot; alt=&quot;new function&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Now, name the function and pick Node.js as the Runtime. &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/configure-function.png&quot; alt=&quot;configure-function-step-one&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Change the code entry type to &amp;quot;Upload a ZIP File&amp;quot; and click the Upload button and locate your file. &lt;/p&gt;
-
-&lt;p&gt;Once uploaded, keep the Handler as index.handler, that matches up against the handler function defined in index.js. For role, I selected the basic Lambda exeuction policy and that seemed sufficient.&lt;/p&gt;
-
-&lt;p&gt;The major thing I had to change was the default timeout period for the function. The Rally API can take a few seconds to return, so I upped the timeout to 20 seconds. Probably more than needed but I wanted to be safe. Something to consider is that based on Lambda pricing, increasing the timeout could have a cost impact. I don&amp;#39;t think that I&amp;#39;ll exceed the free invocation limits so I wasn&amp;#39;t too worried about it here.&lt;/p&gt;
-
-&lt;p&gt;The final bit of configuration for the Lambda function is to add an event source to it. Edit the function by clicking on it&amp;#39;s name, then click the &amp;quot;Event sources&amp;quot; tab and click &amp;quot;Add event source&amp;quot; once that loads. Select Alexa Skills Kit from the Event source type drop down, then click submit.&lt;/p&gt;
-
-&lt;p&gt;Now the Lambda is configured. Now go to the Alexa Developer Portal (https://developer.amazon.com/edw/home.html#/) and click Alexa, then Get Started under Alexa Skills Kit. Pick a name for the skill and an invocation name. As I mentioned above, I picked Rally for my invocation name. I also used that as the name. I also entered the ARN from my Lambda function here. Copy the Application Id on this page for use later. We&amp;#39;ll need to add that to the skill lambda code.  &lt;/p&gt;
-
-&lt;p&gt;Next, I copy and pasted the contents of the speechAssets files into the text fields on the next screen. &lt;/p&gt;
-
-&lt;p&gt;Now that the skill is set up, I should have an application id associated with it.  Take the application id and paste it into the source code from the git repo above, replacing the template value that is there. Upload the code again and you should be able to test it with your Echo.&lt;/p&gt;
-
-&lt;p&gt;Here is mine: &lt;/p&gt;
-
-&lt;iframe width=&quot;420&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/KfkRT0aDw5o&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
-</description>
-        <pubDate>Mon, 14 Sep 2015 07:49:23 -0600</pubDate>
-        <link>http://jrrickard.github.io/2015/09/14/aws-lambda-and-alexa-skills-kit.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/2015/09/14/aws-lambda-and-alexa-skills-kit.html</guid>
         
         
       </item>

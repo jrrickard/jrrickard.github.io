@@ -106,7 +106,7 @@
     <span class="kd">public</span> <span class="n">String</span> <span class="n">state</span><span class="o">;</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>As you can see, this is pretty simple. The AUTO<em>MERGE</em>IF<em>NOT</em>NULL enables me to write a little bit less logic in the service, which we&#39;ll look at next. It&#39;s really just a Java representation the object that will be serialized as JSON and stored in Lucene via the service. </p>
+<p>This is a pretty simple example. The AUTO_MERGE_IF_NOT_NULL will enable me to write a little bit less logic in the service when I implement PATCH on participants (a future post). It&#39;s really just a Java representation the object that will be serialized as JSON and stored in Lucene via the service, much the same way you might write objects to use with another serialization library like <a href="https://github.com/FasterXML/jackson">Jackson</a>. </p>
 
 <p>Now for the service:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">io</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">jrrickard</span><span class="o">.</span><span class="na">ws</span><span class="o">.</span><span class="na">service</span><span class="o">;</span>
@@ -127,7 +127,7 @@
 
 <span class="o">}</span>
 </code></pre></div>
-<p>This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. The FACTORY_LINK static helps Xenon to know the URI for this service. In earlier versions, you needed to define both a FactoryService, which created the lifecycle of your Service instances, as well as the Service itself. That was changed and now you can simply define the service like this. </p>
+<p>This simple service gives me the Create (via a POST operation to /ws/participants), Retrieve (via GET operation to /ws/participant/id), Update (via a PUT operation) and Delete (via a DELETE operation), inherited from the StatefulService class. The PUT operation will simpy replace the state with whatever is passed as the body of the PUT. If I want to change any of this behavior, I can just override any of the methods from the StatefulService class. The FACTORY_LINK static helps Xenon to know the URI for this service. In earlier versions, you needed to define both a FactoryService, which created the lifecycle of your Service instances, as well as the Service itself. That was changed and now you can simply define the service like this. You can also implement additional HTTP verbs, such as PATCH simply by overriding the StatefulService class.  </p>
 
 <p>With the two classes above, I just need to build a Xenon ServiceHost. This is another pretty simple class:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">io</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">jrrickard</span><span class="o">.</span><span class="na">ws</span><span class="o">;</span>
