@@ -6,9 +6,42 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 08 May 2017 21:50:45 -0600</pubDate>
-    <lastBuildDate>Mon, 08 May 2017 21:50:45 -0600</lastBuildDate>
+    <pubDate>Mon, 17 Jul 2017 10:46:10 -0600</pubDate>
+    <lastBuildDate>Mon, 17 Jul 2017 10:46:10 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>One Bag</title>
+        <description>&lt;p&gt;I&amp;#39;ve spent most of my career working either at a remote site (i.e. not the HQ or where customers are) or remotely (i.e. from home), so I&amp;#39;ve had to travel a good amount. This year I&amp;#39;ve done more than I have in quite a while so I thought I&amp;#39;d try to streamline my travel process. I&amp;#39;ve decided to try and adopt &lt;a href=&quot;https://www.onebag.com/&quot;&gt;one bag&lt;/a&gt; travel in order to make my actual travel days a little easier. I decided to try out the &lt;a href=&quot;https://www.nomatic.com/pages/nomatic-travel-bag&quot;&gt;Nomatic&lt;/a&gt; travel bag to satisfy this goal. I just came back from my second trip to Israel this year and I thought I&amp;#39;d write about my experience with the bag. The idea is that the bag is super functional with a bunch of built in features and add-ons to simplify the travel experience and help you maximize what you can pack. I ended up augmenting the bag with some packing cubes from &lt;a href=&quot;http://shop.eaglecreek.com/packing-cubes/l/212&quot;&gt;Eagle Creek&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Overall, the bag worked out pretty well and I was pretty happy with it. Once packed, it was super easy to catch my cab to the airport, get through security and get onto the plane. Here I am at the hotel on my way to the car. Essentially, just me and a backpack (a large backpack). &lt;/p&gt;
+
+&lt;p&gt;![elevator ride]((http://jrrickard.github.io/images/onebag/IMG_8478.JPG).&lt;/p&gt;
+
+&lt;p&gt;This work trip was a little over a week long and I brought enough clothes for the week, a toiletries bag, running stuff, my laptop and kindle, various cables, an extra battery, as well as a small messanger bag and laptop sleeve to use once I got to Tel Aviv. How did that all fit in?&lt;/p&gt;
+
+&lt;p&gt;![all the stuff]((http://jrrickard.github.io/images/onebag/IMG_8468.JPG).&lt;/p&gt;
+
+&lt;p&gt;The packing cubes really made a difference in fitting everything into the bag. I bought the bag with an optional vacuum bag and shirt folder but ended up not using them. It was quiet hot in Israel so I mostly took linen and seersucker tops. I took a linen trouser but actually ended up just wearing the pants I flew in all week, which are &lt;a href=&quot;https://shop.outlier.nyc/shop/retail/futureworks.html&quot;&gt;Outlier Futureworks&lt;/a&gt;. Those pants were AMAZING for both the plane and the crazy hot and humid weather in Israel. They aren&amp;#39;t super dressy, but they look kind of like a chino and were totally fine for my office wear and our nightly outings to Tel Aviv. They breathe well, which helped with the weather. They dry really quickly too! I gave them a mid-week wash in the hotel sink and then a quick iron in the morning before we went to the office and they were totally fine. They also have a coating that makes them a little stain resistant, so the coffee I spilled on them twice didn&amp;#39;t really have a chance to soak in.&lt;/p&gt;
+
+&lt;p&gt;Here are the packing cubes and what went into them.&lt;/p&gt;
+
+&lt;p&gt;![pants and shirts]((http://jrrickard.github.io/images/onebag/IMG_8460.JPG)
+![underwear](((http://jrrickard.github.io/images/onebag/IMG_8461.JPG)
+![undershirts and running](((http://jrrickard.github.io/images/onebag/IMG_8463.JPG)&lt;/p&gt;
+
+&lt;p&gt;And here is the last one, all packed up.&lt;/p&gt;
+
+&lt;p&gt;![all packed up](((http://jrrickard.github.io/images/onebag/IMG_8464.JPG)&lt;/p&gt;
+
+&lt;p&gt;Overall, the bag worked out pretty great. It fit in the overhead bin on a 777-300ER, 737-800, a CRJ 200 and an ERJ 145. The last two took a little bit of squishing to make it fit, but it worked out in the end. Since everything is in that bag, the one downside was figuring out what I wanted to grab before getting in my seat. I ended up just grabbing my kindle (which was in the main compartment flap) and my external battery, USB cable and headphones for the long flight from Tel Aviv to Newark. For the other flights, I just grabbed the kindle. It was pretty easy to access, I only needed to unzip the main compartment a little to each in and pull the kindle out. The others were in the side pocket, which wasn&amp;#39;t super easy to do once I had the bag in the overhead. For the future, I&amp;#39;ll probably think a little more strategically about packing those bits before the flight to make them a little easier to grab. &lt;/p&gt;
+</description>
+        <pubDate>Mon, 17 Jul 2017 08:08:11 -0600</pubDate>
+        <link>http://jrrickard.github.io/2017/07/17/one-bag.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2017/07/17/one-bag.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Winter Series - The(or a) Spring Way</title>
@@ -567,25 +600,6 @@ auth       required pam_deny.so
         <pubDate>Fri, 01 Jul 2016 10:47:57 -0600</pubDate>
         <link>http://jrrickard.github.io/2016/07/01/2fa.html</link>
         <guid isPermaLink="true">http://jrrickard.github.io/2016/07/01/2fa.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Working Remotely</title>
-        <description>&lt;p&gt;In early January, the majority of the R&amp;amp;D team in my office was laid off in an effort to streamline products and development sites. This included my team and our product &lt;a href=&quot;https://www.vmware.com/cloud-services/management/&quot;&gt;vRealize Air Compliance&lt;/a&gt;. Luckily, I found another position within the company and would be able to stay in Colorado. I&amp;#39;m not working remotely with team members in Palo Alto (California) and Herzliya (Israel). It&amp;#39;s been a big change, to say the least. I kept my desk in the office, but I found myself working from home more and more. I finally decided to give up my desk and covert to a home office.&lt;/p&gt;
-
-&lt;p&gt;The transition has been pretty seemless since I&amp;#39;ve been working from home so much. I was able to bring a couple of monitors home with me and setup my standing desk so I essentially have the same setup as I had at the office!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/standing-desk.jpeg&quot; alt=&quot;Desk&quot;&gt; &lt;/p&gt;
-
-&lt;p&gt;The desk is made from my existing &lt;a href=&quot;http://www.ikea.com/us/en/catalog/products/60193736/&quot;&gt;IKEA Lack Side Tables&lt;/a&gt;, along with a new &lt;a href=&quot;http://www.ikea.com/us/en/catalog/products/S29932181/&quot;&gt;LINNMON / ADILS&lt;/a&gt;. I had to make a few adjustments, but it ended up being essentially the perfect height. My new &lt;a href=&quot;http://www.wasdkeyboards.com/&quot;&gt;WASD Keyboard&lt;/a&gt; is a little bigger than the Apple keyboard I had been using, so most of the adjustment had to be done to the keyboard ledge. &lt;/p&gt;
-
-&lt;p&gt;The room I decided to use as a home office is our &amp;quot;technology&amp;quot; room and already had a PC for my son to use, along with my wife&amp;#39;s knitting and my turntable. Oddly enough, it&amp;#39;s the only room in the house that wasn&amp;#39;t wired with Cat6 when the house was built. My next project is either running ethernet to the room or upgrading the wireless in the house.   &lt;/p&gt;
-</description>
-        <pubDate>Sun, 05 Jun 2016 17:32:48 -0600</pubDate>
-        <link>http://jrrickard.github.io/2016/06/05/working-remotely.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/2016/06/05/working-remotely.html</guid>
         
         
       </item>
