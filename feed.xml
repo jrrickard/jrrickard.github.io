@@ -6,9 +6,22 @@
 </description>
     <link>http://jrrickard.github.io/</link>
     <atom:link href="http://jrrickard.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 17 Jul 2017 11:09:45 -0600</pubDate>
-    <lastBuildDate>Mon, 17 Jul 2017 11:09:45 -0600</lastBuildDate>
+    <pubDate>Thu, 10 Aug 2017 08:47:22 -0600</pubDate>
+    <lastBuildDate>Thu, 10 Aug 2017 08:47:22 -0600</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Weather in the Cloud</title>
+        <description>&lt;p&gt;This week I did a talk about &lt;a href=&quot;https://github.com/vmware/xenon&quot;&gt;Xenon&lt;/a&gt; at our local Open Source meetup. I finished up most of my Spring vs Java stuff to use there, so I&amp;#39;ll hopefully get a blog written about it soon and tie that up!&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve decided I need a more interesting project to work on at home. Between work and having a new baby, I haven&amp;#39;t really touched any of my Arduino / Raspberry Pi stuff in quite a while. I miss tinkering with that stuff and I just discovered I had ordered a bunch of parts to make a weather station and then never did anything with it. I&amp;#39;ve also decided that I want to experiment with &lt;a href=&quot;https://azure.microsoft.com/en-us/&quot;&gt;Azure&lt;/a&gt;, since I&amp;#39;ve done a lot with AWS and GCP in my day job and nothing with Azure. So I think what I&amp;#39;ll do is assemble the weather station and have it publish data to a little Raspberry PI that I&amp;#39;m using as an IOT Gateway sort of thing for some other projects that have been just running without any attention for a long time. Then I&amp;#39;ll have the rPi send data to Azure. I think this will let me get some experience with Azure from a compute perspective (maybe using their cool new container service), storage perspective, and maybe Azure functions to do some &amp;quot;alerting&amp;quot; with the data. Should be a fun little project. &lt;/p&gt;
+</description>
+        <pubDate>Thu, 10 Aug 2017 08:40:33 -0600</pubDate>
+        <link>http://jrrickard.github.io/2017/08/10/weather-in-the-cloud.html</link>
+        <guid isPermaLink="true">http://jrrickard.github.io/2017/08/10/weather-in-the-cloud.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>One Bag</title>
@@ -559,57 +572,6 @@ $bash dcos_generate_config.sh --web
         <pubDate>Wed, 20 Jul 2016 10:42:45 -0600</pubDate>
         <link>http://jrrickard.github.io/2016/07/20/hard-lesson.html</link>
         <guid isPermaLink="true">http://jrrickard.github.io/2016/07/20/hard-lesson.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>2FA</title>
-        <description>&lt;p&gt;I&amp;#39;m working on SaaS things lately and I decided to check out the SaaS based 2FA providers. I did a Google search for &amp;quot;SaaS 2FA&amp;quot; and the first response I got was &lt;a href=&quot;https://duo.com/&quot;&gt;duo security&lt;/a&gt;, which happens to be based in my home state of Michigan!&lt;/p&gt;
-
-&lt;p&gt;Taking a look a their website, they have quite a few &lt;a href=&quot;https://duo.com/solutions/features/supported-applications&quot;&gt;integrations&lt;/a&gt;. One of them is PAM support, so I thought I&amp;#39;d check that out. I fired up a CentOS VM and followed their &lt;a href=&quot;https://duo.com/docs/duounix&quot;&gt;docs&lt;/a&gt; and within about 5 minutes I had two-factor auth enabled for my linux VM.&lt;/p&gt;
-
-&lt;p&gt;First, I needed to grab some dependencies since I was running CentOS minimal, mainly a C compiler and both the pam-devel and openssl-devl libraries.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; yum group install &lt;span class=&quot;s2&quot;&gt;&amp;quot;Development Tools&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; yum install pam-devel
-&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; yum install openssl-devel
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;One that was completed, I grabbed the source and built the duo unix package with pam support.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; wget https://dl.duosecurity.com/duo_unix-latest.tar.gz
-&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; tar zxf duo_unix-latest.tar.gz
-&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;duo_unix-1.9.18
-&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; ./configure --with-pam --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo make install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Next, I modified the /etc/pam.d/sshd config file:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/pam-config.png&quot; alt=&quot;conf&quot;&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;auth       required pam_env.so
-auth       sufficient pam_duo.so
-auth       required pam_deny.so
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;and changed the value of ChallengeResponseAuthentication in my /etc/ssh/sshd_config file to yes. &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;ChallengeResponseAuthentication yes
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Finally, I restarted ssdh&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; systemctl restart bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Once I tried to login via SSH, I was promted to enroll at the URL given. I loaded that up in the browser and entered my phone number. &lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-enroll.png&quot; alt=&quot;enroll&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;I opened a new SSH session and got the 2FA promptes.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-login.png&quot; alt=&quot;login&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;I selected the push option and got a notification on my phone almost immediately.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jrrickard.github.io/images/duo-app-push.png&quot; alt=&quot;push notification&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Pretty cool.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 01 Jul 2016 10:47:57 -0600</pubDate>
-        <link>http://jrrickard.github.io/2016/07/01/2fa.html</link>
-        <guid isPermaLink="true">http://jrrickard.github.io/2016/07/01/2fa.html</guid>
         
         
       </item>
